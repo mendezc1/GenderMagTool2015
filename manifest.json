@@ -1,0 +1,17 @@
+
+{
+  "manifest_version": 2,
+
+  "name": "GenderMagTool2015",
+  "description": "A tool to implement the GenderMag method",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "hello.png",
+    "default_popup": "helloWorld.html"
+  },
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ]
+}
