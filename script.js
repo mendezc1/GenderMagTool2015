@@ -47,11 +47,9 @@ function toggleSidebar() {
 		
 	
 		function init() {
-			console.log("in init");
 			genderMagCanvas.addEventListener('mousedown', mouseDown, false);
 			genderMagCanvas.addEventListener('mouseup', mouseUp, false);
-			genderMagCanvas.addEventListener('mousemove', mouseMove, false);
-			console.log("exiting init");
+			genderMagCanvas.addEventListener('mousemove', mouseMove, false);			
 		}
 		function mouseDown(e) {
 			rect.startX = e.pageX - this.offsetLeft;
@@ -60,17 +58,15 @@ function toggleSidebar() {
 		}			
 		function mouseUp(e) {
 			drag = false;
-			console.log("rect", rect);
+			console.log(rect);
 			elm = document.elementFromPoint(rect.startX, rect.startY);
 			var elements = new Array();
 			while(elm.id == "genderMagCanvas" || elm.id == "genderMagCanvasContainer" )
 			{
-				console.log("in loop")
 				elements.push(elm);
 				elm.style.display = "none";
 				elm = document.elementFromPoint(rect.startX, rect.startY);
 			}
-			console.log("Made it to here2");
 			console.log(elm);
 			/*
 			console.log(elements);
@@ -81,10 +77,10 @@ function toggleSidebar() {
 				}
 			}
 			*/
-			console.log("Sidebar toggled")
-			genderMagCanvas.addEventListener('mousedown', mouseDown, false);
-			genderMagCanvas.addEventListener('mouseup', mouseUp, false);
-			genderMagCanvas.addEventListener('mousemove', mouseMove, false);
+		
+		//	genderMagCanvas.addEventListener('mousedown', mouseDown, false);
+		//genderMagCanvas.addEventListener('mouseup', mouseUp, false);
+		//genderMagCanvas.addEventListener('mousemove', mouseMove, false);
 		}
 		function mouseMove(e) {
 			if (drag) {
@@ -96,11 +92,9 @@ function toggleSidebar() {
 		}
 		function draw() {
 			ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
-
-			
 		}
 		init();
-	
+		console.log("Sidebar toggled")
 	/*if(sidebarOpen) {
 		var el = document.getElementById('mySidebar');
 		el.parentNode.removeChild(el);
