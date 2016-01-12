@@ -12,12 +12,17 @@ chrome.extension.onRequest.addListener(handleRequest);
 
 var sidebarOpen = false;
 function toggleSidebar() {
-		console.log("In toggle sidebar");
-		
-		var canvasContainer = document.createElement('div');
-		// Add the div into the document
+		//console.log("before if");
+		if(!document.getElementById('genderMagCanvasContainer')){
+			//console.log("In toggle sidebar");
+			var canvasContainer = document.createElement('div');
+			// Add the div into the document
+		}
+		else{
+			var canvasContainer = document.getElementById('genderMagCanvas');	
+		}
+	
 		canvasContainer.id = "genderMagCanvasContainer";
-		document.body.appendChild(canvasContainer);
 		canvasContainer.style.position="fixed";
 		// Set to 100% so that it will have the dimensions of the document
 		canvasContainer.style.left="0px";
@@ -25,7 +30,8 @@ function toggleSidebar() {
 		canvasContainer.style.width="100%";
 		canvasContainer.style.height="100%";
 		canvasContainer.style.zIndex="1000";
-
+		document.body.appendChild(canvasContainer);
+		
 		var canvas = document.createElement('canvas');
 		canvas.style.width = canvasContainer.scrollWidth+"px";
 		canvas.style.height = canvasContainer.scrollHeight+"px";
@@ -93,8 +99,9 @@ function toggleSidebar() {
 		function draw() {
 			ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
 		}
+	//}
 		init();
-		console.log("Sidebar toggled")
+		console.log("At the end of toggle sidebar");
 	/*if(sidebarOpen) {
 		var el = document.getElementById('mySidebar');
 		el.parentNode.removeChild(el);
