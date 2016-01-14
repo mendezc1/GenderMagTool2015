@@ -12,6 +12,7 @@ chrome.extension.onRequest.addListener(handleRequest);
 
 var sidebarOpen = false;
 function toggleSidebar() {
+	
 		//console.log("before if");
 		if(!document.getElementById('genderMagCanvasContainer')){
 			//console.log("In toggle sidebar");
@@ -101,7 +102,42 @@ function toggleSidebar() {
 		}
 	//}
 		init();
-		console.log("At the end of toggle sidebar");
+		if(sidebarOpen) {
+		console.log("closing sidebard")
+		var el = document.getElementById('mySidebar');
+		el.parentNode.removeChild(el);
+		sidebarOpen = false;
+	}
+	else {
+		console.log("in else statement")
+		var sidebar = document.createElement('div');
+		sidebar.id = "mySidebar";
+		sidebar.innerHTML = "\
+			<h1>Hello</h1>\
+			World!\
+		";
+		sidebar.style.cssText = "\
+			position:fixed;\
+			top:0;\
+			bottom:0;\
+			left:0;\
+			background:#ffa;\
+			width:200px;\
+			min-width:50px;\
+			max-width:500px;\
+			height:300px;\
+			min-height: 10px;\
+			max-height: 500px;\
+			resize:both;\
+			overflow:auto;\
+			border-right:2px ridge #fe9;\
+			padding:20px;\
+			z-index 999999;\
+			";
+		document.body.appendChild(sidebar);
+		sidebarOpen = true;
+	}
+	console.log("At the end of toggle sidebar");
 	/*if(sidebarOpen) {
 		var el = document.getElementById('mySidebar');
 		el.parentNode.removeChild(el);

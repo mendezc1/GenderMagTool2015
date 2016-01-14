@@ -1,0 +1,14 @@
+#mySidebar {
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  background:#ffa;
+  width:200px;
+  min-width:100px;
+  max-width:500px;
+  resize:horizontal;
+  overflow:auto;
+  border-right:2px ridge #fe9;
+  padding:20px;
+}
