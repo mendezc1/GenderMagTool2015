@@ -1,3 +1,19 @@
-/*#mySidebar {
-  
-}*/
+#mySidebar{
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	position:fixed;
+	background:#ffa;
+	width:200px;
+	min-width:50px;
+	max-width:500px;
+	height:300px;
+	min-height: 10px;
+	max-height: 500px;
+	resize:both;
+	overflow:auto;
+	border-right:2px ridge #fe9;
+	padding:20px;
+	opacity: .99;
+	z-index 1001;
+}
