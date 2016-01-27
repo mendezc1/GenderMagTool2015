@@ -1,3 +1,8 @@
+
+chrome.runtime.sendMessage({msg: "capture"}, function(response) {
+  console.log(response.dataUrl);
+});
+
 /*Handle requests from background.html*/
 function handleRequest(
 	//The object data with the request params
@@ -5,10 +10,19 @@ function handleRequest(
 	//These last two ones isn't important for this example, if you want know more about it visit: http://code.google.com/chrome/extensions/messaging.html
 	sender, sendResponse
 	) {
+			console.log("in script.js");
 	if (request.callFunction == "toggleSidebar")
 		toggleSidebar();
 }
-chrome.extension.onRequest.addListener(handleRequest);
+chrome.runtime.onMessage.addListener(handleRequest);
+
+function main() {
+	console.log("popup.js");
+	alert("popup.js");
+    var button = document.getElementById('button').value;
+	console.log("button ", button)
+    document.getElementById('hit').innerHTML = button;
+}
 
 var sidebarOpen = false;
 function toggleSidebar() {
