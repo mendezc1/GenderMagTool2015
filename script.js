@@ -1,7 +1,7 @@
 
-chrome.runtime.sendMessage({msg: "capture"}, function(response) {
-  console.log(response.dataUrl);
-});
+//chrome.runtime.sendMessage({msg: "capture"}, function(response) {
+ // console.log(response.dataUrl);
+//});
 
 /*Handle requests from background.html*/
 function handleRequest(

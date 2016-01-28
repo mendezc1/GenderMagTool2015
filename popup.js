@@ -2,14 +2,19 @@ function test(){
 	console.log("Testing");	
 }
 
-function hello() {
+function takeScreenShot() {
 	chrome.extension.getBackgroundPage().console.log("logging");
-	chrome.tabs.captureVisibleTab(null,
-            {},
-            function(dataUrl)
-            {
-                sendResponse({imgSrc:dataUrl});
-            });
+
+	chrome.windows.getCurrent(function (win) {    
+    chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
+            chrome.extension.getBackgroundPage().console.log(imgUrl);                                            
+      });    
+	}); 
+	 document.querySelector('#btnSubmit').addEventListener('click', function(e) {
+    var personaName = document.querySelector('option:checked');
+    chrome.extension.getBackgroundPage().console.log("Persona ", personaName.value)
+  }, false);
+
 }
 
-document.getElementById('clickme').addEventListener('click', hello);
+document.getElementById('clickme').addEventListener('click', takeScreenShot);
