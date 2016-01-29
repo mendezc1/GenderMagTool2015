@@ -14,7 +14,9 @@ function takeScreenShot() {
     var personaName = document.querySelector('option:checked');
     chrome.extension.getBackgroundPage().console.log("Persona ", personaName.value)
   }, false);
-
+  window.location.href="test.html";
+//more permanant change
+//chrome.browserAction.setPopup({popup: "new.html"});
 }
 
 document.getElementById('clickme').addEventListener('click', takeScreenShot);
