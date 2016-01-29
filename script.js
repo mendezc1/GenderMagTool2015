@@ -1,8 +1,3 @@
-
-//chrome.runtime.sendMessage({msg: "capture"}, function(response) {
- // console.log(response.dataUrl);
-//});
-
 /*Handle requests from background.html*/
 function handleRequest(
 	//The object data with the request params
@@ -10,22 +5,16 @@ function handleRequest(
 	//These last two ones isn't important for this example, if you want know more about it visit: http://code.google.com/chrome/extensions/messaging.html
 	sender, sendResponse
 	) {
-			console.log("in script.js");
+	console.log("in script.js");
 	if (request.callFunction == "toggleSidebar")
 		toggleSidebar();
 }
 chrome.runtime.onMessage.addListener(handleRequest);
 
-function main() {
-	console.log("popup.js");
-	alert("popup.js");
-    var button = document.getElementById('button').value;
-	console.log("button ", button)
-    document.getElementById('hit').innerHTML = button;
-}
 
 var sidebarOpen = false;
 function toggleSidebar() {
+	console.log("In toggle sidebar")
 		if(sidebarOpen) {
 			console.log("closing sidebard")
 			var el = document.getElementById('mySidebar');
@@ -36,13 +25,6 @@ function toggleSidebar() {
 		console.log("in else statement")
 		var sidebar = document.createElement('div');
 		sidebar.id = "mySidebar";
-	/*	sidebar.innerHTML = "\
-			<button onclick=\"myFunction()\"> Click Me </button>\
-			";*/
-		
-		/*sidebar.innerHTML = "\
-			<a  ref=\"www.google.com\">I'm a link</a>\
-		";*/
 			document.body.appendChild(sidebar);
 			sidebarOpen = true;
 		}
@@ -109,7 +91,7 @@ function toggleSidebar() {
 				elm = document.elementFromPoint(rect.startX, rect.startY);
 			}
 			console.log(elm);
-			/*
+			
 			console.log(elements);
 			for(var element in elements){
 				console.log(element.style.display);
@@ -117,11 +99,6 @@ function toggleSidebar() {
 					element.style.display = "default";
 				}
 			}
-			*/
-		
-		//	genderMagCanvas.addEventListener('mousedown', mouseDown, false);
-		//genderMagCanvas.addEventListener('mouseup', mouseUp, false);
-		//genderMagCanvas.addEventListener('mousemove', mouseMove, false);
 		}
 		function mouseMove(e) {
 			if (drag) {
@@ -134,15 +111,6 @@ function toggleSidebar() {
 		function draw() {
 			ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
 		}
-	//}
 		init();
 		console.log("At the end of toggle sidebar");
-}
-
-function testFunction () {
-	console.log("In test function");
-	var mySidebar = document.getElementById('mySidebar');
-	mySidebar.innerHTML = "\
-					<h1> Abby page </h1>\
-					";	
 }

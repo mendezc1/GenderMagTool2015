@@ -18,7 +18,7 @@ console.log( 'Background.html starting!' );
 				{callFunction: "toggleSidebar"}, 
 				//Optional callback function
 				function(response) {
-					console.log(response);
+					console.log("response", response);
 				}
 			);
 		});
