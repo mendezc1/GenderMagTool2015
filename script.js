@@ -1,19 +1,23 @@
 /*Handle requests from background.html*/
-function handleRequest(
-	//The object data with the request params
-	request, 
-	//These last two ones isn't important for this example, if you want know more about it visit: http://code.google.com/chrome/extensions/messaging.html
-	sender, sendResponse
-	) {
-	console.log("in script.js");
-	if (request.callFunction == "toggleSidebar")
-		toggleSidebar();
-}
-chrome.runtime.onMessage.addListener(handleRequest);
+
+chrome.runtime.onMessage.addListener(
+	function(
+		//The object data with the request params
+		request, 
+		//These last two ones isn't important for this example, if you want know more about it visit: http://code.google.com/chrome/extensions/messaging.html
+		sender, sendResponse
+		) {
+			chrome.extension.getBackgroundPage().console.log("in script.js", request);
+			console.log("normal log");
+			if (request.callFunction == "toggleSidebar")
+				toggleSidebar();
+	}
+);
 
 
 var sidebarOpen = false;
 function toggleSidebar() {
+	//chrome.extension.getBackgroundPage().console.log("toggle");
 	console.log("In toggle sidebar")
 		if(sidebarOpen) {
 			console.log("closing sidebard")
@@ -114,3 +118,4 @@ function toggleSidebar() {
 		init();
 		console.log("At the end of toggle sidebar");
 }
+toggleSidebar();

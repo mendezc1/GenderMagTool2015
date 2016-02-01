@@ -8,19 +8,14 @@ console.log( 'Background.html starting!' );
 //		chrome.pageAction.show(tab.id);
 //	});
 	
-	/*Send request to current tab when page action is clicked*/
-	chrome.browserAction.onClicked.addListener(function(tab) {
-		chrome.tabs.getSelected(null, function(tab) {
-			chrome.tabs.sendRequest(
-				//Selected tab id
-				tab.id,
-				//Params inside a object data
-				{callFunction: "toggleSidebar"}, 
-				//Optional callback function
-				function(response) {
-					console.log("response", response);
-				}
-			);
-		});
-	});
+
+	chrome.runtime.sendMessage(
+			//Selected tab id
+			//Params inside a object data
+			{callFunction: "toggleSidebar"},
+			//Optional callback function
+			function(response) {
+				chrome.extension.getBackgroundPage().console.log("response", response);
+			}
+	);
 console.log( 'Background.html done.' );

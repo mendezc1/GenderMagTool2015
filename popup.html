@@ -7,17 +7,21 @@
 	
 	<button id="clickme">Click me to take a screen capture of your page</button>
 	
-	<section>
-		<p>
+	<section id="section1">
+		<form id="taskPrompt">
+			Please enter the task you wish to perform
+		</form>
+		<p id="personaPrompt">
 			Please select a persona name below
 		</p>
-		<select name="persona">
+		<select id="personaSelection" name="persona">
 			<option value="Abby">Abby</option>
 			<option value="Tim">Tim</option>
 			<option value="Patrick">Patrick</option>
 			<option value="Patricia">Patricia</option>
 		</select>
 		<button id="btnSubmit">Submit</button>
+		<div id="personaName"> </div>
 	</section>
 	<script type="text/javascript" src="popup.js"></script>
 	</body>
