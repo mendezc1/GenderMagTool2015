@@ -22,15 +22,27 @@ function takeScreenShot() {
 document.getElementById('clickme').addEventListener('click', takeScreenShot);
 
 //get persona's name
-document.querySelector('#btnSubmit').addEventListener('click', function(e) {
+document.querySelector('#btnSubmitPersona').addEventListener('click', function(e) {
 		var personaName = document.querySelector('option:checked');
 		chrome.extension.getBackgroundPage().console.log("Persona ", personaName.value)
 		document.getElementById('personaName').innerHTML = "You selected " + personaName.value + " as your persona";
 		var parent = document.getElementById('section1');
 		var child = document.getElementById('personaSelection');
 		parent.removeChild(child);
-		child = document.getElementById('btnSubmit');
+		child = document.getElementById('btnSubmitPersona');
 		parent.removeChild(child)
+		//Change popup.html to test.html
+		//window.location.href="test.html";
+}, false);
+
+// Get task name
+document.getElementById('btnSubmitTask').addEventListener('click', function(e) {
+		var taskName = document.getElementById("taskInput").value;
+		chrome.extension.getBackgroundPage().console.log("Task: ", taskName);
+		document.getElementById("taskName").innerHTML = "You selected " + taskName + " as your task";
+		document.getElementById("taskInput").remove();
+		document.getElementById("btnSubmitTask").remove();
+		
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);
