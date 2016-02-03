@@ -4,7 +4,7 @@
 	left: 0px;
 	position:fixed;
 	background:#ffa;
-	width:200px;
+	width:500px;
 	min-width:50px;
 	max-width:500px;
 	height:300px;
@@ -15,5 +15,6 @@
 	border-right:2px ridge #fe9;
 	padding:20px;
 	opacity: .99;
+	background-color: lawngreen;
 	z-index 1001;
 }
