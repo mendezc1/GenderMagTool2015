@@ -31,6 +31,7 @@ document.querySelector('#btnSubmitPersona').addEventListener('click', function(e
 		parent.removeChild(child);
 		child = document.getElementById('btnSubmitPersona');
 		parent.removeChild(child)
+		document.getElementById("subtaskPrompt").innerHTML = "Select a subtask for " + personaName.value + " to perform"
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);
@@ -42,6 +43,18 @@ document.getElementById('btnSubmitTask').addEventListener('click', function(e) {
 		document.getElementById("taskName").innerHTML = "You selected " + taskName + " as your task";
 		document.getElementById("taskInput").remove();
 		document.getElementById("btnSubmitTask").remove();
+		
+		//Change popup.html to test.html
+		//window.location.href="test.html";
+}, false);
+
+// Get subtask name
+document.getElementById('btnSubmitSubtask').addEventListener('click', function(e) {
+		var subtaskName = document.getElementById("subtaskInput").value;
+		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
+		document.getElementById("subtaskName").innerHTML = "You selected " + subtaskName + " as your subtask";
+		document.getElementById("subtaskInput").remove();
+		document.getElementById("btnSubmitSubtask").remove();
 		
 		//Change popup.html to test.html
 		//window.location.href="test.html";
