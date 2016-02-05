@@ -1,11 +1,6 @@
 
 function takeScreenShot() {
 
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
-		chrome.extension.getBackgroundPage().console.log("resp ", response);
-		});
-	});
 	chrome.extension.getBackgroundPage().console.log("logging");
 	chrome.windows.getCurrent(function (win) {    
     chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
@@ -29,6 +24,14 @@ document.querySelector('#btnSubmitPersona').addEventListener('click', function(e
 		child = document.getElementById('btnSubmitPersona');
 		parent.removeChild(child)
 		document.getElementById("subtaskPrompt").innerHTML = "Select a subtask for " + personaName.value + " to perform"
+		
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
+			chrome.extension.getBackgroundPage().console.log("resp ", response);
+			});
+		});
+		
+		
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);

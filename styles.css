@@ -15,6 +15,50 @@
 	border-right:2px ridge #fe9;
 	padding:20px;
 	opacity: .99;
-	background-color: lawngreen;
-	z-index 1001;
+	background-color: white;
+	z-index 10001;
+}
+
+.rightAtribute{
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+ul.graph
+{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+	
+ul.graph li
+{
+	margin-bottom: .5em;
+	padding: .2em;
+	background: #600;
+	color: #fff;
+}
+ul.graph li.facetMotivationAbby
+{
+	background: -webkit-linear-gradient(left, orange, orange 20%, red 40%, red);
+}
+	
+ul.graph li.facetProcessingAbby
+{
+	background: -webkit-linear-gradient(left, orange, orange 80%, red 40%, red);
+}
+
+ul.graph li.facetSelfEffAbby
+{
+	background: -webkit-linear-gradient(left, orange, orange 30%, red 40%, red);
+}
+
+ul.graph li.facetRiskAbby
+{
+	background: -webkit-linear-gradient(left, orange, orange 60%, red 40%, red);
+}
+
+ul.graph li.facetTinkerAbby
+{
+	background: -webkit-linear-gradient(left, orange, orange 60%, red 40%, red);
 }
