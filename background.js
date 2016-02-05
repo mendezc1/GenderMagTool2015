@@ -8,7 +8,7 @@ console.log( 'Background.html starting!' );
 //		chrome.pageAction.show(tab.id);
 //	});
 	
-
+/*
 	chrome.runtime.sendMessage(
 			//Selected tab id
 			//Params inside a object data
@@ -17,5 +17,6 @@ console.log( 'Background.html starting!' );
 			function(response) {
 				chrome.extension.getBackgroundPage().console.log("response", response);
 			}
-	);
+	);*/
+
 console.log( 'Background.html done.' );

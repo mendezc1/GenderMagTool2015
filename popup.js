@@ -1,14 +1,11 @@
+
 function takeScreenShot() {
 
-	chrome.runtime.sendMessage(
-			//Selected tab id
-			//Params inside a object data
-			{callFunction: "toggleSidebar"},
-			//Optional callback function
-			function(response) {
-				chrome.extension.getBackgroundPage().console.log("response", response);
-			}
-	);
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
+		chrome.extension.getBackgroundPage().console.log("resp ", response);
+		});
+	});
 	chrome.extension.getBackgroundPage().console.log("logging");
 	chrome.windows.getCurrent(function (win) {    
     chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
