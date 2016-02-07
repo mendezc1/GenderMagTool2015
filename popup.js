@@ -137,15 +137,16 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		
 		//Container for this subtask
 		var subtask = document.createElement("div");
-		subtask.id = "subtask" + numSubtasks;
+		subtask.id = "S" + numSubtasks;
 		
 		var subtaskNameLabel = document.createElement("label");
 		subtaskNameLabel.innerHTML = subtaskName;
+		subtaskNameLabel.id = "S" + numSubtasks + "Name";
 		subtask.appendChild(subtaskNameLabel);
 
 		//Container for subtask questions
 		var subtaskQuestions = document.createElement("div");
-		subtaskQuestions.id = "subtask" + numSubtasks + "Questions";
+		subtaskQuestions.id = "S" + numSubtasks + "Questions";
 		subtask.appendChild(subtaskQuestions);
 	
 		//Add questions to subtask container
@@ -154,7 +155,7 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 
 		//Create container to hold ideal actions (questions and responses) for subtask
 		var idealActions = document.createElement("div");
-		idealActions.id = "actionsForSubtask" + numSubtasks;
+		idealActions.id = "S" + numSubtasks + "Actions";
 		subtask.appendChild(idealActions);
 				
 		subtasks.appendChild(subtask);
@@ -185,6 +186,7 @@ document.getElementById('btnTogglePersona').addEventListener('click', function(e
 document.getElementById('addIdealAction').addEventListener('click', function(e) {
 	//Submit button for ideal action form
 	if (event.target.id == "submitAction") {
+		
 		numActions++;
 		
 		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
@@ -194,12 +196,13 @@ document.getElementById('addIdealAction').addEventListener('click', function(e) 
 		var questions = [question1, question2, question3];
 	
 		//Create container for this ideal action
-		var idealActions = document.getElementById("actionsForSubtask" + numSubtasks);
+		var idealActions = document.getElementById("S" + numSubtasks + "Actions");
 		var idealAction = document.createElement("div");
 		idealAction.id = "S" + numSubtasks + "A" + numActions;
 	
 		var actionName = document.createElement("span");
 		var actionNameInput = document.getElementById("actionNameInput");
+		chrome.extension.getBackgroundPage().console.log("IdealAction: ", actionNameInput.value);
 		actionName.innerHTML = actionNameInput.value + "<br>";
 		idealAction.appendChild(actionName);
 	
