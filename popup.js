@@ -1,4 +1,6 @@
 var personaName = "";
+var numSubtasks = 0;
+
 
 function takeScreenShot() {
 	chrome.windows.getCurrent(function (win) {    
@@ -46,13 +48,35 @@ function showQuestions(element, questions) {
 		element.appendChild(document.createElement("br"));
 		element.appendChild(noResponse);
 		element.appendChild(document.createElement("br"));
+		element.appendChild(document.createElement("br"));
 
 	}
 }
 
-document.getElementById('screenShot').addEventListener('click', takeScreenShot);
+function addIdealAction(subtask) {
+	var addIdealAction = document.getElementById("addIdealAction");
+		
+	if (!addIdealAction.hasChildNodes()) {
+			
+		actionName = document.createElement("input");
+		actionName.type = "text";
+		actionName.id = "actionNameInput";
+		actionName.placeholder = "Action Name";
+		addIdealAction.appendChild(actionName);
+		
+		var addAction = document.createElement("input");
+		addAction.type = "submit";
+		addAction.id = "submitAction";
+		addAction.value = "Add Action to this Subtask";
+		addIdealAction.appendChild(addAction);
+		
+	}
+}
 
+
+document.getElementById('screenShot').addEventListener('click', takeScreenShot);
 //document.getElementById('motivationsLink').href="abbyMotivations"
+
 
 //Get Persona
 document.querySelector('#submitPersona').addEventListener('click', function(e) {
@@ -64,7 +88,7 @@ document.querySelector('#submitPersona').addEventListener('click', function(e) {
 		document.getElementById('submitPersona').remove();
 		document.getElementById('personaPrompt').remove();
 		
-		document.getElementById("subtaskPrompt").innerHTML = "Select a subtask for " + personaName + " to perform";
+		document.getElementById("subtaskPrompt").innerHTML = "Enter a subtask for " + personaName + " to perform";
 
 		//Change popup.html to test.html
 		//window.location.href="test.html";
@@ -90,13 +114,35 @@ document.getElementById('submitTask').addEventListener('click', function(e) {
 document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		var subtaskName = document.getElementById("subtaskInput").value;
 		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
-		document.getElementById("subtaskName").innerHTML = subtaskName;
+		numSubtasks++;
 		
+		var subtasks = document.getElementById("subtasks");
+		
+		var subtask = document.createElement("div");
+		subtask.id = "subtask" + numSubtasks;
+		
+		var subtaskNameLabel = document.createElement("label");
+		subtaskNameLabel.innerHTML = subtaskName;
+		subtask.appendChild(subtaskNameLabel);
+
+		var subtaskQuestions = document.createElement("div");
+		subtaskQuestions.id = "subtask" + numSubtasks + "Questions";
+		subtask.appendChild(subtaskQuestions);
+	
 		var question = ["Will " + personaName + " have formed this subgoal as a step to the overall goal?<br>"];
-		showQuestions(document.getElementById("questionForSubgoal"), question);
+		showQuestions(subtaskQuestions, question);
+
+		var idealActions = document.createElement("div");
+		idealActions.id = "actionsForSubtask" + numSubtasks;
+		subtask.appendChild(idealActions);
+				
+		subtasks.appendChild(subtask);
 		
-		document.getElementById("subtaskInput").remove();
-		document.getElementById("submitSubtask").remove();
+		document.getElementById("subtaskInput").value = "";
+		document.getElementById("subtaskPrompt").remove();
+		document.getElementById("submitSubtask").value = "Add New Subtask"
+		
+		addIdealAction(subtask);
 		
 		//Change popup.html to test.html
 		//window.location.href="test.html";
@@ -104,34 +150,35 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 
 
 document.getElementById('btnTogglePersona').addEventListener('click', function(e){
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
-			chrome.extension.getBackgroundPage().console.log("resp ", response);
-			});
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
+		chrome.extension.getBackgroundPage().console.log("resp ", response);
 		});
+	});
 });
 
 
 //Add ideal action
-document.getElementById('addAction').addEventListener('click', function(e) {
-	var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
-	var question2 = "Will " + personaName + " associate the correct action with the effect she is trying to achieve?<br>";
-	var question3 = "If the correct action is performed will " + personaName + " see that progress is being made toward a solution to his/her subgoal?<br>";
+document.getElementById('addIdealAction').addEventListener('click', function(e) {
+	if (event.target.id == "submitAction") {
+		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
+		var question2 = "Will " + personaName + " associate the correct action with the effect she is trying to achieve?<br>";
+		var question3 = "If the correct action is performed will " + personaName + " see that progress is being made toward a solution to the subgoal?<br>";
 	
-	var questions = [question1, question2, question3];
+		var questions = [question1, question2, question3];
 	
-	var idealActions = document.getElementById("idealActions");
-	var idealAction = document.createElement("div");
-	idealActions.appendChild(idealAction);
+		var idealActions = document.getElementById("actionsForSubtask" + numSubtasks);
+		var idealAction = document.createElement("div");
+		idealActions.appendChild(idealAction);
 	
-	var actionName = document.createElement("span");
-	var actionNameInput = document.getElementById("actionNameInput");
-	actionName.innerHTML = actionNameInput.value + "<br>";
+		var actionName = document.createElement("span");
+		var actionNameInput = document.getElementById("actionNameInput");
+		actionName.innerHTML = actionNameInput.value + "<br>";
+		idealAction.appendChild(actionName);
 	
-	idealAction.appendChild(actionName);
+		showQuestions(idealAction, questions);
 	
-	showQuestions(idealAction, questions);
-	
-	actionNameInput.value = "";
+		actionNameInput.value = "";
+	}
 	
 }, false);
