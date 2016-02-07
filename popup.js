@@ -55,6 +55,7 @@ function showQuestions(element, questions) {
 
 document.getElementById('clickme').addEventListener('click', takeScreenShot);
 
+//document.getElementById('motivationsLink').href="abbyMotivations"
 //get persona's name
 document.querySelector('#btnSubmitPersona').addEventListener('click', function(e) {
 		personaName = document.querySelector('option:checked').value;
@@ -67,11 +68,7 @@ document.querySelector('#btnSubmitPersona').addEventListener('click', function(e
 		parent.removeChild(child)
 		document.getElementById("subtaskPrompt").innerHTML = "Select a subtask for " + personaName + " to perform"
 		
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
-			chrome.extension.getBackgroundPage().console.log("resp ", response);
-			});
-		});
+	
 		
 		
 		//Change popup.html to test.html
@@ -105,6 +102,14 @@ document.getElementById('btnSubmitSubtask').addEventListener('click', function(e
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);
+
+document.getElementById('btnTogglePersona').addEventListener('click', function(e){
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
+			chrome.extension.getBackgroundPage().console.log("resp ", response);
+			});
+		});
+});
 
 // Add ideal action
 document.getElementById('addIdealAction').addEventListener('click', function(e) {
