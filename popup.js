@@ -1,5 +1,6 @@
 var personaName = "";
 var numSubtasks = 0;
+var numActions = 0;
 
 
 function takeScreenShot() {
@@ -19,9 +20,12 @@ function showQuestions(element, questions) {
 	chrome.extension.getBackgroundPage().console.log(questions.length);
 
 	for (var i = 0; i < questions.length; i++) {
+		var container = document.createElement("div");
+		container.class = question;
+		
 		var question = document.createElement("span");
 		question.innerHTML = questions[i];
-		element.appendChild(question);
+		container.appendChild(question);
 	
 		var yesCheckbox = document.createElement("input");
 		yesCheckbox.type = "checkbox";
@@ -37,38 +41,40 @@ function showQuestions(element, questions) {
 		noLabel.innerHTML = "No";
 		var noResponse = document.createElement("textArea");
 		
-		element.appendChild(yesCheckbox);
-		element.appendChild(yesLabel);
-		element.appendChild(document.createElement("br"));
-		element.appendChild(yesResponse);
-		element.appendChild(document.createElement("br"));
+		container.appendChild(yesCheckbox);
+		container.appendChild(yesLabel);
+		container.appendChild(document.createElement("br"));
+		container.appendChild(yesResponse);
+		container.appendChild(document.createElement("br"));
 
-		element.appendChild(noCheckbox);
-		element.appendChild(noLabel);
-		element.appendChild(document.createElement("br"));
-		element.appendChild(noResponse);
-		element.appendChild(document.createElement("br"));
-		element.appendChild(document.createElement("br"));
+		container.appendChild(noCheckbox);
+		container.appendChild(noLabel);
+		container.appendChild(document.createElement("br"));
+		container.appendChild(noResponse);
+		container.appendChild(document.createElement("br"));
+		container.appendChild(document.createElement("br"));
+		
+		element.appendChild(container);
 
 	}
 }
 
-function addIdealAction(subtask) {
-	var addIdealAction = document.getElementById("addIdealAction");
+function showIdealActionForm(subtask) {
+	var actionForm = document.getElementById("addIdealAction");
 		
-	if (!addIdealAction.hasChildNodes()) {
+	if (!actionForm.hasChildNodes()) {
 			
 		actionName = document.createElement("input");
 		actionName.type = "text";
 		actionName.id = "actionNameInput";
 		actionName.placeholder = "Action Name";
-		addIdealAction.appendChild(actionName);
+		actionForm.appendChild(actionName);
 		
 		var addAction = document.createElement("input");
 		addAction.type = "submit";
 		addAction.id = "submitAction";
 		addAction.value = "Add Action to this Subtask";
-		addIdealAction.appendChild(addAction);
+		actionForm.appendChild(addAction);
 		
 	}
 }
@@ -114,7 +120,9 @@ document.getElementById('submitTask').addEventListener('click', function(e) {
 document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		var subtaskName = document.getElementById("subtaskInput").value;
 		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
+		
 		numSubtasks++;
+		numActions = 0;
 		
 		var subtasks = document.getElementById("subtasks");
 		
@@ -139,10 +147,10 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		subtasks.appendChild(subtask);
 		
 		document.getElementById("subtaskInput").value = "";
-		document.getElementById("subtaskPrompt").remove();
+		document.getElementById("subtaskPrompt").innerHTML = "";
 		document.getElementById("submitSubtask").value = "Add New Subtask"
 		
-		addIdealAction(subtask);
+		showIdealActionForm(subtask);
 		
 		//Change popup.html to test.html
 		//window.location.href="test.html";
@@ -161,6 +169,8 @@ document.getElementById('btnTogglePersona').addEventListener('click', function(e
 //Add ideal action
 document.getElementById('addIdealAction').addEventListener('click', function(e) {
 	if (event.target.id == "submitAction") {
+		numActions++;
+		
 		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
 		var question2 = "Will " + personaName + " associate the correct action with the effect she is trying to achieve?<br>";
 		var question3 = "If the correct action is performed will " + personaName + " see that progress is being made toward a solution to the subgoal?<br>";
