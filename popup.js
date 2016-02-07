@@ -1,12 +1,9 @@
 var personaName = "";
 
 function takeScreenShot() {
-
-	chrome.extension.getBackgroundPage().console.log("logging");
 	chrome.windows.getCurrent(function (win) {    
     chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
             chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
-			//chrome.extension.getBackgroundPage().console.log("your url here");
       });    
 	}); 
 //more permanant change
@@ -17,81 +14,81 @@ function showQuestions(element, questions) {
 	chrome.extension.getBackgroundPage().console.log(questions.length);
 
 	for (var i = 0; i < questions.length; i++) {
-		chrome.extension.getBackgroundPage().console.log("Here!");
 		var question = document.createElement("span");
 		question.innerHTML = questions[i];
 		element.appendChild(question);
-		chrome.extension.getBackgroundPage().console.log("Here!");
 	
-		var checkYes = document.createElement("input");
-		var yes = document.createElement("span");
+		var yesCheckbox = document.createElement("input");
+		yesCheckbox.type = "checkbox";
+		yesCheckbox.value = "Yes";
+		var yesLabel = document.createElement("span");
+		yesLabel.innerHTML = "Yes";
 		var yesResponse = document.createElement("textArea");
-		yes.innerHTML = "Yes";
-		var no = document.createElement("span");
-		no.innerHTML = "No";
-		var checkNo = document.createElement("input");
+		
+		var noCheckbox = document.createElement("input");
+		noCheckbox.type = "checkbox";
+		noCheckbox.value = "No";
+		var noLabel = document.createElement("span");
+		noLabel.innerHTML = "No";
 		var noResponse = document.createElement("textArea");
-		checkYes.type = "checkbox";
-		checkNo.type = "checkbox";
-		checkYes.value = "Yes";
-		checkNo.value = "No";
-	
-		element.appendChild(checkYes);
-		element.appendChild(yes);
-		var linebreak1 = document.createElement("br");
-		element.appendChild(linebreak1);
+		
+		element.appendChild(yesCheckbox);
+		element.appendChild(yesLabel);
+		element.appendChild(document.createElement("br"));
 		element.appendChild(yesResponse);
-		var linebreak2 = document.createElement("br");
-		element.appendChild(linebreak2);
-		element.appendChild(checkNo);
-		element.appendChild(no);
-		var linebreak3 = document.createElement("br");
-		element.appendChild(linebreak3);
+		element.appendChild(document.createElement("br"));
+
+		element.appendChild(noCheckbox);
+		element.appendChild(noLabel);
+		element.appendChild(document.createElement("br"));
 		element.appendChild(noResponse);
-		var linebreak4 = document.createElement("br");
-		element.appendChild(linebreak4);
+		element.appendChild(document.createElement("br"));
+
 	}
 }
 
 document.getElementById('clickme').addEventListener('click', takeScreenShot);
 
 //document.getElementById('motivationsLink').href="abbyMotivations"
-//get persona's name
-document.querySelector('#btnSubmitPersona').addEventListener('click', function(e) {
+
+
+//Get Persona
+document.querySelector('#submitPersona').addEventListener('click', function(e) {
 		personaName = document.querySelector('option:checked').value;
 		chrome.extension.getBackgroundPage().console.log("Persona ", personaName)
-		document.getElementById('personaName').innerHTML = "You selected " + personaName + " as your persona";
-		var parent = document.getElementById('section1');
-		var child = document.getElementById('personaSelection');
-		parent.removeChild(child);
-		child = document.getElementById('btnSubmitPersona');
-		parent.removeChild(child)
-		document.getElementById("subtaskPrompt").innerHTML = "Select a subtask for " + personaName + " to perform"
+		document.getElementById('personaName').innerHTML = personaName;
 		
-	
+		document.getElementById('personaSelection').remove();
+		document.getElementById('submitPersona').remove();
+		document.getElementById('personaPrompt').remove();
 		
-		
+		document.getElementById("subtaskPrompt").innerHTML = "Select a subtask for " + personaName + " to perform";
+
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);
 
-// Get task name
+
+//Get Task
 document.getElementById('btnSubmitTask').addEventListener('click', function(e) {
 		var taskName = document.getElementById("taskInput").value;
 		chrome.extension.getBackgroundPage().console.log("Task: ", taskName);
-		document.getElementById("taskName").innerHTML = "You selected " + taskName + " as your task";
+		document.getElementById("taskName").innerHTML = taskName;
+		
 		document.getElementById("taskInput").remove();
+		document.getElementById("taskPrompt").remove();
 		document.getElementById("btnSubmitTask").remove();
 				
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);
 
-// Get subtask name
+
+//Get Subtask
 document.getElementById('btnSubmitSubtask').addEventListener('click', function(e) {
 		var subtaskName = document.getElementById("subtaskInput").value;
 		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
-		document.getElementById("subtaskName").innerHTML = "You selected " + subtaskName + " as your subtask";
+		document.getElementById("subtaskName").innerHTML = subtaskName;
 		
 		var question = ["Will " + personaName + " have formed this subgoal as a step to the overall goal?<br>"];
 		showQuestions(document.getElementById("questionForSubgoal"), question);

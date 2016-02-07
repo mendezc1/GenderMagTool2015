@@ -6,19 +6,15 @@
 	<body style = "width: 300px">
 	
 	<button id="clickme">Click me to take a screen capture of your page</button>
-	<button id="btnTogglePersona"> Close or Open Persona </button>
+	<button id="btnTogglePersona"> Close or Open Persona </button><br>
 	
-	<section id="section1">
-		Please enter the task you wish to perform
+		<label id="taskPrompt">Please enter the task</label><br>
 		<input id="taskInput" type="text">
-		<input type="submit" id="btnSubmitTask" value="Submit">
+		<input type="submit" id="btnSubmitTask" value="Submit"><br>
 		
 		<div id="taskName"> </div>		
 		
-		<p id="personaPrompt">
-			Please select a persona name below
-		</p>
-		
+		<label id="personaPrompt">Select a Persona</label>
 		<select id="personaSelection" name="persona">
 			<option value="Abby">Abby</option>
 			<option value="Tim">Tim</option>
@@ -26,7 +22,8 @@
 			<option value="Patricia">Patricia</option>
 		</select>
 		
-		<button id="btnSubmitPersona">Submit</button>
+		<button id="submitPersona">Submit</button>
+		
 		<div id="personaName"> </div>
 		
 		<div id="subtaskPrompt"> </div>
@@ -60,7 +57,6 @@
 			</ul>
 		</div>
 -->		
-	</section>
 	<script type="text/javascript" src="popup.js"></script>
 
 	</body>
