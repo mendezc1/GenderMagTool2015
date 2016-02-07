@@ -14,19 +14,20 @@ function takeScreenShot() {
 }
 
 
-//Adds a series of questions to element
-//Under each question, checkboxes for a yes/no response and fields for explanation
+//Adds a series of questions (array of strings) to element
+//Under each question, adds checkboxes for yes/no response and fields for explanation
 function showQuestions(element, questions) {
-	chrome.extension.getBackgroundPage().console.log(questions.length);
 
 	for (var i = 0; i < questions.length; i++) {
 		var container = document.createElement("div");
 		container.class = question;
 		
+		//Add question text
 		var question = document.createElement("span");
 		question.innerHTML = questions[i];
 		container.appendChild(question);
 	
+		//Add "Yes" checkbox with field for explanation
 		var yesCheckbox = document.createElement("input");
 		yesCheckbox.type = "checkbox";
 		yesCheckbox.value = "Yes";
@@ -34,6 +35,16 @@ function showQuestions(element, questions) {
 		yesLabel.innerHTML = "Yes";
 		var yesResponse = document.createElement("textArea");
 		
+		//Identify response by subgoal #, action #, question #, and whether yes or no
+		yesResponse.id = "subgoal" + numSubtasks + "action" + numActions + "q" + i + "yes";
+		
+		container.appendChild(yesCheckbox);
+		container.appendChild(yesLabel);
+		container.appendChild(document.createElement("br"));
+		container.appendChild(yesResponse);
+		container.appendChild(document.createElement("br"));
+		
+		//Add "No" checkbox with field for explanation
 		var noCheckbox = document.createElement("input");
 		noCheckbox.type = "checkbox";
 		noCheckbox.value = "No";
@@ -41,11 +52,8 @@ function showQuestions(element, questions) {
 		noLabel.innerHTML = "No";
 		var noResponse = document.createElement("textArea");
 		
-		container.appendChild(yesCheckbox);
-		container.appendChild(yesLabel);
-		container.appendChild(document.createElement("br"));
-		container.appendChild(yesResponse);
-		container.appendChild(document.createElement("br"));
+		//Identify response by subgoal #, action #, question #, and whether yes or no
+		noResponse.id = "subgoal" + numSubtasks + "action" + numActions + "q" + i + "no";
 
 		container.appendChild(noCheckbox);
 		container.appendChild(noLabel);
@@ -59,6 +67,8 @@ function showQuestions(element, questions) {
 	}
 }
 
+
+//After addition of first subgoal
 function showIdealActionForm(subtask) {
 	var actionForm = document.getElementById("addIdealAction");
 		
@@ -122,10 +132,11 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
 		
 		numSubtasks++;
-		numActions = 0;
+		numActions = 0; //reset
 		
 		var subtasks = document.getElementById("subtasks");
 		
+		//Container for this subtask
 		var subtask = document.createElement("div");
 		subtask.id = "subtask" + numSubtasks;
 		
@@ -133,23 +144,28 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		subtaskNameLabel.innerHTML = subtaskName;
 		subtask.appendChild(subtaskNameLabel);
 
+		//Container for subtask questions
 		var subtaskQuestions = document.createElement("div");
 		subtaskQuestions.id = "subtask" + numSubtasks + "Questions";
 		subtask.appendChild(subtaskQuestions);
 	
+		//Add questions to subtask container
 		var question = ["Will " + personaName + " have formed this subgoal as a step to the overall goal?<br>"];
 		showQuestions(subtaskQuestions, question);
 
+		//Create container to hold ideal actions (questions and responses) for subtask
 		var idealActions = document.createElement("div");
 		idealActions.id = "actionsForSubtask" + numSubtasks;
 		subtask.appendChild(idealActions);
 				
 		subtasks.appendChild(subtask);
 		
+		//Reset subtask form
 		document.getElementById("subtaskInput").value = "";
 		document.getElementById("subtaskPrompt").innerHTML = "";
 		document.getElementById("submitSubtask").value = "Add New Subtask"
 		
+		//If not already rendered
 		showIdealActionForm(subtask);
 		
 		//Change popup.html to test.html
@@ -168,6 +184,7 @@ document.getElementById('btnTogglePersona').addEventListener('click', function(e
 
 //Add ideal action
 document.getElementById('addIdealAction').addEventListener('click', function(e) {
+	//Submit button for ideal action form
 	if (event.target.id == "submitAction") {
 		numActions++;
 		
@@ -177,17 +194,22 @@ document.getElementById('addIdealAction').addEventListener('click', function(e) 
 	
 		var questions = [question1, question2, question3];
 	
+		//Create container for this ideal action
 		var idealActions = document.getElementById("actionsForSubtask" + numSubtasks);
 		var idealAction = document.createElement("div");
-		idealActions.appendChild(idealAction);
 	
 		var actionName = document.createElement("span");
 		var actionNameInput = document.getElementById("actionNameInput");
 		actionName.innerHTML = actionNameInput.value + "<br>";
 		idealAction.appendChild(actionName);
 	
+		//Add questions and response fields to ideal action container
 		showQuestions(idealAction, questions);
+		
+		//Add ideal action to subtask
+		idealActions.appendChild(idealAction);
 	
+		//Reset ideal action form
 		actionNameInput.value = "";
 	}
 	
