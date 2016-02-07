@@ -10,6 +10,9 @@ function takeScreenShot() {
 //chrome.browserAction.setPopup({popup: "new.html"});
 }
 
+
+//Adds a series of questions to element
+//Under each question, checkboxes for a yes/no response and fields for explanation
 function showQuestions(element, questions) {
 	chrome.extension.getBackgroundPage().console.log(questions.length);
 
@@ -47,10 +50,9 @@ function showQuestions(element, questions) {
 	}
 }
 
-document.getElementById('clickme').addEventListener('click', takeScreenShot);
+document.getElementById('screenShot').addEventListener('click', takeScreenShot);
 
 //document.getElementById('motivationsLink').href="abbyMotivations"
-
 
 //Get Persona
 document.querySelector('#submitPersona').addEventListener('click', function(e) {
@@ -70,14 +72,14 @@ document.querySelector('#submitPersona').addEventListener('click', function(e) {
 
 
 //Get Task
-document.getElementById('btnSubmitTask').addEventListener('click', function(e) {
+document.getElementById('submitTask').addEventListener('click', function(e) {
 		var taskName = document.getElementById("taskInput").value;
 		chrome.extension.getBackgroundPage().console.log("Task: ", taskName);
 		document.getElementById("taskName").innerHTML = taskName;
 		
 		document.getElementById("taskInput").remove();
 		document.getElementById("taskPrompt").remove();
-		document.getElementById("btnSubmitTask").remove();
+		document.getElementById("submitTask").remove();
 				
 		//Change popup.html to test.html
 		//window.location.href="test.html";
@@ -85,7 +87,7 @@ document.getElementById('btnSubmitTask').addEventListener('click', function(e) {
 
 
 //Get Subtask
-document.getElementById('btnSubmitSubtask').addEventListener('click', function(e) {
+document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		var subtaskName = document.getElementById("subtaskInput").value;
 		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
 		document.getElementById("subtaskName").innerHTML = subtaskName;
@@ -94,11 +96,12 @@ document.getElementById('btnSubmitSubtask').addEventListener('click', function(e
 		showQuestions(document.getElementById("questionForSubgoal"), question);
 		
 		document.getElementById("subtaskInput").remove();
-		document.getElementById("btnSubmitSubtask").remove();
+		document.getElementById("submitSubtask").remove();
 		
 		//Change popup.html to test.html
 		//window.location.href="test.html";
 }, false);
+
 
 document.getElementById('btnTogglePersona').addEventListener('click', function(e){
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -108,11 +111,12 @@ document.getElementById('btnTogglePersona').addEventListener('click', function(e
 		});
 });
 
-// Add ideal action
-document.getElementById('addIdealAction').addEventListener('click', function(e) {
+
+//Add ideal action
+document.getElementById('addAction').addEventListener('click', function(e) {
 	var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
 	var question2 = "Will " + personaName + " associate the correct action with the effect she is trying to achieve?<br>";
-	var question3 = "If the correct action is performed will " + personaName + " see that progress is being made toward a solution to her subgoal?<br>";
+	var question3 = "If the correct action is performed will " + personaName + " see that progress is being made toward a solution to his/her subgoal?<br>";
 	
 	var questions = [question1, question2, question3];
 	
@@ -123,7 +127,7 @@ document.getElementById('addIdealAction').addEventListener('click', function(e) 
 	var actionName = document.createElement("span");
 	var actionNameInput = document.getElementById("actionNameInput");
 	actionName.innerHTML = actionNameInput.value + "<br>";
-	actionName.style = "font-weight:bold";
+	
 	idealAction.appendChild(actionName);
 	
 	showQuestions(idealAction, questions);
