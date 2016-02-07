@@ -21,6 +21,7 @@ function showQuestions(element, questions) {
 	for (var i = 0; i < questions.length; i++) {
 		var container = document.createElement("div");
 		container.class = question;
+		container.id = "S" + numSubtasks + "A" + numActions + "Q" + (i + 1);
 		
 		//Add question text
 		var question = document.createElement("span");
@@ -31,12 +32,11 @@ function showQuestions(element, questions) {
 		var yesCheckbox = document.createElement("input");
 		yesCheckbox.type = "checkbox";
 		yesCheckbox.value = "Yes";
+		yesCheckbox.id = container.id + "YesCheckbox";
 		var yesLabel = document.createElement("span");
 		yesLabel.innerHTML = "Yes";
 		var yesResponse = document.createElement("textArea");
-		
-		//Identify response by subgoal #, action #, question #, and whether yes or no
-		yesResponse.id = "subgoal" + numSubtasks + "action" + numActions + "q" + i + "yes";
+		yesResponse.id = container.id + "YesResponse";
 		
 		container.appendChild(yesCheckbox);
 		container.appendChild(yesLabel);
@@ -48,12 +48,11 @@ function showQuestions(element, questions) {
 		var noCheckbox = document.createElement("input");
 		noCheckbox.type = "checkbox";
 		noCheckbox.value = "No";
+		noCheckbox.id = container.id + "NoCheckbox"
 		var noLabel = document.createElement("span");
 		noLabel.innerHTML = "No";
 		var noResponse = document.createElement("textArea");
-		
-		//Identify response by subgoal #, action #, question #, and whether yes or no
-		noResponse.id = "subgoal" + numSubtasks + "action" + numActions + "q" + i + "no";
+		noResponse.id = container.id + "NoResponse"
 
 		container.appendChild(noCheckbox);
 		container.appendChild(noLabel);
@@ -197,6 +196,7 @@ document.getElementById('addIdealAction').addEventListener('click', function(e) 
 		//Create container for this ideal action
 		var idealActions = document.getElementById("actionsForSubtask" + numSubtasks);
 		var idealAction = document.createElement("div");
+		idealAction.id = "S" + numSubtasks + "A" + numActions;
 	
 		var actionName = document.createElement("span");
 		var actionNameInput = document.getElementById("actionNameInput");
