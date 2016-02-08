@@ -2,27 +2,33 @@
 <html> 
 	<head>
 		<link href="styles.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+		<script type="text/javascript" src="popup.js"></script>
 	</head>
 	<body style = "width: 300px">
 	
 	<button id="screenShot">Click me to take a screen capture of your page</button><br>
 	<button id="btnTogglePersona"> Close or Open Persona </button><br>
 	
-		<label id="taskPrompt">Please enter the task</label><br>
-		<input id="taskInput" type="text">
-		<input type="submit" id="submitTask" value="Submit"><br>
+		<div id="getTask">
+			<label id="taskPrompt">Please enter the task</label><br>
+			<input id="taskInput" type="text">
+			<input type="submit" id="submitTask" value="Submit"><br>
+		</div>
 		
-		<div id="taskName"> </div>		
+		<div id="taskName"></div>		
 		
-		<label id="personaPrompt">Select a Persona</label>
-		<select id="personaSelection" name="persona">
-			<option value="Abby">Abby</option>
-			<option value="Tim">Tim</option>
-			<option value="Patrick">Patrick</option>
-			<option value="Patricia">Patricia</option>
-		</select>
+		<div id="getPersona">
+			<label id="personaPrompt">Select a Persona</label>
+			<select id="personaSelection" name="persona">
+				<option value="Abby">Abby</option>
+				<option value="Tim">Tim</option>
+				<option value="Patrick">Patrick</option>
+				<option value="Patricia">Patricia</option>
+			</select>
 		
-		<button id="submitPersona">Submit</button><br>
+			<button id="submitPersona">Submit</button><br>
+		</div>
 		
 		<div id="personaName"> </div>
 		
@@ -30,33 +36,16 @@
 			<!--	<a id="motivationsLink"> click me </a> -->
 		</div>
 		
-		<div id="idealActionQuestions"></div>
-		<div id="addIdealAction"></div>
-			
-		<div id="subtaskPrompt">Subtask</div>
-		<input id="subtaskInput" type="text" placeholder="Subtask Name"></input>
-		<input type="submit" id="submitSubtask" value="Submit"><br>
-<!--
-		<div>
-			<ul class="graph">
-				Motivation
-				<li class="facetMotivationAbby">When Needed </li>
-				
-				Information Processing Styles
-				<li class="facetProcessingAbby">Selective </li>
-				
-				<a href="#" id="facetSelfEffAbby"> Computer Self-Efficacies </a>
-				<li class="facetSelfEffAbby">Low Self-Efficacy &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp High Self-Efficacy</li>
-				
-				Attitudes towards Risk
-				<li class="facetRiskAbby">Risk-Averse &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Risk-Taking</li>
-				
-				Willingness to Tinker
-				<li class="facetTinkerAbby">Low Willingness &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp High Willingness</li>
-			</ul>
+		<div id="getAction">
+			<input id="actionInput" type="text" placeholder="Ideal Action Name"></input>
+			<input type="submit" id="submitAction" value="Add Ideal Action"></input>
 		</div>
--->		
-	<script type="text/javascript" src="popup.js"></script>
-
+			
+		<div id="getSubtask">
+			<div id="subtaskPrompt">Subtask</div>
+			<input id="subtaskInput" type="text" placeholder="Subtask Name"></input>
+			<input type="submit" id="submitSubtask" value="Add Subtask"><br>
+		</div>
+		
 	</body>
 </html>
