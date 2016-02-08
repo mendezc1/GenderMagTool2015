@@ -1,4 +1,6 @@
 var personaName = "";
+var pronoun = "";
+var possessive = "";
 var numSubtasks = 0;
 var numActions = 0;
 
@@ -99,6 +101,14 @@ document.querySelector('#submitPersona').addEventListener('click', function(e) {
 		chrome.extension.getBackgroundPage().console.log("Persona ", personaName)
 		document.getElementById('personaName').innerHTML = personaName;
 		
+		if ((personaName == "Tim") || (personaName == "Patrick")) {
+			pronoun = "he";
+			possessive = "his";
+		} else {
+			pronoun = "she";
+			possessive = "her";
+		}
+		
 		document.getElementById('personaSelection').remove();
 		document.getElementById('submitPersona').remove();
 		document.getElementById('personaPrompt').remove();
@@ -150,7 +160,8 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 		subtask.appendChild(subtaskQuestions);
 	
 		//Add questions to subtask container
-		var question = ["Will " + personaName + " have formed this subgoal as a step to the overall goal?<br>"];
+		var question = ["Will " + personaName + " have formed this subgoal as a step to " +
+		                possessive + " overall goal?<br>"];
 		showQuestions(subtaskQuestions, question);
 
 		//Create container to hold ideal actions (questions and responses) for subtask
@@ -190,8 +201,11 @@ document.getElementById('addIdealAction').addEventListener('click', function(e) 
 		numActions++;
 		
 		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
-		var question2 = "Will " + personaName + " associate the correct action with the effect she is trying to achieve?<br>";
-		var question3 = "If the correct action is performed will " + personaName + " see that progress is being made toward a solution to the subgoal?<br>";
+		var question2 = "Will " + personaName + " associate the correct action with the effect " + 
+		                pronoun + " is trying to achieve?<br>";
+		var question3 = "If the correct action is performed will " + 
+		                personaName + " see that progress is being made toward a solution to " + 
+		                possessive + " subgoal?<br>";
 	
 		var questions = [question1, question2, question3];
 	
