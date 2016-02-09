@@ -3,6 +3,7 @@ var pronoun = "";
 var possessive = "";
 var numSubtasks = 0;
 var numActions = 0;
+var personaShown = false;
 
 
 function takeScreenShot() {
@@ -101,6 +102,15 @@ document.querySelector('#submitPersona').addEventListener('click', function(e) {
 		chrome.extension.getBackgroundPage().console.log("Persona ", personaName)
 		document.getElementById('personaName').innerHTML = personaName;
 		
+		if(personaShown == false){
+			document.getElementById('btnTogglePersona').innerHTML = "Show " + personaName;
+			personaShown = true;
+		}
+		else if(personaShown == true){
+			document.getElementById('btnTogglePersona').innerHTML = "Hide " + personaName;	
+			personaShown = false;
+		}
+		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
 			possessive = "his";
@@ -185,6 +195,14 @@ document.getElementById('submitSubtask').addEventListener('click', function(e) {
 
 
 document.getElementById('btnTogglePersona').addEventListener('click', function(e){
+		if(personaShown == false){
+		document.getElementById('btnTogglePersona').innerHTML = "Show " + personaName;
+		personaShown = true;
+	}
+	else if(personaShown == true){
+		document.getElementById('btnTogglePersona').innerHTML = "Hide " + personaName;	
+		personaShown = false;
+	}
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
 		chrome.extension.getBackgroundPage().console.log("resp ", response);
