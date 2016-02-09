@@ -35,7 +35,7 @@ function addQuestions(element, questions) {
 		
 		$("<br>").appendTo(container);
 		
-		//Add response field
+		//Add response field for yes
 		var yesResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "YesResponse"
 		}).appendTo(container);
@@ -54,9 +54,28 @@ function addQuestions(element, questions) {
 		
 		$("<br>").appendTo(container);
 		
-		//Add response field
+		//Add response field for no
 		var noResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "NoResponse"
+		}).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add "Maybe" checkbox
+		var noCheckbox = $("<input/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeCheckbox",
+			type: "checkbox",
+		    value: "Maybe"
+		}).appendTo(container);
+		
+		//Add label for "Maybe" checkbox
+		var noLabel = $("<span/>", { html: "Maybe" }).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add response field for maybe
+		var noResponse = $("<textArea/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeResponse"
 		}).appendTo(container);
 		
 		container.appendTo(element);
@@ -64,8 +83,8 @@ function addQuestions(element, questions) {
 }
 
 $(document).ready(function() {
-	$("#getPersona").children().hide();
-	$("#getSubtask").children().hide();
+	$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
+	$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	$("#getAction").children().hide();
 	
 	$('#screenShot').click(takeScreenShot());
@@ -78,7 +97,8 @@ $(document).ready(function() {
 		$("#getTask").children().remove();
 		$("#getTask").remove();
 		
-		$("#getPersona").children().show();
+		//Show subtask
+		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
 	});
 	
 	//Get persona name
@@ -97,10 +117,10 @@ $(document).ready(function() {
 		$("#getPersona").children().remove();
 		$("#getPersona").remove();
 		
-		$("#subtaskPrompt").html("Enter a subtask for " + personaName + " to perform");
+		//$("#subtaskPrompt").html("Enter a subtask for " + personaName + " to perform");
 		
-		$("#getSubtask").children().show();
-
+		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
+		
 	});
 	
 	//Get Subtask
@@ -138,7 +158,7 @@ $(document).ready(function() {
 		$("#subtaskPrompt").html("");
 		$("#submitSubtask").val("Add New Subtask");
 		
-		$("#getAction").children().show();
+		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
 	});
 	
 	//Show persona details
@@ -156,7 +176,10 @@ $(document).ready(function() {
 			
 		var actionName = $("#actionInput").val();
 		
-		//Container for this action and related questions
+		//Actions for current subgoal
+		var actions = $("#S" + numSubtasks + "Actions");
+		
+		//Add this action
 		var action = $("<div/>", {
 			id: "S" + numSubtasks + "A" + numActions
 		}).appendTo(actions);
@@ -174,10 +197,7 @@ $(document).ready(function() {
 		var questions = [question1, question2, question3];
 			
 		//Add questions and response fields to ideal action
-		addQuestions(action, questions);
-		
-		//Add ideal action name under actions for current subgoal
-		var actions = $("#S" + numSubtasks + "Actions");	
+		addQuestions(action, questions);	
 		
 		//Reset form
 		$("#actionInput").val("");
