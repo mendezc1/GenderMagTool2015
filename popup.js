@@ -13,6 +13,30 @@ function takeScreenShot() {
 	}); 
 };
 
+//Adds a checkbox for each of the five facets to element
+//Takes question number as input
+function addFacetCheckboxes(element, questionNumber) {
+	var questionNumber = questionNumber + 1;
+	
+	var facets = ["Motivation", "InformationProcessingStyle", "Computer Self-Efficacies",
+		"Attitude Towards Risk", "Willingness to Tinker"];
+	
+	for (var facet = 0; facet < facets.length; facet++) {
+		//Checkbox
+		$("<input/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + questionNumber + "F" + facet,
+			type: "checkbox",
+			value: facets[facet]
+		}).appendTo(element);
+	
+		//Label for Checkbox
+		$("<span/>", { html: facets[facet] }).appendTo(element);
+		
+		$("<br>").appendTo(element);
+		$("<br>").appendTo(element);
+	}
+};
+
 //Adds a series of questions (array of strings) to element
 //Under each question, adds checkboxes for yes/no response and fields for explanation
 function addQuestions(element, questions) {
@@ -37,10 +61,14 @@ function addQuestions(element, questions) {
 		
 		//Add response field for yes
 		var yesResponse = $("<textArea/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "YesResponse"
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "YesResponse",
+			placeholder: "Why?"
 		}).appendTo(container);
 		
 		$("<br>").appendTo(container);
+		
+		//Add checkboxes for facets
+		addFacetCheckboxes(container, i);
 		
 		//Add "No" checkbox
 		var noCheckbox = $("<input/>", {
@@ -56,10 +84,14 @@ function addQuestions(element, questions) {
 		
 		//Add response field for no
 		var noResponse = $("<textArea/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "NoResponse"
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "NoResponse",
+			placeholder: "Why not?"
 		}).appendTo(container);
 		
 		$("<br>").appendTo(container);
+		
+		//Add checkboxes for facets
+		addFacetCheckboxes(container, i);
 		
 		//Add "Maybe" checkbox
 		var noCheckbox = $("<input/>", {
@@ -75,36 +107,32 @@ function addQuestions(element, questions) {
 		
 		//Add response field for maybe
 		var noResponse = $("<textArea/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeResponse"
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeResponse",
+			placeholder: "Why maybe?"
 		}).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add checkboxes for facets
+		addFacetCheckboxes(container, i);
 		
 		container.appendTo(element);
 	}
 }
 
 $(document).ready(function() {
+	$("#getAction").children().hide();
+	$("#message").children().hide();
+	
 	$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
-	$("#getAction").children().hide();
 	
 	$('#screenShot').click(takeScreenShot());
 	
-	//Get task name
-	$('#submitTask').click(function() {
-		var taskName = $("#taskInput").val();
-		$("#taskName").html(taskName);
-		
-		$("#getTask").children().remove();
-		$("#getTask").remove();
-		
-		//Show subtask
-		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
-	});
-	
 	//Get persona name
 	$("#submitPersona").click(function() {
-		var personaName = $("#personaSelection").val();
-		$("#personaName").html(personaName);
+		personaName = $("#personaSelection").val();
+		$("#personaName").html(personaName + "<br>");
 		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
@@ -117,24 +145,37 @@ $(document).ready(function() {
 		$("#getPersona").children().remove();
 		$("#getPersona").remove();
 		
-		//$("#subtaskPrompt").html("Enter a subtask for " + personaName + " to perform");
-		
+		//Show task
 		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
+		$("#taskPrompt").html("Enter a task for " + personaName + " to perform");
+		
+	});
+	
+	//Get task name
+	$('#submitTask').click(function() {
+		var taskName = $("#taskInput").val();
+		$("#taskName").html(taskName + "<br>");
+		
+		$("#getTask").children().remove();
+		$("#getTask").remove();
+		
+		//Show subtask
+		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
+		$("#subtaskPrompt").html("Enter a subgoal for " + personaName + " to perform");
 		
 	});
 	
 	//Get Subtask
 	$("#submitSubtask").click(function() {
-		var subtaskName = $("#subtaskInput").val();
-		
 		numSubtasks++;
 		numActions = 0; //reset
-				
+			
 		//Container for this subtask
 		var subtask = $("<div/>", { id: "S" + numSubtasks });
 		
 		//Label for this subtask
-		var label = $("<label/>", { id: "S" + numSubtasks + "Name", html: subtaskName });
+		var label = $("<label/>", { id: "S" + numSubtasks + "Name",
+			html: $("#subtaskInput").val() });
 		label.appendTo(subtask);
 
 		//Container for subtask questions
@@ -171,7 +212,7 @@ $(document).ready(function() {
 	});
 	
 	//Add ideal action
-	$("#submitAction").click(function() {		
+	$("#submitAction").click(function() {
 		numActions++;
 			
 		var actionName = $("#actionInput").val();
