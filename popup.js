@@ -33,8 +33,9 @@ function addFacetCheckboxes(element, questionNumber) {
 		$("<span/>", { html: facets[facet] }).appendTo(element);
 		
 		$("<br>").appendTo(element);
-		$("<br>").appendTo(element);
 	}
+	
+	$("<br>").appendTo(element);
 };
 
 //Adds a series of questions (array of strings) to element
@@ -121,9 +122,9 @@ function addQuestions(element, questions) {
 }
 
 $(document).ready(function() {
-	$("#getAction").children().hide();
-	$("#message").children().hide();
+	$("#viewPersona").hide();
 	
+	$("#getAction").children().hide();	
 	$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	
@@ -148,6 +149,9 @@ $(document).ready(function() {
 		//Show task
 		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
 		$("#taskPrompt").html("Enter a task for " + personaName + " to perform");
+		
+		//Show button to view persona
+		$("#viewPersona").show().html("View " + personaName);
 		
 	});
 	
@@ -203,7 +207,7 @@ $(document).ready(function() {
 	});
 	
 	//Show persona details
-	$("#btnTogglePersona").click(function() {
+	$("#viewPersona").click(function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
 				chrome.extension.getBackgroundPage().console.log("resp ", response);
