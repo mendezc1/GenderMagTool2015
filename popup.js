@@ -185,7 +185,13 @@ $(document).ready(function() {
 		}).appendTo(actions);
 		
 		//Add action name to container
-		$("<span/>", { html: actionName + "<br>" }).appendTo(action);
+		$("<span/>", { html: actionName + "<br>",
+			id: "S" + numSubtasks + "A" + numActions + "Name"
+		}).appendTo(action);
+		
+		var actionQuestions = $("<div/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Questions"
+		}).appendTo(action);
 			
 		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
 		var question2 = "Will " + personaName + " associate the correct action with the effect " + 
@@ -197,7 +203,7 @@ $(document).ready(function() {
 		var questions = [question1, question2, question3];
 			
 		//Add questions and response fields to ideal action
-		addQuestions(action, questions);	
+		addQuestions(actionQuestions, questions);	
 		
 		//Reset form
 		$("#actionInput").val("");
