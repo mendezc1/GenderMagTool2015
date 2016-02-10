@@ -5,13 +5,15 @@ var possessive = "";
 var numSubtasks = 0;
 var numActions = 0; //reset for each subtask
 
-function takeScreenShot() {
+var complete = 0;
+
+/*function takeScreenShot() {
 	chrome.windows.getCurrent(function (win) {    
     	chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
-            chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
+            //chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
     	});    
 	}); 
-};
+};*/
 
 //Adds a checkbox for each of the five facets to element
 //Takes question number as input
@@ -122,13 +124,26 @@ function addQuestions(element, questions) {
 }
 
 $(document).ready(function() {
-	$("#viewPersona").hide();
 	
-	$("#getAction").children().hide();	
-	$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
-	$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
+	//Reload previous html
+	var prevHTML = localStorage.getItem("popupHTML");
+	if (prevHTML != null) {
+		$("body").html(prevHTML);
+	} else {
+		
+		$("#viewPersona").hide();
 	
-	$('#screenShot').click(takeScreenShot());
+		$("#getAction").children().hide();	
+		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
+		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
+	}
+	
+	//$('#screenShot').click(takeScreenShot());
+		
+	//Remove content from local storage
+	$("#done").click(function() {
+		complete = 1;
+	});
 	
 	//Get persona name
 	$("#submitPersona").click(function() {
@@ -254,4 +269,18 @@ $(document).ready(function() {
 		$("#actionInput").val("");
 	
 	});
+});
+
+// When user clicks off of tool or closes tool
+$(window).unload(function () {
+	
+	var popup = chrome.extension.getViews({ type: 'popup' })[0];
+	popupHTML = popup.document.body.innerHTML;
+	
+	//Save the current state (html) unless user is done (clicked done button)
+	if (complete == 0) {        
+    	localStorage.setItem("popupHTML", popupHTML);
+    } else {
+    	localStorage.removeItem("popupHTML");
+	}
 });

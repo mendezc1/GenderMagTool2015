@@ -18,9 +18,5 @@
 			"css": [ "styles.css" ]
 		}
 	],
-	"permissions": [
-		"tabs",
-		"unlimitedStorage",
-		"<all_urls>"
-	]
+	"permissions": ["storage", "tabs"]
 }
