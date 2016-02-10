@@ -4,7 +4,8 @@ var possessive = "";
 
 var numSubtasks = 0;
 var numActions = 0; //reset for each subtask
-var personaShown = false;
+
+var personaShown = 0; //toggle when user clicks view/hide persona button
 
 var complete = 0;
 
@@ -15,8 +16,8 @@ function takeScreenShot() {
 		});
 	});
 	chrome.windows.getCurrent(function (win) {    
-    	chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
-            //chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
+    	chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
+            chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   
     	});    
 	}); 
 };
@@ -135,6 +136,15 @@ $(document).ready(function() {
 	var prevHTML = localStorage.getItem("popupHTML");
 	if (prevHTML != null) {
 		$("body").html(prevHTML);
+    	
+    	//Restore global variables
+    	personaName = localStorage.getItem("personaName");
+    	pronoun = localStorage.getItem("pronoun");
+    	possessive = localStorage.getItem("possessive");
+    	numSubtasks = localStorage.getItem("numSubtasks");
+    	numActions = localStorage.getItem("numActions");
+    	personaShown = localStorage.getItem("personaShown");
+    	
 	} else {
 		
 		$("#viewPersona").hide();
@@ -153,15 +163,6 @@ $(document).ready(function() {
 	$("#submitPersona").click(function() {
 		personaName = $("#personaSelection").val();
 		$("#personaName").html(personaName + "<br>");
-		
-		if(personaShown == false){
-			document.getElementById('btnTogglePersona').innerHTML = "Show " + personaName;
-			personaShown = true;
-		}
-		else if(personaShown == true){
-			document.getElementById('btnTogglePersona').innerHTML = "Hide " + personaName;	
-			personaShown = false;
-		}
 		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
@@ -236,6 +237,15 @@ $(document).ready(function() {
 	
 	//Show persona details
 	$("#viewPersona").click(function() {
+		if (personaShown == false) {
+			personaShown = true;
+			$(this).html("Hide " + personaName);
+		} else {
+			personaShown = false;
+			$(this).html("Show " + personaName);
+		}
+		
+		//Open persona view
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
 				chrome.extension.getBackgroundPage().console.log("resp ", response);
@@ -283,7 +293,9 @@ $(document).ready(function() {
 	
 	});
 	
-	$('#screenShot').click(takeScreenShot());
+	$("#screenShot").click(function() {
+		takeScreenShot();
+	});
 });
 
 // When user clicks off of tool or closes tool
@@ -295,7 +307,20 @@ $(window).unload(function () {
 	//Save the current state (html) unless user is done (clicked done button)
 	if (complete == 0) {        
     	localStorage.setItem("popupHTML", popupHTML);
+    	localStorage.setItem("personaName", personaName);
+    	localStorage.setItem("pronoun", pronoun);
+    	localStorage.setItem("possessive", possessive);
+    	localStorage.setItem("numSubtasks", numSubtasks);
+    	localStorage.setItem("numActions", numActions);
+    	localStorage.setItem("personaShown", personaShown);
+
     } else {
     	localStorage.removeItem("popupHTML");
+    	localStorage.removeItem("personaName", personaName);
+    	localStorage.removeItem("pronoun", pronoun);
+    	localStorage.removeItem("possessive", possessive);
+    	localStorage.removeItem("numSubtasks", numSubtasks);
+    	localStorage.removeItem("numActions", numActions);
+    	localStorage.removeItem("personaShown", personaShown);
 	}
 });
