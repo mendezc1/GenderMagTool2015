@@ -7,13 +7,13 @@ var numActions = 0; //reset for each subtask
 
 var complete = 0;
 
-/*function takeScreenShot() {
+function takeScreenShot() {
 	chrome.windows.getCurrent(function (win) {    
     	chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
             //chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
     	});    
 	}); 
-};*/
+};
 
 //Adds a checkbox for each of the five facets to element
 //Takes question number as input
@@ -137,8 +137,6 @@ $(document).ready(function() {
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
-	
-	//$('#screenShot').click(takeScreenShot());
 		
 	//Remove content from local storage
 	$("#done").click(function() {
@@ -269,6 +267,8 @@ $(document).ready(function() {
 		$("#actionInput").val("");
 	
 	});
+	
+	$('#screenShot').click(takeScreenShot());
 });
 
 // When user clicks off of tool or closes tool
