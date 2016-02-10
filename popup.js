@@ -7,6 +7,11 @@ var personaShown = false;
 
 
 function takeScreenShot() {
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen"}, function(response) {
+		chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
+		});
+	});
 	chrome.windows.getCurrent(function (win) {    
     chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
             chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
