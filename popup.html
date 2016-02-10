@@ -2,62 +2,53 @@
 <html> 
 	<head>
 		<link href="styles.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+		<script type="text/javascript" src="popup.js"></script>
+		<title>GenderMag</title>
 	</head>
 	<body style = "width: 300px">
 	
-	<button id="screenShot">Show me the action, then click here</button><br>
-	
-	
-		<label id="taskPrompt">Please enter the task</label><br>
-		<input id="taskInput" type="text">
-		<input type="submit" id="submitTask" value="Submit"><br>
+	<button id="screenShot">Click here, then show me the action</button><br>
+	<button id="viewPersona"></button><br>		
 		
-		<div id="taskName"> </div>		
+		<div id="getPersona">
+			<label id="personaPrompt">Select a Persona</label>
+			<select id="personaSelection" name="persona">
+				<option value="Abby">Abby</option>
+				<option value="Tim">Tim</option>
+				<option value="Patrick">Patrick</option>
+				<option value="Patricia">Patricia</option>
+			</select>
 		
-		<label id="personaPrompt">Select a Persona</label>
-		<select id="personaSelection" name="persona">
-			<option value="Abby">Abby</option>
-			<option value="Tim">Tim</option>
-			<option value="Patrick">Patrick</option>
-			<option value="Patricia">Patricia</option>
-		</select>
-		
-		<button id="submitPersona">Submit</button><br>
+			<button id="submitPersona">Submit</button><br>
+		</div>
 		
 		<div id="personaName"> </div>
-		<button id="btnTogglePersona"></button><br>
+	
+		<div id="getTask">
+			<label id="taskPrompt"></label><br>
+			<input id="taskInput" type="text" placeholder="Task Name">
+			<input type="submit" id="submitTask" value="Add Task"><br>
+		</div>
 		
+		<div id="taskName"></div>
+				
 		<div id="subtasks">
 			<!--	<a id="motivationsLink"> click me </a> -->
 		</div>
 		
-		<div id="idealActionQuestions"></div>
-		<div id="addIdealAction"></div>
-			
-		<div id="subtaskPrompt">Subtask</div>
-		<input id="subtaskInput" type="text" placeholder="Subtask Name"></input>
-		<input type="submit" id="submitSubtask" value="Submit"><br>
-<!--
-		<div>
-			<ul class="graph">
-				Motivation
-				<li class="facetMotivationAbby">When Needed </li>
-				
-				Information Processing Styles
-				<li class="facetProcessingAbby">Selective </li>
-				
-				<a href="#" id="facetSelfEffAbby"> Computer Self-Efficacies </a>
-				<li class="facetSelfEffAbby">Low Self-Efficacy &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp High Self-Efficacy</li>
-				
-				Attitudes towards Risk
-				<li class="facetRiskAbby">Risk-Averse &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Risk-Taking</li>
-				
-				Willingness to Tinker
-				<li class="facetTinkerAbby">Low Willingness &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp High Willingness</li>
-			</ul>
+		<div id="getAction">
+			<input id="actionInput" type="text" placeholder="Ideal Action Name">
+			<input type="submit" id="submitAction" value="Add Ideal Action"><br>
 		</div>
--->		
-	<script type="text/javascript" src="popup.js"></script>
-
+			
+		<div id="getSubtask">
+			<div id="subtaskPrompt"></div>
+			<input id="subtaskInput" type="text" placeholder="Subgoal Name">
+			<input type="submit" id="submitSubtask" value="Add Subgoal">
+		</div>
+		
+		<button id="done">Done</button><br>
+		
 	</body>
 </html>

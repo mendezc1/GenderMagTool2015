@@ -4,7 +4,7 @@
 	"description": "Inject a sidebar on the current tab when the page action is clicked",
 	"version": "0.2",
 	"background": {
-		"scripts": ["background.js"]
+		"scripts": ["jquery-1.12.0.min.js", "background.js"]
 	},
 	"browser_action": {
 		"default_popup": "popup.html",
@@ -14,13 +14,9 @@
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["script.js"],
+			"js": ["jquery-1.12.0.min.js", "script.js"],
 			"css": [ "styles.css" ]
 		}
 	],
-	"permissions": [
-		"tabs",
-		"unlimitedStorage",
-		"<all_urls>"
-	]
+	"permissions": ["storage", "tabs"]
 }

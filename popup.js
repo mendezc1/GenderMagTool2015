@@ -1,10 +1,12 @@
 var personaName = "";
 var pronoun = "";
 var possessive = "";
+
 var numSubtasks = 0;
-var numActions = 0;
+var numActions = 0; //reset for each subtask
 var personaShown = false;
 
+var complete = 0;
 
 function takeScreenShot() {
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -13,99 +15,144 @@ function takeScreenShot() {
 		});
 	});
 	chrome.windows.getCurrent(function (win) {    
-    chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
-            chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
-      });    
+    	chrome.tabs.captureVisibleTab(win.id,{"format":"png"}, function(imgUrl) {
+            //chrome.extension.getBackgroundPage().console.log("The image url ", imgUrl);   
+    	});    
 	}); 
-//more permanant change
-//chrome.browserAction.setPopup({popup: "new.html"});
-}
+};
 
+//Adds a checkbox for each of the five facets to element
+//Takes question number as input
+function addFacetCheckboxes(element, questionNumber) {
+	var questionNumber = questionNumber + 1;
+	
+	var facets = ["Motivation", "InformationProcessingStyle", "Computer Self-Efficacies",
+		"Attitude Towards Risk", "Willingness to Tinker"];
+	
+	for (var facet = 0; facet < facets.length; facet++) {
+		//Checkbox
+		$("<input/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + questionNumber + "F" + facet,
+			type: "checkbox",
+			value: facets[facet]
+		}).appendTo(element);
+	
+		//Label for Checkbox
+		$("<span/>", { html: facets[facet] }).appendTo(element);
+		
+		$("<br>").appendTo(element);
+	}
+	
+	$("<br>").appendTo(element);
+};
 
 //Adds a series of questions (array of strings) to element
 //Under each question, adds checkboxes for yes/no response and fields for explanation
-function showQuestions(element, questions) {
+function addQuestions(element, questions) {
 
 	for (var i = 0; i < questions.length; i++) {
-		var container = document.createElement("div");
-		container.class = question;
-		container.id = "S" + numSubtasks + "A" + numActions + "Q" + (i + 1);
+		var container = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) });
 		
 		//Add question text
-		var question = document.createElement("span");
-		question.innerHTML = questions[i];
-		container.appendChild(question);
+		var question = $("<span/>", { html: questions[i] }).appendTo(container);
 	
-		//Add "Yes" checkbox with field for explanation
-		var yesCheckbox = document.createElement("input");
-		yesCheckbox.type = "checkbox";
-		yesCheckbox.value = "Yes";
-		yesCheckbox.id = container.id + "YesCheckbox";
-		var yesLabel = document.createElement("span");
-		yesLabel.innerHTML = "Yes";
-		var yesResponse = document.createElement("textArea");
-		yesResponse.id = container.id + "YesResponse";
+		//Add "Yes" checkbox
+		var yesCheckbox = $("<input/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "yesCheckbox",
+			type: "checkbox",
+		    value: "Yes"
+		}).appendTo(container);
 		
-		container.appendChild(yesCheckbox);
-		container.appendChild(yesLabel);
-		container.appendChild(document.createElement("br"));
-		container.appendChild(yesResponse);
-		container.appendChild(document.createElement("br"));
+		//Add label for "Yes" checkbox
+		var yesLabel = $("<span/>", { html: "Yes" }).appendTo(container);
 		
-		//Add "No" checkbox with field for explanation
-		var noCheckbox = document.createElement("input");
-		noCheckbox.type = "checkbox";
-		noCheckbox.value = "No";
-		noCheckbox.id = container.id + "NoCheckbox"
-		var noLabel = document.createElement("span");
-		noLabel.innerHTML = "No";
-		var noResponse = document.createElement("textArea");
-		noResponse.id = container.id + "NoResponse"
-
-		container.appendChild(noCheckbox);
-		container.appendChild(noLabel);
-		container.appendChild(document.createElement("br"));
-		container.appendChild(noResponse);
-		container.appendChild(document.createElement("br"));
-		container.appendChild(document.createElement("br"));
+		$("<br>").appendTo(container);
 		
-		element.appendChild(container);
-
+		//Add response field for yes
+		var yesResponse = $("<textArea/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "YesResponse",
+			placeholder: "Why?"
+		}).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add checkboxes for facets
+		addFacetCheckboxes(container, i);
+		
+		//Add "No" checkbox
+		var noCheckbox = $("<input/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "noCheckbox",
+			type: "checkbox",
+		    value: "No"
+		}).appendTo(container);
+		
+		//Add label for "No" checkbox
+		var noLabel = $("<span/>", { html: "No" }).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add response field for no
+		var noResponse = $("<textArea/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "NoResponse",
+			placeholder: "Why not?"
+		}).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add checkboxes for facets
+		addFacetCheckboxes(container, i);
+		
+		//Add "Maybe" checkbox
+		var noCheckbox = $("<input/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeCheckbox",
+			type: "checkbox",
+		    value: "Maybe"
+		}).appendTo(container);
+		
+		//Add label for "Maybe" checkbox
+		var noLabel = $("<span/>", { html: "Maybe" }).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add response field for maybe
+		var noResponse = $("<textArea/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeResponse",
+			placeholder: "Why maybe?"
+		}).appendTo(container);
+		
+		$("<br>").appendTo(container);
+		
+		//Add checkboxes for facets
+		addFacetCheckboxes(container, i);
+		
+		container.appendTo(element);
 	}
 }
 
-
-//After addition of first subgoal
-function showIdealActionForm(subtask) {
-	var actionForm = document.getElementById("addIdealAction");
+$(document).ready(function() {
+	
+	//Reload previous html
+	var prevHTML = localStorage.getItem("popupHTML");
+	if (prevHTML != null) {
+		$("body").html(prevHTML);
+	} else {
 		
-	if (!actionForm.hasChildNodes()) {
-			
-		actionName = document.createElement("input");
-		actionName.type = "text";
-		actionName.id = "actionNameInput";
-		actionName.placeholder = "Action Name";
-		actionForm.appendChild(actionName);
-		
-		var addAction = document.createElement("input");
-		addAction.type = "submit";
-		addAction.id = "submitAction";
-		addAction.value = "Add Action to this Subtask";
-		actionForm.appendChild(addAction);
-		
+		$("#viewPersona").hide();
+	
+		$("#getAction").children().hide();	
+		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
+		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
-}
-
-
-document.getElementById('screenShot').addEventListener('click', takeScreenShot);
-//document.getElementById('motivationsLink').href="abbyMotivations"
-
-
-//Get Persona
-document.querySelector('#submitPersona').addEventListener('click', function(e) {
-		personaName = document.querySelector('option:checked').value;
-		chrome.extension.getBackgroundPage().console.log("Persona ", personaName)
-		document.getElementById('personaName').innerHTML = personaName;
+		
+	//Remove content from local storage
+	$("#done").click(function() {
+		complete = 1;
+	});
+	
+	//Get persona name
+	$("#submitPersona").click(function() {
+		personaName = $("#personaSelection").val();
+		$("#personaName").html(personaName + "<br>");
 		
 		if(personaShown == false){
 			document.getElementById('btnTogglePersona').innerHTML = "Show " + personaName;
@@ -124,133 +171,131 @@ document.querySelector('#submitPersona').addEventListener('click', function(e) {
 			possessive = "her";
 		}
 		
-		document.getElementById('personaSelection').remove();
-		document.getElementById('submitPersona').remove();
-		document.getElementById('personaPrompt').remove();
+		$("#getPersona").children().remove();
+		$("#getPersona").remove();
 		
-		document.getElementById("subtaskPrompt").innerHTML = "Enter a subtask for " + personaName + " to perform";
-
-		//Change popup.html to test.html
-		//window.location.href="test.html";
-}, false);
-
-
-//Get Task
-document.getElementById('submitTask').addEventListener('click', function(e) {
-		var taskName = document.getElementById("taskInput").value;
-		chrome.extension.getBackgroundPage().console.log("Task: ", taskName);
-		document.getElementById("taskName").innerHTML = taskName;
+		//Show task
+		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
+		$("#taskPrompt").html("Enter a task for " + personaName + " to perform");
 		
-		document.getElementById("taskInput").remove();
-		document.getElementById("taskPrompt").remove();
-		document.getElementById("submitTask").remove();
-				
-		//Change popup.html to test.html
-		//window.location.href="test.html";
-}, false);
-
-
-//Get Subtask
-document.getElementById('submitSubtask').addEventListener('click', function(e) {
-		var subtaskName = document.getElementById("subtaskInput").value;
-		chrome.extension.getBackgroundPage().console.log("Subtask: ", subtaskName);
+		//Show button to view persona
+		$("#viewPersona").show().html("View " + personaName);
 		
+	});
+	
+	//Get task name
+	$('#submitTask').click(function() {
+		var taskName = $("#taskInput").val();
+		$("#taskName").html(taskName + "<br>");
+		
+		$("#getTask").children().remove();
+		$("#getTask").remove();
+		
+		//Show subtask
+		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
+		$("#subtaskPrompt").html("Enter a subgoal for " + personaName + " to perform");
+		
+	});
+	
+	//Get Subtask
+	$("#submitSubtask").click(function() {
 		numSubtasks++;
 		numActions = 0; //reset
-		
-		var subtasks = document.getElementById("subtasks");
-		
+			
 		//Container for this subtask
-		var subtask = document.createElement("div");
-		subtask.id = "S" + numSubtasks;
+		var subtask = $("<div/>", { id: "S" + numSubtasks });
 		
-		var subtaskNameLabel = document.createElement("label");
-		subtaskNameLabel.innerHTML = subtaskName;
-		subtaskNameLabel.id = "S" + numSubtasks + "Name";
-		subtask.appendChild(subtaskNameLabel);
+		//Label for this subtask
+		var label = $("<label/>", { id: "S" + numSubtasks + "Name",
+			html: $("#subtaskInput").val() });
+		label.appendTo(subtask);
 
 		//Container for subtask questions
-		var subtaskQuestions = document.createElement("div");
-		subtaskQuestions.id = "S" + numSubtasks + "Questions";
-		subtask.appendChild(subtaskQuestions);
+		var questionContainer = $("<div/>", { id: "S" + numSubtasks + "Questions" });
+		questionContainer.appendTo(subtask);
 	
-		//Add questions to subtask container
 		var question = ["Will " + personaName + " have formed this subgoal as a step to " +
 		                possessive + " overall goal?<br>"];
-		showQuestions(subtaskQuestions, question);
+		
+		addQuestions(questionContainer, question);
 
-		//Create container to hold ideal actions (questions and responses) for subtask
-		var idealActions = document.createElement("div");
-		idealActions.id = "S" + numSubtasks + "Actions";
-		subtask.appendChild(idealActions);
-				
-		subtasks.appendChild(subtask);
+		//Container to hold ideal actions (questions and responses) for sthis ubtask
+		var idealActions = $("<div/>", { id: "S" + numSubtasks + "Actions" });
+		idealActions.appendTo(subtask);
+		
+		//Add subtask to container for all subtasks
+		subtask.appendTo("#subtasks");
 		
 		//Reset subtask form
-		document.getElementById("subtaskInput").value = "";
-		document.getElementById("subtaskPrompt").innerHTML = "";
-		document.getElementById("submitSubtask").value = "Add New Subtask"
+		$("#subtaskInput").val("");
+		$("#subtaskPrompt").html("");
+		$("#submitSubtask").val("Add New Subtask");
 		
-		//If not already rendered
-		showIdealActionForm(subtask);
-		
-		//Change popup.html to test.html
-		//window.location.href="test.html";
-}, false);
-
-
-document.getElementById('btnTogglePersona').addEventListener('click', function(e){
-		if(personaShown == false){
-		document.getElementById('btnTogglePersona').innerHTML = "Show " + personaName;
-		personaShown = true;
-	}
-	else if(personaShown == true){
-		document.getElementById('btnTogglePersona').innerHTML = "Hide " + personaName;	
-		personaShown = false;
-	}
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
-		chrome.extension.getBackgroundPage().console.log("resp ", response);
+		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
+	});
+	
+	//Show persona details
+	$("#viewPersona").click(function() {
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
+				chrome.extension.getBackgroundPage().console.log("resp ", response);
+			});
 		});
 	});
-});
-
-
-//Add ideal action
-document.getElementById('addIdealAction').addEventListener('click', function(e) {
-	//Submit button for ideal action form
-	if (event.target.id == "submitAction") {
-		
+	
+	//Add ideal action
+	$("#submitAction").click(function() {
 		numActions++;
+			
+		var actionName = $("#actionInput").val();
 		
+		//Actions for current subgoal
+		var actions = $("#S" + numSubtasks + "Actions");
+		
+		//Add this action
+		var action = $("<div/>", {
+			id: "S" + numSubtasks + "A" + numActions
+		}).appendTo(actions);
+		
+		//Add action name to container
+		$("<span/>", { html: actionName + "<br>",
+			id: "S" + numSubtasks + "A" + numActions + "Name"
+		}).appendTo(action);
+		
+		var actionQuestions = $("<div/>", {
+			id: "S" + numSubtasks + "A" + numActions + "Questions"
+		}).appendTo(action);
+			
 		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
 		var question2 = "Will " + personaName + " associate the correct action with the effect " + 
 		                pronoun + " is trying to achieve?<br>";
 		var question3 = "If the correct action is performed will " + 
 		                personaName + " see that progress is being made toward a solution to " + 
 		                possessive + " subgoal?<br>";
-	
+
 		var questions = [question1, question2, question3];
-	
-		//Create container for this ideal action
-		var idealActions = document.getElementById("S" + numSubtasks + "Actions");
-		var idealAction = document.createElement("div");
-		idealAction.id = "S" + numSubtasks + "A" + numActions;
-	
-		var actionName = document.createElement("span");
-		var actionNameInput = document.getElementById("actionNameInput");
-		chrome.extension.getBackgroundPage().console.log("IdealAction: ", actionNameInput.value);
-		actionName.innerHTML = actionNameInput.value + "<br>";
-		idealAction.appendChild(actionName);
-	
-		//Add questions and response fields to ideal action container
-		showQuestions(idealAction, questions);
+			
+		//Add questions and response fields to ideal action
+		addQuestions(actionQuestions, questions);	
 		
-		//Add ideal action to subtask
-		idealActions.appendChild(idealAction);
+		//Reset form
+		$("#actionInput").val("");
 	
-		//Reset ideal action form
-		actionNameInput.value = "";
+	});
+	
+	$('#screenShot').click(takeScreenShot());
+});
+
+// When user clicks off of tool or closes tool
+$(window).unload(function () {
+	
+	var popup = chrome.extension.getViews({ type: 'popup' })[0];
+	popupHTML = popup.document.body.innerHTML;
+	
+	//Save the current state (html) unless user is done (clicked done button)
+	if (complete == 0) {        
+    	localStorage.setItem("popupHTML", popupHTML);
+    } else {
+    	localStorage.removeItem("popupHTML");
 	}
-	
-}, false);
+});
