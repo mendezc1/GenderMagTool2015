@@ -305,8 +305,12 @@ $(document).ready(function() {
 	$("#saveProgress").click(function() {
 		var numResponseFields = 21;
 		var taskNumber = "1"; //Default for now
-		var userInput;
+
+		var entry = [];
 		var entries = [];
+		
+		lastSubgoal = null;
+		lastQuestion = null;
 		
 		$(document).each(function() {
 			allInput = ($(this).find(':input'));
@@ -321,16 +325,25 @@ $(document).ready(function() {
 				chrome.extension.getBackgroundPage().console.log(allInput[i]['value']);
 				var input = allInput[i]['value'];
 				
-				var entry = [personaName, taskNumber];
+				var subgoalNumber = id[1];
+				var actionNumber = id[3];
+				var questionNumber = id[5];
 				
-				//Get the subgoal number, action number, and question number from the input id
-				entry.push(id[1]);
-				entry.push(id[3]);
-				entry.push(id[5]);
-				
-				//Fields for responses: yes, why yes?, 5 facets, no, why no?, 5 facets... 21 total
-				for (var j = 0; j < numResponseFields; j++) {
-					entry.push("0");
+				//Create a new entry for each question
+				if ((questionNumber != lastQuestion) || (subgoalNumber != lastSubgoal)) {
+					if (entry.length != 0) {
+						entries.push(entry);
+					}
+					
+					entry = [personaName, taskNumber, subgoalNumber, actionNumber, questionNumber];
+					
+					//Initialize all other fields in entry with default value
+					for (var j = 0; j < numResponseFields; j++) {
+						entry.push("0");
+					}
+					
+					lastSubgoal = subgoalNumber;
+					lastQuestion = questionNumber;
 				}
 					
 				chrome.extension.getBackgroundPage().console.log(entry);
@@ -344,19 +357,19 @@ $(document).ready(function() {
 					case 'YesResponse':
 						entry[6] = input;
 						break;
-					case 'YF1':
+					case 'YF0':
 						entry[7] = "1";
 						break;
-					case 'YF2':
+					case 'YF1':
 						entry[8] = "1";
 						break;
-					case 'YF3':
+					case 'YF2':
 						entry[9] = "1";
 						break;
-					case 'YF4':
+					case 'YF3':
 						entry[10] = "1";
 						break;
-					case 'YF5':
+					case 'YF4':
 						entry[11] = "1";
 						break;
 					case 'noCheckbox':
@@ -365,19 +378,19 @@ $(document).ready(function() {
 					case 'NoResponse':
 						entry[13] = input;
 						break;
-					case 'NF1':
+					case 'NF0':
 						entry[14] = "1";
 						break;
-					case 'NF2':
+					case 'NF1':
 						entry[15] = "1";
 						break;
-					case 'NF3':
+					case 'NF2':
 						entry[16] = "1";
 						break;
-					case 'NF4':
+					case 'NF3':
 						entry[17] = "1";
 						break;
-					case 'NF5':
+					case 'NF4':
 						entry[18] = "1";
 						break;
 					case 'maybeCheckbox':
@@ -386,30 +399,29 @@ $(document).ready(function() {
 					case 'maybeResponse':
 						entry[20] = input;
 						break;
-					case 'MF1':
+					case 'MF0':
 						entry[21] = "1";
 						break;
-					case 'MF2':
+					case 'MF1':
 						entry[22] = "1";
 						break;
-					case 'MF3':
+					case 'MF2':
 						entry[23] = "1";
 						break;
-					case 'MF4':
+					case 'MF3':
 						entry[24] = "1";
 						break;
-					case 'MF5':
+					case 'MF4':
 						entry[25] = "1";
 						break;
 					default:
+						chrome.extension.getBackgroundPage().console.log(responseType);
 						entry[0] = "ERROR"
 				}
-				
-				entries.push(entry);	
-							
 			}
 		}
 		
+		entries.push(entry);
 		chrome.extension.getBackgroundPage().console.log(entries);
 	});
 	
