@@ -7,8 +7,6 @@ var numActions = 0; //reset for each subtask
 
 var personaShown = 0; //toggle when user clicks view/hide persona button
 
-var complete = 0;
-
 function takeScreenShot() {
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen"}, function(response) {
@@ -53,6 +51,9 @@ function addQuestions(element, questions) {
 
 	for (var i = 0; i < questions.length; i++) {
 		var container = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) });
+		var yesFacets = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "yesFacets" });
+		var noFacets = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "noFacets" });
+		var maybeFacets =$("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeFacets" });
 		
 		//Add question text
 		var question = $("<span/>", { html: questions[i] }).appendTo(container);
@@ -78,7 +79,8 @@ function addQuestions(element, questions) {
 		$("<br>").appendTo(container);
 		
 		//Add checkboxes for facets
-		addFacetCheckboxes(container, i);
+		addFacetCheckboxes(yesFacets, i);
+		yesFacets.appendTo(container);
 		
 		//Add "No" checkbox
 		var noCheckbox = $("<input/>", {
@@ -101,7 +103,8 @@ function addQuestions(element, questions) {
 		$("<br>").appendTo(container);
 		
 		//Add checkboxes for facets
-		addFacetCheckboxes(container, i);
+		addFacetCheckboxes(noFacets, i);
+		noFacets.appendTo(container);
 		
 		//Add "Maybe" checkbox
 		var noCheckbox = $("<input/>", {
@@ -124,7 +127,8 @@ function addQuestions(element, questions) {
 		$("<br>").appendTo(container);
 		
 		//Add checkboxes for facets
-		addFacetCheckboxes(container, i);
+		addFacetCheckboxes(maybeFacets, i);
+		maybeFacets.appendTo(container);
 		
 		container.appendTo(element);
 	}
@@ -154,9 +158,10 @@ $(document).ready(function() {
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
 		
-	//Remove content from local storage
+	//Don't save html on unload
 	$("#done").click(function() {
-		complete = 1;
+		$(window).unbind("unload");
+		saveForm();
 	});
 	
 	//Get persona name
@@ -296,6 +301,24 @@ $(document).ready(function() {
 	$("#screenShot").click(function() {
 		takeScreenShot();
 	});
+	
+	$("#saveProgress").click(function() {
+		var userInput;
+		
+		$(document).each(function() {
+			userInput = ($(this).find(':input'));
+			chrome.extension.getBackgroundPage().console.log(userInput);
+		});
+		
+		for (var input = 0; input < userInput.length; input++) { 
+			if ((userInput[input]["checked"] == true) || 
+			    (userInput[input]["type"] == "textarea")) {
+			    chrome.extension.getBackgroundPage().console.log(userInput[input]['id']);
+				chrome.extension.getBackgroundPage().console.log(userInput[input]['value']);
+			}
+		}
+	});
+	
 });
 
 // When user clicks off of tool or closes tool
@@ -304,23 +327,12 @@ $(window).unload(function () {
 	var popup = chrome.extension.getViews({ type: 'popup' })[0];
 	popupHTML = popup.document.body.innerHTML;
 	
-	//Save the current state (html) unless user is done (clicked done button)
-	if (complete == 0) {        
-    	localStorage.setItem("popupHTML", popupHTML);
-    	localStorage.setItem("personaName", personaName);
-    	localStorage.setItem("pronoun", pronoun);
-    	localStorage.setItem("possessive", possessive);
-    	localStorage.setItem("numSubtasks", numSubtasks);
-    	localStorage.setItem("numActions", numActions);
-    	localStorage.setItem("personaShown", personaShown);
-
-    } else {
-    	localStorage.removeItem("popupHTML");
-    	localStorage.removeItem("personaName", personaName);
-    	localStorage.removeItem("pronoun", pronoun);
-    	localStorage.removeItem("possessive", possessive);
-    	localStorage.removeItem("numSubtasks", numSubtasks);
-    	localStorage.removeItem("numActions", numActions);
-    	localStorage.removeItem("personaShown", personaShown);
-	}
+	//Save the current state (html) unless user is done (clicked done button)      
+    localStorage.setItem("popupHTML", popupHTML);
+    localStorage.setItem("personaName", personaName);
+    localStorage.setItem("pronoun", pronoun);
+    localStorage.setItem("possessive", possessive);
+    localStorage.setItem("numSubtasks", numSubtasks);
+    localStorage.setItem("numActions", numActions);
+    localStorage.setItem("personaShown", personaShown);
 });
