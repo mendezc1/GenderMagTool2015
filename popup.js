@@ -22,7 +22,7 @@ function takeScreenShot() {
 
 //Adds a checkbox for each of the five facets to element
 //Takes question number as input
-function addFacetCheckboxes(element, questionNumber) {
+function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
 	var questionNumber = questionNumber + 1;
 	
 	var facets = ["Motivation", "InformationProcessingStyle", "Computer Self-Efficacies",
@@ -31,7 +31,7 @@ function addFacetCheckboxes(element, questionNumber) {
 	for (var facet = 0; facet < facets.length; facet++) {
 		//Checkbox
 		$("<input/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + questionNumber + "F" + facet,
+			id: "S" + numSubtasks + "A" + numActions + "Q" + questionNumber + yesNoMaybe + "F" + facet,
 			type: "checkbox",
 			value: facets[facet]
 		}).appendTo(element);
@@ -79,7 +79,7 @@ function addQuestions(element, questions) {
 		$("<br>").appendTo(container);
 		
 		//Add checkboxes for facets
-		addFacetCheckboxes(yesFacets, i);
+		addFacetCheckboxes(yesFacets, i, "Y");
 		yesFacets.appendTo(container);
 		
 		//Add "No" checkbox
@@ -103,7 +103,7 @@ function addQuestions(element, questions) {
 		$("<br>").appendTo(container);
 		
 		//Add checkboxes for facets
-		addFacetCheckboxes(noFacets, i);
+		addFacetCheckboxes(noFacets, i, "N");
 		noFacets.appendTo(container);
 		
 		//Add "Maybe" checkbox
@@ -127,7 +127,7 @@ function addQuestions(element, questions) {
 		$("<br>").appendTo(container);
 		
 		//Add checkboxes for facets
-		addFacetCheckboxes(maybeFacets, i);
+		addFacetCheckboxes(maybeFacets, i, "M");
 		maybeFacets.appendTo(container);
 		
 		container.appendTo(element);
@@ -303,20 +303,114 @@ $(document).ready(function() {
 	});
 	
 	$("#saveProgress").click(function() {
+		var numResponseFields = 21;
+		var taskNumber = "1"; //Default for now
 		var userInput;
+		var entries = [];
 		
 		$(document).each(function() {
-			userInput = ($(this).find(':input'));
-			chrome.extension.getBackgroundPage().console.log(userInput);
+			allInput = ($(this).find(':input'));
 		});
 		
-		for (var input = 0; input < userInput.length; input++) { 
-			if ((userInput[input]["checked"] == true) || 
-			    (userInput[input]["type"] == "textarea")) {
-			    chrome.extension.getBackgroundPage().console.log(userInput[input]['id']);
-				chrome.extension.getBackgroundPage().console.log(userInput[input]['value']);
+		for (var i = 0; i < allInput.length; i++) { 
+			if ((allInput[i]["checked"] == true) || 
+			    (allInput[i]["type"] == "textarea")) {
+			    
+			    chrome.extension.getBackgroundPage().console.log(allInput[i]['id']);
+			    var id = allInput[i]['id'];
+				chrome.extension.getBackgroundPage().console.log(allInput[i]['value']);
+				var input = allInput[i]['value'];
+				
+				var entry = [personaName, taskNumber];
+				
+				//Get the subgoal number, action number, and question number from the input id
+				entry.push(id[1]);
+				entry.push(id[3]);
+				entry.push(id[5]);
+				
+				//Fields for responses: yes, why yes?, 5 facets, no, why no?, 5 facets... 21 total
+				for (var j = 0; j < numResponseFields; j++) {
+					entry.push("0");
+				}
+					
+				chrome.extension.getBackgroundPage().console.log(entry);
+				chrome.extension.getBackgroundPage().console.log(id.substring(6));
+				var responseType = id.substring(6);
+				
+				switch(responseType) {
+					case 'yesCheckbox':
+						entry[5] = "1";
+						break;
+					case 'YesResponse':
+						entry[6] = input;
+						break;
+					case 'YF1':
+						entry[7] = "1";
+						break;
+					case 'YF2':
+						entry[8] = "1";
+						break;
+					case 'YF3':
+						entry[9] = "1";
+						break;
+					case 'YF4':
+						entry[10] = "1";
+						break;
+					case 'YF5':
+						entry[11] = "1";
+						break;
+					case 'noCheckbox':
+						entry[12] = "1";
+						break;
+					case 'NoResponse':
+						entry[13] = input;
+						break;
+					case 'NF1':
+						entry[14] = "1";
+						break;
+					case 'NF2':
+						entry[15] = "1";
+						break;
+					case 'NF3':
+						entry[16] = "1";
+						break;
+					case 'NF4':
+						entry[17] = "1";
+						break;
+					case 'NF5':
+						entry[18] = "1";
+						break;
+					case 'maybeCheckbox':
+						entry[19] = "1";
+						break;
+					case 'maybeResponse':
+						entry[20] = input;
+						break;
+					case 'MF1':
+						entry[21] = "1";
+						break;
+					case 'MF2':
+						entry[22] = "1";
+						break;
+					case 'MF3':
+						entry[23] = "1";
+						break;
+					case 'MF4':
+						entry[24] = "1";
+						break;
+					case 'MF5':
+						entry[25] = "1";
+						break;
+					default:
+						entry[0] = "ERROR"
+				}
+				
+				entries.push(entry);	
+							
 			}
 		}
+		
+		chrome.extension.getBackgroundPage().console.log(entries);
 	});
 	
 });
