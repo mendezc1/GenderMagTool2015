@@ -4,6 +4,7 @@
 		<link href="styles.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
 		<script type="text/javascript" src="popup.js"></script>
+		<script type="text/javascript" src="form.js"></script>
 		<title>GenderMag</title>
 	</head>
 	<body style = "width: 300px">
@@ -27,11 +28,11 @@
 	
 		<div id="getTask">
 			<label id="taskPrompt"></label><br>
-			<input id="taskInput" type="text" placeholder="Task Name">
+			<input id="taskInput" type="text" placeholder="eg Needs to fire Sue">
 			<input type="submit" id="submitTask" value="Add Task"><br>
 		</div>
 		
-		<div id="taskName"></div>
+		<div id="taskName"></div><br>
 				
 		<div id="subtasks">
 			<!--	<a id="motivationsLink"> click me </a> -->
@@ -48,7 +49,8 @@
 			<input type="submit" id="submitSubtask" value="Add Subgoal">
 		</div>
 		
-		<button id="done">Done</button><br>
+		<button id="saveProgress">Save Progress</button>
+		<button id="done">Save and Exit</button>
 		
 	</body>
 </html>
