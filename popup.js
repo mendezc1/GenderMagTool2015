@@ -308,12 +308,6 @@ $(document).ready(function() {
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
-		
-	//Don't save html on unload
-	$("#done").click(function() {
-		$(window).unbind("unload");
-		saveForm();
-	});
 	
 	//Get persona name
 	$("#submitPersona").click(function() {
@@ -452,7 +446,7 @@ $(document).ready(function() {
 	
 	});
 	
-	$("#saveProgress").click(function() {
+	$("#saveAndExit").click(function() {
 		$(document).each(function() {
 			allInput = ($(this).find(':input'));
 		});
@@ -460,6 +454,15 @@ $(document).ready(function() {
 		csv = createCSV(parseUserInput(allInput));
 		downloadCSV(csv);
 		
+		//After save, don't save html on unload
+		$(window).unbind("unload");
+		localStorage.removeItem("popupHTML");
+    	localStorage.removeItem("personaName");
+    	localStorage.removeItem("pronoun");
+    	localStorage.removeItem("possessive");
+    	localStorage.removeItem("numSubtasks");
+    	localStorage.removeItem("numActions");
+    	localStorage.removeItem("personaShown");		
 	});
 	
 });
