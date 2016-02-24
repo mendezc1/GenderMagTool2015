@@ -1,29 +1,15 @@
 /*Handle requests from background.html*/
-/*
-chrome.runtime.onMessage.addListener(
-	function(
-		//The object data with the request params
-		request, 
-		//These last two ones isn't important for this example, if you want know more about it visit: http://code.google.com/chrome/extensions/messaging.html
-		sender, sendResponse
-		) {
-			chrome.extension.getBackgroundPage().console.log("in script.js", request);
-			console.log("normal log");
-			if (request.callFunction == "toggleSidebar")
-				toggleSidebar();
-	}
-);*/
 console.log("in script.js");
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.greeting == "toggleSidebar"){
-      sendResponse({farewell: "Sidebar toggled"});
 		console.log("normal log");
 		toggleSidebar();
+		sendResponse({farewell: "Sidebar toggled"});
 	}
 	else if(request.greeting == "overlayScreen"){
-		sendResponse({farewell: "Screen overlayed"});
 		overlayScreen();
+		sendResponse({farewell: "takeScreenShot"});
 	}
   });
 
@@ -117,7 +103,6 @@ function toggleSidebar() {
 			
 			}
 
-/*		//console.log("before if");
 		if(!document.getElementById('genderMagCanvasContainer')){
 			//console.log("In toggle sidebar");
 			var canvasContainer = document.createElement('div');
@@ -200,7 +185,7 @@ function toggleSidebar() {
 			ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
 		}
 		init();
-		*/
+		
 		console.log("At the end of toggle sidebar");
 }
 function overlayScreen(){
@@ -265,7 +250,14 @@ function overlayScreen(){
 				elm = document.elementFromPoint(rect.startX, rect.startY);
 			}
 			console.log(elm);
+			var highlightClick = document.createElement("div");
+			highlightClick.id = "highlightClick";
+			document.body.appendChild(highlightClick);
+			highlightClick.style.left = rect.startX-40 + "px";
+			highlightClick.style.top = rect.startY-20 + "px";
+			console.log("Clicked ", highlightClick)
 			
+		
 			console.log(elements);
 			for(var element in elements){
 				console.log(element.style.display);
@@ -286,4 +278,5 @@ function overlayScreen(){
 			ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
 		}
 		init();
+		
 }

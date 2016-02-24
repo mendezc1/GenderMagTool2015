@@ -9,12 +9,20 @@ var personaShown = 0; //toggle when user clicks view/hide persona button
 
 var complete = 0;
 
-function takeScreenShot() {
+
+
+function callOverlay(){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen"}, function(response) {
-		chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
+			chrome.extension.getBackgroundPage().console.log("response from script.js ", response.farewell);
+			if(response.farewell == "takeScreenShot"){
+				takeScreenShot();
+			}
 		});
 	});
+}
+function takeScreenShot() {
+
 	chrome.windows.getCurrent(function (win) {    
     	chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
             chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   
@@ -123,11 +131,20 @@ function addQuestions(element, questions) {
 		
 		$("<br>").appendTo(container);
 		
+	
 		//Add checkboxes for facets
 		addFacetCheckboxes(container, i);
+			
+		var screenShotButton = $("<button>", {
+			class: "screenShot",
+			html: "Click here, then show me the action"
+		}).appendTo(container)
+		
 		
 		container.appendTo(element);
-	}
+	
+	}	
+
 }
 
 $(document).ready(function() {
@@ -233,6 +250,9 @@ $(document).ready(function() {
 		$("#submitSubtask").val("Add New Subtask");
 		
 		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
+		$(".screenShot").click(function() {
+			callOverlay();
+		});
 	});
 	
 	//Show persona details
@@ -293,9 +313,7 @@ $(document).ready(function() {
 	
 	});
 	
-	$("#screenShot").click(function() {
-		takeScreenShot();
-	});
+
 });
 
 // When user clicks off of tool or closes tool
