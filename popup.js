@@ -25,7 +25,7 @@ function takeScreenShot() {
 function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
 	var questionNumber = questionNumber + 1;
 	
-	var facets = ["Motivation", "InformationProcessingStyle", "Computer Self-Efficacies",
+	var facets = ["Motivation", "Information Processing Style", "Computer Self-Efficacies",
 		"Attitude Towards Risk", "Willingness to Tinker"];
 	
 	for (var facet = 0; facet < facets.length; facet++) {
@@ -44,6 +44,143 @@ function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
 	
 	$("<br>").appendTo(element);
 };
+
+function parseUserInput(allInput) {
+	var numResponseFields = 21;
+	var taskName = $("#taskName").html();
+
+	var entry = [];
+	var entries = [];
+		
+	lastSubgoal = null;
+	lastQuestion = null;
+	
+	for (var i = 0; i < allInput.length; i++) { 
+		if ((allInput[i]["checked"] == true) || (allInput[i]["type"] == "textarea")) {
+			    
+			var id = allInput[i]['id'];
+			var input = allInput[i]['value'];
+				
+			var subgoalNumber = id[1];
+			var actionNumber = id[3];
+			var questionNumber = id[5];
+				
+			//Create a new entry for each question
+			if ((questionNumber != lastQuestion) || (subgoalNumber != lastSubgoal)) {
+				if (entry.length != 0) {
+					entries.push(entry);
+				}
+					
+				var subgoalName = $("#S" + subgoalNumber + "Name").html();
+				var actionName = $("#S" + subgoalNumber + "A" + actionNumber + "Name").html();
+				
+				entry = [personaName, taskName, subgoalName, actionName, questionNumber];
+					
+				//Init with default value
+				for (var j = 0; j < numResponseFields; j++) {
+					entry.push("0");
+				}
+					
+				lastSubgoal = subgoalNumber;
+				lastQuestion = questionNumber;
+			}
+
+			var responseType = id.substring(6);
+			switch(responseType) {
+				case 'yesCheckbox':
+					entry[5] = "1";
+					break;
+				case 'YesResponse':
+					entry[6] = input;
+					break;
+				case 'YF0':
+					entry[7] = "1";
+					break;
+				case 'YF1':
+					entry[8] = "1";
+					break;
+				case 'YF2':
+					entry[9] = "1";
+					break;
+				case 'YF3':
+					entry[10] = "1";
+					break;
+				case 'YF4':
+					entry[11] = "1";
+					break;
+				case 'noCheckbox':
+					entry[12] = "1";
+					break;
+				case 'NoResponse':
+					entry[13] = input;
+					break;
+				case 'NF0':
+					entry[14] = "1";
+					break;
+				case 'NF1':
+					entry[15] = "1";
+					break;
+				case 'NF2':
+					entry[16] = "1";
+					break;
+				case 'NF3':
+					entry[17] = "1";
+					break;
+				case 'NF4':
+					entry[18] = "1";
+					break;
+				case 'maybeCheckbox':
+					entry[19] = "1";
+					break;
+				case 'maybeResponse':
+					entry[20] = input;
+					break;
+				case 'MF0':
+					entry[21] = "1";
+					break;
+				case 'MF1':
+					entry[22] = "1";
+					break;
+				case 'MF2':
+					entry[23] = "1";
+					break;
+				case 'MF3':
+					entry[24] = "1";
+					break;
+				case 'MF4':
+					entry[25] = "1";
+					break;
+				default:
+					entry[0] = "ERROR IN THIS ENTRY"
+			}
+		}
+	}
+
+	entries.push(entry);
+	return entries;
+}
+
+function createCSV(entries) {
+	var csvContent = "data:text/csv;charset=utf-8,";
+	var header = ["Persona", "Task", "Subgoal", "Action", "Question",
+		"Yes", "Why", "Motiv", "Risk", "Tinker", "SE", "Info",
+		"No", "Why", "Motiv", "Risk", "Tinker", "SE", "Info",
+		"Maybe", "Why", "Motiv", "Risk", "Tinker", "SE", "Info"]
+		
+	csvContent += header.join(",") + "\n";
+		
+	entries.forEach(function(entry, index){
+		var dataString = entry.join(",");
+   		csvContent += index < entries.length ? dataString + "\n" : dataString;
+	});
+	
+	return csvContent;
+}
+
+function downloadCSV(csvContent) {
+	var encodedUri = encodeURI(csvContent);
+	window.open(encodedUri);
+}
 
 //Adds a series of questions (array of strings) to element
 //Under each question, adds checkboxes for yes/no response and fields for explanation
@@ -192,7 +329,7 @@ $(document).ready(function() {
 	//Get task name
 	$('#submitTask').click(function() {
 		var taskName = $("#taskInput").val();
-		$("#taskName").html(taskName + "<br>");
+		$("#taskName").html(taskName);
 		
 		$("#getTask").children().remove();
 		$("#getTask").remove();
@@ -303,126 +440,13 @@ $(document).ready(function() {
 	});
 	
 	$("#saveProgress").click(function() {
-		var numResponseFields = 21;
-		var taskNumber = "1"; //Default for now
-
-		var entry = [];
-		var entries = [];
-		
-		lastSubgoal = null;
-		lastQuestion = null;
-		
 		$(document).each(function() {
 			allInput = ($(this).find(':input'));
 		});
 		
-		for (var i = 0; i < allInput.length; i++) { 
-			if ((allInput[i]["checked"] == true) || 
-			    (allInput[i]["type"] == "textarea")) {
-			    
-			    chrome.extension.getBackgroundPage().console.log(allInput[i]['id']);
-			    var id = allInput[i]['id'];
-				chrome.extension.getBackgroundPage().console.log(allInput[i]['value']);
-				var input = allInput[i]['value'];
-				
-				var subgoalNumber = id[1];
-				var actionNumber = id[3];
-				var questionNumber = id[5];
-				
-				//Create a new entry for each question
-				if ((questionNumber != lastQuestion) || (subgoalNumber != lastSubgoal)) {
-					if (entry.length != 0) {
-						entries.push(entry);
-					}
-					
-					entry = [personaName, taskNumber, subgoalNumber, actionNumber, questionNumber];
-					
-					//Initialize all other fields in entry with default value
-					for (var j = 0; j < numResponseFields; j++) {
-						entry.push("0");
-					}
-					
-					lastSubgoal = subgoalNumber;
-					lastQuestion = questionNumber;
-				}
-					
-				chrome.extension.getBackgroundPage().console.log(entry);
-				chrome.extension.getBackgroundPage().console.log(id.substring(6));
-				var responseType = id.substring(6);
-				
-				switch(responseType) {
-					case 'yesCheckbox':
-						entry[5] = "1";
-						break;
-					case 'YesResponse':
-						entry[6] = input;
-						break;
-					case 'YF0':
-						entry[7] = "1";
-						break;
-					case 'YF1':
-						entry[8] = "1";
-						break;
-					case 'YF2':
-						entry[9] = "1";
-						break;
-					case 'YF3':
-						entry[10] = "1";
-						break;
-					case 'YF4':
-						entry[11] = "1";
-						break;
-					case 'noCheckbox':
-						entry[12] = "1";
-						break;
-					case 'NoResponse':
-						entry[13] = input;
-						break;
-					case 'NF0':
-						entry[14] = "1";
-						break;
-					case 'NF1':
-						entry[15] = "1";
-						break;
-					case 'NF2':
-						entry[16] = "1";
-						break;
-					case 'NF3':
-						entry[17] = "1";
-						break;
-					case 'NF4':
-						entry[18] = "1";
-						break;
-					case 'maybeCheckbox':
-						entry[19] = "1";
-						break;
-					case 'maybeResponse':
-						entry[20] = input;
-						break;
-					case 'MF0':
-						entry[21] = "1";
-						break;
-					case 'MF1':
-						entry[22] = "1";
-						break;
-					case 'MF2':
-						entry[23] = "1";
-						break;
-					case 'MF3':
-						entry[24] = "1";
-						break;
-					case 'MF4':
-						entry[25] = "1";
-						break;
-					default:
-						chrome.extension.getBackgroundPage().console.log(responseType);
-						entry[0] = "ERROR"
-				}
-			}
-		}
+		csv = createCSV(parseUserInput(allInput));
+		downloadCSV(csv);
 		
-		entries.push(entry);
-		chrome.extension.getBackgroundPage().console.log(entries);
 	});
 	
 });
