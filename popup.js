@@ -343,7 +343,7 @@ $(document).ready(function() {
 		$("#teamName").html(teamName);
 		
 		$("#getTeam").children().hide();
-		$("#getPersona").children().show();
+		$("#getPersona").children().fadeTo(500, 1).attr("disabled",  false);
 		
 	});
 	
@@ -391,6 +391,9 @@ $(document).ready(function() {
 		numSubtasks++;
 		numActions = 0; //reset
 			
+		//Clear the hint in the field for subtask name/description
+		$("#subtaskInput").attr("placeholder", "");
+		
 		//Container for this subtask
 		var subtask = $("<div/>", { id: "S" + numSubtasks });
 		
@@ -447,7 +450,10 @@ $(document).ready(function() {
 	//Add ideal action
 	$("#submitAction").click(function() {
 		numActions++;
-			
+		
+		//Clear the hint in the field for subtask name/description
+		$("#actionInput").attr("placeholder", "");
+		
 		var actionName = $("#actionInput").val();
 		
 		//Actions for current subgoal
