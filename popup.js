@@ -319,6 +319,25 @@ $(document).ready(function() {
 	var prevHTML = localStorage.getItem("popupHTML");
 	if (prevHTML != null) {
 		$("body").html(prevHTML);
+		
+		//Restore user input (state before they clicked away from popup)
+		$(document).each(function() {
+			allInput = ($(this).find(':input'));
+		});
+	
+		for (var i = 0; i < allInput.length; i++) {
+			var id = allInput[i]["id"];
+			var type = allInput[i]["type"]
+		
+			var value = localStorage.getItem(id);
+			chrome.extension.getBackgroundPage().console.log(value);
+			
+			if (type == "checkbox") {
+				$("#" + id).attr("checked", $.parseJSON(value)); //convert string to bool
+			} else {
+				$("#" + id).val(value);
+			}
+		}
     	
     	//Restore global variables
     	personaName = localStorage.getItem("personaName");
@@ -498,15 +517,11 @@ $(document).ready(function() {
 		csv = createCSV(parseUserInput(allInput));
 		downloadCSV(csv);
 		
-		//After save, don't save html on unload
+		//After save, don't store html on unload
 		$(window).unbind("unload");
-		localStorage.removeItem("popupHTML");
-    	localStorage.removeItem("personaName");
-    	localStorage.removeItem("pronoun");
-    	localStorage.removeItem("possessive");
-    	localStorage.removeItem("numSubtasks");
-    	localStorage.removeItem("numActions");
-    	localStorage.removeItem("personaShown");		
+		
+		//Remove input and global variables
+		localStorage.clear();		
 	});
 	
 });
@@ -516,6 +531,24 @@ $(window).unload(function () {
 	
 	var popup = chrome.extension.getViews({ type: 'popup' })[0];
 	popupHTML = popup.document.body.innerHTML;
+	
+	$(document).each(function() {
+		allInput = ($(this).find(':input'));
+	});
+	
+	for (var i = 0; i < allInput.length; i++) {
+		var id = allInput[i]["id"];
+		var type = allInput[i]["type"]
+		var checked = allInput[i]["checked"]
+		var value = allInput[i]["value"]
+		
+		//Save the values of checkboxes and text areas (all input besides buttons)
+		if (type == "checkbox") {
+			localStorage.setItem(id, checked);
+		} else if (type != "button") {
+			localStorage.setItem(id, value);
+		}
+	}
 	
 	//Save the current state (html) unless user is done (clicked done button)      
     localStorage.setItem("popupHTML", popupHTML);
