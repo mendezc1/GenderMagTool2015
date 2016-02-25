@@ -331,8 +331,8 @@ $(document).ready(function() {
 	} else {
 		
 		$("#viewPersona").hide();
-		$("#getPersona").children().hide();
-		$("#getAction").children().hide();	
+		$("#getAction").children().hide();
+		$("#getPersona").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
