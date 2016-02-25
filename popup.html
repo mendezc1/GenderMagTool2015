@@ -4,13 +4,20 @@
 		<link href="styles.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
 		<script type="text/javascript" src="popup.js"></script>
-		<script type="text/javascript" src="form.js"></script>
 		<title>GenderMag</title>
 	</head>
 	<body style = "width: 300px">
 	
 
 	<button id="viewPersona" personaShown="false"></button><br>		
+		
+		<div id="getTeam">
+			<label id="teamPrompt">Team Name</label><br>
+			<input id="teamInput" type="text" placeholder="eg Mobile Group">
+			<input type="submit" id="submitTeam"><br>
+		</div>
+		
+		<div id="teamName"></div>
 		
 		<div id="getPersona">
 			<label id="personaPrompt">Select a Persona</label>

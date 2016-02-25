@@ -6,7 +6,21 @@ var numSubtasks = 0;
 var numActions = 0; //reset for each subtask
 
 var personaShown = 0; //toggle when user clicks view/hide persona button
-var complete = 0;
+
+function today() {
+	var date = new Date();
+	var month = date.getMonth() + 1;
+	var dayOfMonth = date.getDate();
+	var year = date.getFullYear();
+	
+	return month + "/" + dayOfMonth + "/" + year;
+}
+
+function now() {
+	var date = new Date();
+	return date.getHours() + ":" + date.getMinutes();
+}
+
 
 function callOverlay(){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -18,6 +32,8 @@ function callOverlay(){
 		});
 	});
 }
+
+
 function takeScreenShot() {
 
 	chrome.windows.getCurrent(function (win) {    
@@ -53,8 +69,12 @@ function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
 };
 
 function parseUserInput(allInput) {
-	var numResponseFields = 21;
 	var taskName = $("#taskName").html();
+	var teamName = $("#teamName").html();
+	
+	//Three possible responses for each question (yes, no, or maybe)
+	//Checkbox, text area, and 5 facets under each response (7 total inputs per response)
+	var numInputsPerResponse = 21;
 
 	var entry = [];
 	var entries = [];
@@ -65,14 +85,15 @@ function parseUserInput(allInput) {
 	for (var i = 0; i < allInput.length; i++) { 
 		if ((allInput[i]["checked"] == true) || (allInput[i]["type"] == "textarea")) {
 			    
-			var id = allInput[i]['id'];
+			var responseId = allInput[i]['id'];
 			var input = allInput[i]['value'];
 				
-			var subgoalNumber = id[1];
-			var actionNumber = id[3];
-			var questionNumber = id[5];
+			var subgoalNumber = responseId[1];
+			var actionNumber = responseId[3];
+			var questionNumber = responseId[5];
 				
-			//Create a new entry for each question
+			//If on the same question for the same subgoal, update current entry
+			//Otherwise, add current entry to list of entries and create a new entry
 			if ((questionNumber != lastQuestion) || (subgoalNumber != lastSubgoal)) {
 				if (entry.length != 0) {
 					entries.push(entry);
@@ -80,11 +101,16 @@ function parseUserInput(allInput) {
 					
 				var subgoalName = $("#S" + subgoalNumber + "Name").html();
 				var actionName = $("#S" + subgoalNumber + "A" + actionNumber + "Name").html();
+				var date = today();
+				var time = now();
 				
-				entry = [personaName, taskName, subgoalName, actionName, questionNumber];
+				entry = [date, time, teamName, personaName, taskName, subgoalName, actionName, questionNumber];
+				//Allows for adding more columns to beginning of the entry (array above)
+				//without altering the ridiculous switch statement below
+				prefix = entry.length;
 					
 				//Init with default value
-				for (var j = 0; j < numResponseFields; j++) {
+				for (var j = 0; j < numInputsPerResponse; j++) {
 					entry.push("0");
 				}
 					
@@ -92,70 +118,70 @@ function parseUserInput(allInput) {
 				lastQuestion = questionNumber;
 			}
 
-			var responseType = id.substring(6);
-			switch(responseType) {
+			var inputId = responseId.substring(6);
+			switch(inputId) {
 				case 'yesCheckbox':
-					entry[5] = "1";
+					entry[prefix + 1] = "1";
 					break;
 				case 'YesResponse':
-					entry[6] = input;
+					entry[prefix + 2] = input;
 					break;
 				case 'YF0':
-					entry[7] = "1";
+					entry[prefix + 3] = "1";
 					break;
 				case 'YF1':
-					entry[8] = "1";
+					entry[prefix + 4] = "1";
 					break;
 				case 'YF2':
-					entry[9] = "1";
+					entry[prefix + 5] = "1";
 					break;
 				case 'YF3':
-					entry[10] = "1";
+					entry[prefix + 6] = "1";
 					break;
 				case 'YF4':
-					entry[11] = "1";
+					entry[prefix + 7] = "1";
 					break;
 				case 'noCheckbox':
-					entry[12] = "1";
+					entry[prefix + 8] = "1";
 					break;
 				case 'NoResponse':
-					entry[13] = input;
+					entry[prefix + 9] = input;
 					break;
 				case 'NF0':
-					entry[14] = "1";
+					entry[prefix + 10] = "1";
 					break;
 				case 'NF1':
-					entry[15] = "1";
+					entry[prefix + 11] = "1";
 					break;
 				case 'NF2':
-					entry[16] = "1";
+					entry[prefix + 12] = "1";
 					break;
 				case 'NF3':
-					entry[17] = "1";
+					entry[prefix + 13] = "1";
 					break;
 				case 'NF4':
-					entry[18] = "1";
+					entry[prefix + 14] = "1";
 					break;
 				case 'maybeCheckbox':
-					entry[19] = "1";
+					entry[prefix + 15] = "1";
 					break;
 				case 'maybeResponse':
-					entry[20] = input;
+					entry[prefix + 16] = input;
 					break;
 				case 'MF0':
-					entry[21] = "1";
+					entry[prefix + 17] = "1";
 					break;
 				case 'MF1':
-					entry[22] = "1";
+					entry[prefix + 18] = "1";
 					break;
 				case 'MF2':
-					entry[23] = "1";
+					entry[prefix + 19] = "1";
 					break;
 				case 'MF3':
-					entry[24] = "1";
+					entry[prefix + 20] = "1";
 					break;
 				case 'MF4':
-					entry[25] = "1";
+					entry[prefix + 21] = "1";
 					break;
 				default:
 					entry[0] = "ERROR IN THIS ENTRY"
@@ -163,7 +189,9 @@ function parseUserInput(allInput) {
 		}
 	}
 
+	//Add the last entry
 	entries.push(entry);
+	
 	return entries;
 }
 
@@ -303,11 +331,21 @@ $(document).ready(function() {
 	} else {
 		
 		$("#viewPersona").hide();
-	
+		$("#getPersona").children().hide();
 		$("#getAction").children().hide();	
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
+	
+	//Get team name
+	$("#submitTeam").click(function() {
+		var teamName = $("#teamInput").val();
+		$("#teamName").html(teamName);
+		
+		$("#getTeam").children().hide();
+		$("#getPersona").children().show();
+		
+	});
 	
 	//Get persona name
 	$("#submitPersona").click(function() {
