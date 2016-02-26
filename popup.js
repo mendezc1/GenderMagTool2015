@@ -358,7 +358,7 @@ $(document).ready(function() {
 	
 	//According menu
     $(function() {
-    	$( ".accordion" ).accordion();
+    	$(".accordion").accordion({ heightStyle: "content" });
   	});
 	
 	//Get team name
