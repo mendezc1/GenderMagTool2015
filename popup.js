@@ -493,13 +493,11 @@ $(document).ready(function() {
 		}).appendTo(action);
 			
 		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
-		var question2 = "Will " + personaName + " associate the correct action with the effect " + 
-		                pronoun + " is trying to achieve?<br>";
 		var question3 = "If the correct action is performed will " + 
 		                personaName + " see that progress is being made toward a solution to " + 
 		                possessive + " subgoal?<br>";
 
-		var questions = [question1, question2, question3];
+		var questions = [question1, question3];
 			
 		//Add questions and response fields to ideal action
 		addQuestions(actionQuestions, questions);	
