@@ -330,11 +330,10 @@ $(document).ready(function() {
 			var type = allInput[i]["type"]
 		
 			var value = localStorage.getItem(id);
-			chrome.extension.getBackgroundPage().console.log(value);
 			
 			if (type == "checkbox") {
 				$("#" + id).attr("checked", $.parseJSON(value)); //convert string to bool
-			} else {
+			} else if (type != "submit") {
 				$("#" + id).val(value);
 			}
 		}
@@ -359,7 +358,6 @@ $(document).ready(function() {
 	//According menu
     $(function() {
     	$( ".accordion" ).accordion();
-    	chrome.extension.getBackgroundPage().console.log("Here");   
   	});
 	
 	//Get team name
@@ -443,8 +441,9 @@ $(document).ready(function() {
 		//Add subtask to container for all subtasks
 		subtask.appendTo("#subtasks");
 		
-		//According menu
+		//Open accordion menu to this subtask
     	$(".accordion").accordion("refresh");
+    	$(".accordion").accordion({ active: numSubtasks - 1 }); //Zero-based index of panel
 		
 		//Reset subtask form
 		$("#subtaskInput").val("");
