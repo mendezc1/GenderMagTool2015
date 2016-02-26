@@ -229,6 +229,7 @@ function addQuestions(element, questions) {
 		
 		//Add question text
 		var question = $("<span/>", { html: questions[i] }).appendTo(container);
+		question.addClass("cwQuestion");
 	
 		//Add "Yes" checkbox
 		var yesCheckbox = $("<input/>", {
