@@ -5,6 +5,8 @@ var possessive = "";
 var numSubtasks = 0;
 var numActions = 0; //reset for each subtask
 
+var numAccordionPanels = 0;
+
 var personaShown = 0; //toggle when user clicks view/hide persona button
 
 function today() {
@@ -217,6 +219,7 @@ function downloadCSV(csvContent) {
 	window.open(encodedUri);
 }
 
+
 //Adds a series of questions (array of strings) to element
 //Under each question, adds checkboxes for yes/no response and fields for explanation
 function addQuestions(element, questions) {
@@ -306,12 +309,16 @@ function addQuestions(element, questions) {
 		var screenShotButton = $("<button>", {
 			class: "screenShot",
 			html: "Click here, then show me the action"
-		}).appendTo(container)
+		}).appendTo(container);
+		
+		var removeSubtask = $("<button>", {
+			class: "removeSubtask",
+			id: "Remove" + numSubtasks,
+			html: "Remove This Subgoal"
+		}).appendTo(container);
 		
 		container.appendTo(element);
-	
 	}	
-
 }
 
 $(document).ready(function() {
@@ -413,6 +420,7 @@ $(document).ready(function() {
 	//Get Subtask
 	$("#submitSubtask").click(function() {
 		numSubtasks++;
+		numAccordionPanels++;
 		numActions = 0; //reset
 			
 		//Clear the hint in the field for subtask name/description
@@ -444,7 +452,7 @@ $(document).ready(function() {
 		
 		//Open accordion menu to this subtask
     	$(".accordion").accordion("refresh");
-    	$(".accordion").accordion({ active: numSubtasks - 1 }); //Zero-based index of panel
+    	$(".accordion").accordion({ active: numAccordionPanels - 1}); //Zero-based index of panel
 		
 		//Reset subtask form
 		$("#subtaskInput").val("");
@@ -452,6 +460,7 @@ $(document).ready(function() {
 		$("#submitSubtask").val("Add New Subtask");
 		
 		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
+		
 		$(".screenShot").click(function() {
 			callOverlay();
 		});
@@ -514,6 +523,17 @@ $(document).ready(function() {
 		//Reset form
 		$("#actionInput").val("");
 	
+	});
+	
+	$("body").on("click", "button.removeSubtask", function() {
+		var id = event.target.id;
+		var subtaskNumber = id[id.length - 1];
+				
+		$("#S" + subtaskNumber).remove();
+		$("#S" + subtaskNumber + "Name").remove();
+		
+		numAccordionPanels--;
+		$(".accordion").accordion("refresh");
 	});
 	
 	$("#saveAndExit").click(function() {

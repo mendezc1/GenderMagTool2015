@@ -8,10 +8,7 @@
 		<script src="popup.js"></script>
 		<title>GenderMag</title>
 	</head>
-	<body style = "width: 300px">
-	
-
-	<button id="viewPersona" personaShown="false"></button><br>		
+	<body style = "width: 300px">		
 		
 		<div id="getTeam">
 			<label id="teamPrompt">Team Name</label><br>
@@ -19,7 +16,7 @@
 			<input type="submit" id="submitTeam"><br>
 		</div>
 		
-		<div id="teamName"></div>
+		<h3 id="teamName"></h3>
 		
 		<div id="getPersona">
 			<label id="personaPrompt">Select a Persona</label>
@@ -33,7 +30,10 @@
 			<button id="submitPersona">Submit</button><br>
 		</div>
 		
-		<div id="personaName"> </div>
+		<h2 id="taskName"></div><h2>
+		<h2 id="personaName"> </h2>
+		
+		<button id="viewPersona" personaShown="false"></button><br>
 	
 		<div id="getTask">
 			<label id="taskPrompt"></label><br>
@@ -41,7 +41,6 @@
 			<input type="submit" id="submitTask" value="Add Task"><br>
 		</div>
 		
-		<div id="taskName"></div><br>
 				
 		<div class="accordion" id="subtasks">
 		</div>
