@@ -356,6 +356,12 @@ $(document).ready(function() {
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
 	}
 	
+	//According menu
+    $(function() {
+    	$( ".accordion" ).accordion();
+    	chrome.extension.getBackgroundPage().console.log("Here");   
+  	});
+	
 	//Get team name
 	$("#submitTeam").click(function() {
 		var teamName = $("#teamInput").val();
@@ -413,13 +419,13 @@ $(document).ready(function() {
 		//Clear the hint in the field for subtask name/description
 		$("#subtaskInput").attr("placeholder", "");
 		
+		//Label for this subtask
+		var label = $("<h3/>", { id: "S" + numSubtasks + "Name",
+			html: $("#subtaskInput").val() });
+		label.appendTo("#subtasks");
+		
 		//Container for this subtask
 		var subtask = $("<div/>", { id: "S" + numSubtasks });
-		
-		//Label for this subtask
-		var label = $("<label/>", { id: "S" + numSubtasks + "Name",
-			html: $("#subtaskInput").val() });
-		label.appendTo(subtask);
 
 		//Container for subtask questions
 		var questionContainer = $("<div/>", { id: "S" + numSubtasks + "Questions" });
@@ -436,6 +442,9 @@ $(document).ready(function() {
 		
 		//Add subtask to container for all subtasks
 		subtask.appendTo("#subtasks");
+		
+		//According menu
+    	$(".accordion").accordion("refresh");
 		
 		//Reset subtask form
 		$("#subtaskInput").val("");
