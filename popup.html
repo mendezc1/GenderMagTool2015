@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html> 
 	<head>
-		<link href="styles.css" rel="stylesheet" type="text/css">
-		<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
-		<script type="text/javascript" src="popup.js"></script>
+		<link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
+		<link rel="stylesheet" href="styles.css">
+		<script src="jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
+		<script src="jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+		<script src="popup.js"></script>
 		<title>GenderMag</title>
 	</head>
 	<body style = "width: 300px">
 	
 
 	<button id="viewPersona" personaShown="false"></button><br>		
+		
+		<div id="getTeam">
+			<label id="teamPrompt">Team Name</label><br>
+			<input id="teamInput" type="text" placeholder="eg Mobile Group">
+			<input type="submit" id="submitTeam"><br>
+		</div>
+		
+		<div id="teamName"></div>
 		
 		<div id="getPersona">
 			<label id="personaPrompt">Select a Persona</label>
@@ -27,28 +37,27 @@
 	
 		<div id="getTask">
 			<label id="taskPrompt"></label><br>
-			<input id="taskInput" type="text" placeholder="Task Name">
+			<input id="taskInput" type="text" placeholder="eg Needs to fire Sue">
 			<input type="submit" id="submitTask" value="Add Task"><br>
 		</div>
 		
-		<div id="taskName"></div>
+		<div id="taskName"></div><br>
 				
-		<div id="subtasks">
-			<!--	<a id="motivationsLink"> click me </a> -->
+		<div class="accordion" id="subtasks">
 		</div>
 		
 		<div id="getAction">
-			<input id="actionInput" type="text" placeholder="Ideal Action Name">
+			<input id="actionInput" type="text" placeholder="eg Type 'Sue' in Search field">
 			<input type="submit" id="submitAction" value="Add Ideal Action"><br>
 		</div>
 			
 		<div id="getSubtask">
 			<div id="subtaskPrompt"></div>
-			<input id="subtaskInput" type="text" placeholder="Subgoal Name">
+			<input id="subtaskInput" type="text" placeholder="eg Search for 'Sue'">
 			<input type="submit" id="submitSubtask" value="Add Subgoal">
 		</div>
 		
-		<button id="done">Done</button><br>
+		<button id="saveAndExit">Save and Exit</button>
 		
 	</body>
 </html>
