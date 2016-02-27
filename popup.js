@@ -22,7 +22,6 @@ function callOverlay(){
 	});
 }
 function takeScreenShot() {
-
 	chrome.windows.getCurrent(function (win) {    
     	chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
             chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   

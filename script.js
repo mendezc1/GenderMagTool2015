@@ -167,7 +167,6 @@ function toggleSidebar() {
 			
 			console.log(elements);
 			for(var element in elements){
-				console.log(element.style.display);
 				if(element.id == "genderMagCanvas" || element.id == "genderMagCanvasContainer" ){
 					element.style.display = "default";
 				}
