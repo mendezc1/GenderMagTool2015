@@ -318,6 +318,7 @@ $(document).ready(function() {
 	//Reload previous html
 	var prevHTML = localStorage.getItem("popupHTML");
 	if (prevHTML != null) {
+	
 		$("body").html(prevHTML);
 		
 		//Restore user input (state before they clicked away from popup)
@@ -344,7 +345,7 @@ $(document).ready(function() {
     	possessive = localStorage.getItem("possessive");
     	numSubtasks = localStorage.getItem("numSubtasks");
     	numActions = localStorage.getItem("numActions");
-    	personaShown = localStorage.getItem("personaShown");
+    	//personaShown = localStorage.getItem("personaShown");
     	
 	} else {
 		
@@ -391,8 +392,8 @@ $(document).ready(function() {
 		$("#taskPrompt").html("Enter a task for " + personaName + " to perform");
 		
 		//Show button to view persona
-		$("#viewPersona").show().html("View " + personaName);
-		
+		$("#viewPersona").show().html("Show " + personaName);
+		personaShown = true;
 	});
 	
 	//Get task name
@@ -458,17 +459,17 @@ $(document).ready(function() {
 	
 	//Show persona details
 	$("#viewPersona").click(function() {
-		if (personaShown == false) {
-			personaShown = true;
+		if (personaShown == true) {
+			personaShown = false;
 			$(this).html("Hide " + personaName);
 		} else {
-			personaShown = false;
+			personaShown = true;
 			$(this).html("Show " + personaName);
 		}
 		
 		//Open persona view
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar"}, function(response) {
+			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar", selection: personaName}, function(response) {
 				chrome.extension.getBackgroundPage().console.log("resp ", response);
 			});
 		});
@@ -563,5 +564,5 @@ $(window).unload(function () {
     localStorage.setItem("possessive", possessive);
     localStorage.setItem("numSubtasks", numSubtasks);
     localStorage.setItem("numActions", numActions);
-    localStorage.setItem("personaShown", personaShown);
+    //localStorage.setItem("personaShown", personaShown);
 });

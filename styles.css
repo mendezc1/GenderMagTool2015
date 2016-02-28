@@ -9,6 +9,11 @@
 	width: 100px;
 }
 
+.personaPhoto{
+	height: 100px;
+	width: 100px;
+}
+
 #mySidebar{
 	top: 0px;
 	bottom: 0px;
@@ -27,7 +32,7 @@
 	padding:20px;
 	opacity: .99;
 	background-color: white;
-	z-index 10001;
+	z-index: 10001;
 }
 
 .cwQuestion {
@@ -56,25 +61,25 @@ ul.graph li
 }
 ul.graph li.facetMotivationAbby
 {
-	background: -webkit-linear-gradient(left, orange, orange 20%, red 40%, red);
+	background: -webkit-linear-gradient(left, green, green 20%, red 40%, red);
 }
 	
 ul.graph li.facetProcessingAbby
 {
-	background: -webkit-linear-gradient(left, orange, orange 80%, red 40%, red);
+	background: -webkit-linear-gradient(left, green, green 80%, red 40%, red);
 }
 
 ul.graph li.facetSelfEffAbby
 {
-	background: -webkit-linear-gradient(left, orange, orange 30%, red 40%, red);
+	background: -webkit-linear-gradient(left, green, green 30%, red 40%, red);
 }
 
 ul.graph li.facetRiskAbby
 {
-	background: -webkit-linear-gradient(left, orange, orange 60%, red 40%, red);
+	background: -webkit-linear-gradient(left, green, green 60%, red 40%, red);
 }
 
 ul.graph li.facetTinkerAbby
 {
-	background: -webkit-linear-gradient(left, orange, orange 60%, red 40%, red);
+	background: -webkit-linear-gradient(left, green, green 60%, red 40%, red);
 }
