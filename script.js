@@ -9,8 +9,12 @@ chrome.runtime.onMessage.addListener(
 		sendResponse({farewell: "Sidebar toggled"});
 	}
 	else if(request.greeting == "overlayScreen"){
-		overlayScreen();
-		sendResponse({farewell: "takeScreenShot"});
+		if(!request.closeSidebar){
+			toggleSidebar("close");
+		}
+		console.log("requrest ", request)
+		var elementClicked = overlayScreen();
+		sendResponse({farewell: "takeScreenShot", userAction: elementClicked});
 	}
   });
 
@@ -24,6 +28,9 @@ function toggleSidebar(personaSelection) {
 			var el = document.getElementById('mySidebar');
 			el.parentNode.removeChild(el);
 			sidebarOpen = false;
+		}
+		else if (personaSelection == "close"){
+			return; 
 		}
 		else {
 		console.log("in else statement")
@@ -58,7 +65,7 @@ function selectTim(){
 	document.getElementById('mySidebar').appendChild(persona);		
 			
 	var timPhoto = document.createElement('img');
-	timPhoto.src = chrome.extension.getURL("images/Abby-lowres.jpg"); 
+	timPhoto.src = chrome.extension.getURL("images/Tim-lowres.jpg"); 
 	timPhoto.className = "personaPhoto";
 	document.getElementById('timPersona').appendChild(timPhoto);
 }
@@ -69,7 +76,7 @@ function selectPatrick(){
 	document.getElementById('mySidebar').appendChild(persona);		
 			
 	var timPhoto = document.createElement('img');
-	timPhoto.src = chrome.extension.getURL("images/Abby-lowres.jpg"); 
+	timPhoto.src = chrome.extension.getURL("images/Patrick-lowres.jpg"); 
 	timPhoto.className = "personaPhoto";
 	document.getElementById('timPersona').appendChild(timPhoto);
 }
@@ -80,16 +87,21 @@ function selectPatricia(){
 	document.getElementById('mySidebar').appendChild(persona);		
 			
 	var timPhoto = document.createElement('img');
-	timPhoto.src = chrome.extension.getURL("images/Abby-lowres.jpg"); 
+	timPhoto.src = chrome.extension.getURL("images/Patricia-lowres.jpg"); 
 	timPhoto.className = "personaPhoto";
 	document.getElementById('timPersona').appendChild(timPhoto);
 }
 function selectAbby(){
 		//<A NAME="abbyBackground">
+			var abbyPhotoContainer = document.createElement('div');
+			abbyPhotoContainer.id = "abbyPhotoContainer";
+			abbyPhotoContainer.className = "personaPhotoContainer"
 			var abbyPhoto = document.createElement('img');
 			abbyPhoto.src = chrome.extension.getURL("images/Abby-lowres.jpg"); 
 			abbyPhoto.className = "personaPhoto"
 			
+			var graphContainer = document.createElement('span');
+			graphContainer.id = "graphContainer";
 			var graphsAbby = "<ul class=\"graph\">\
 								<a href=\"#abbyMotivations\">Motivation</a>\
 								<li class=\"facetMotivationAbby\">When Needed </li>\
@@ -115,14 +127,18 @@ function selectAbby(){
 			//sidebar.innerHTML = ;			
 			var abbyBackgroundLink = document.createElement('a');
 			abbyBackgroundLink.href = "#abbyBackground"
+			abbyBackgroundLink.className = "facetLink";
 			var abbyBackgroundJump = document.createElement('a');
 			abbyBackgroundJump.name = "abbyBackground";
+			abbyBackgroundJump.className = "facetLink";
 			
 			var abbyMotivationsJump = document.createElement('a');
 			abbyMotivationsJump.name = "abbyMotivations"
+			abbyMotivationsJump.className = "facetLink";
 			
 			var abbyTechnologyJump = document.createElement('a');
 			abbyTechnologyJump.name = "abbyTechnology";
+			abbyTechnologyJump.className = "facetLink"
 			
 			var persona = document.createElement('div');
 			persona.id = "abbyPersona";
@@ -132,12 +148,25 @@ function selectAbby(){
 			var abbyMotivationsH = document.createElement('h2');
 			var abbyTechnologyH = document.createElement('h2');
 			
+			var abbyBackground   = document.createElement('div');
+			abbyBackground.className = "personaParagraph";
+			abbyBackground.id = "abbyBackground";
+			
 			var abbyBackgroundP1 = document.createElement('li');
 			var abbyBackgroundP2 = document.createElement('li');
 			var abbyBackgroundP3 = document.createElement('li');
 			
+			
+			var abbyMotivations	  = document.createElement('div');
+			abbyMotivations.id    = "abbyMotivations";
+			abbyMotivations.className = "personaParagraph";
+			
 			var abbyMotivationsP1 = document.createElement('li');
 			var abbyMotivationsP2 = document.createElement('li')
+			
+			var abbyTechnology   = document.createElement('div');
+			abbyTechnology.id    = "abbyTechnology";
+			abbyTechnology.className = "personaParagraph";
 			
 			var abbyTechnologyP1 = document.createElement('li');
 			var abbyTechnologyP2 = document.createElement('li');
@@ -145,33 +174,38 @@ function selectAbby(){
 			var abbyTechnologyP4 = document.createElement('li');
 			
 			var abbyGraphs = document.createElement('div');
-				
+			
 				
 				document.getElementById('mySidebar').appendChild(persona);
 				
 				
 				//document.getElementById('abbyPersona').appendChild(abbyBackgroundLink);
-				document.getElementById('abbyPersona').appendChild(abbyPhoto);
+				
 				document.getElementById('abbyPersona').appendChild(abbyHeader);
-				document.getElementById('abbyPersona').appendChild(abbyGraphs);
+				document.getElementById('abbyPersona').appendChild(abbyPhoto);
+				document.getElementById('abbyPersona').appendChild(graphContainer);
+				document.getElementById('graphContainer').appendChild(abbyGraphs);
 				
 				document.getElementById('abbyPersona').appendChild(abbyBackgroundJump);
 				document.getElementById('abbyPersona').appendChild(abbyBackgroundH);
-				document.getElementById('abbyPersona').appendChild(abbyBackgroundP1);
-				document.getElementById('abbyPersona').appendChild(abbyBackgroundP2);
-				document.getElementById('abbyPersona').appendChild(abbyBackgroundP3);
+				document.getElementById('abbyPersona').appendChild(abbyBackground)
+				document.getElementById('abbyBackground').appendChild(abbyBackgroundP1);
+				document.getElementById('abbyBackground').appendChild(abbyBackgroundP2);
+				document.getElementById('abbyBackground').appendChild(abbyBackgroundP3);
 				
 				document.getElementById('abbyPersona').appendChild(abbyMotivationsJump);
 				document.getElementById('abbyPersona').appendChild(abbyMotivationsH);
-				document.getElementById('abbyPersona').appendChild(abbyMotivationsP1);
-				document.getElementById('abbyPersona').appendChild(abbyMotivationsP2);
+				document.getElementById('abbyPersona').appendChild(abbyMotivations);
+				document.getElementById('abbyMotivations').appendChild(abbyMotivationsP1);
+				document.getElementById('abbyMotivations').appendChild(abbyMotivationsP2);
 
 				document.getElementById('abbyPersona').appendChild(abbyTechnologyJump);
 				document.getElementById('abbyPersona').appendChild(abbyTechnologyH);
-				document.getElementById('abbyPersona').appendChild(abbyTechnologyP1);
-				document.getElementById('abbyPersona').appendChild(abbyTechnologyP2);
-				document.getElementById('abbyPersona').appendChild(abbyTechnologyP3);
-				document.getElementById('abbyPersona').appendChild(abbyTechnologyP4);
+				document.getElementById('abbyPersona').appendChild(abbyTechnology);
+				document.getElementById('abbyTechnology').appendChild(abbyTechnologyP1);
+				document.getElementById('abbyTechnology').appendChild(abbyTechnologyP2);
+				document.getElementById('abbyTechnology').appendChild(abbyTechnologyP3);
+				document.getElementById('abbyTechnology').appendChild(abbyTechnologyP4);
 								
 				
 				abbyGraphs.innerHTML = graphsAbby;
@@ -257,7 +291,7 @@ function overlayScreen(){
 				elm.style.display = "none";
 				elm = document.elementFromPoint(rect.startX, rect.startY);
 			}
-			console.log(elm);
+			console.log("element" , elm.innerText, elm.textContent);
 			var highlightClick = document.createElement("div");
 			highlightClick.id = "highlightClick";
 			document.body.appendChild(highlightClick);
@@ -268,11 +302,15 @@ function overlayScreen(){
 		
 			console.log(elements);
 			for(var element in elements){
-				console.log(element.style.display);
 				if(element.id == "genderMagCanvas" || element.id == "genderMagCanvasContainer" ){
 					element.style.display = "default";
 				}
 			}
+			chrome.runtime.sendMessage({greeting: "takeScreenShot", userAction: elm.innerText}, function(response) {
+				console.log(response);
+			});
+			console.log("sending message");
+//			return elm
 		}
 		function mouseMove(e) {
 			if (drag) {
@@ -286,5 +324,4 @@ function overlayScreen(){
 			ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
 		}
 		init();
-		
 }

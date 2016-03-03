@@ -7,6 +7,16 @@ var numActions = 0; //reset for each subtask
 
 var personaShown = 0; //toggle when user clicks view/hide persona button
 
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.greeting == "takeScreenShot"){
+      	takeScreenShot();
+		console.log("useraction ", request.userAction);
+		sendResponse({farewell: "Screenshot taken"})
+	}
+	
+});
+
 function today() {
 	var date = new Date();
 	var month = date.getMonth() + 1;
@@ -24,13 +34,15 @@ function now() {
 
 function callOverlay(){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen"}, function(response) {
-			chrome.extension.getBackgroundPage().console.log("response from script.js ", response.farewell);
+		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen", closeSidebar: personaShown, selection: personaName}, function(response) {
+			chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
 			if(response.farewell == "takeScreenShot"){
-				takeScreenShot();
+			//	takeScreenShot();
 			}
 		});
 	});
+	$("#screenShot").remove();
+	
 }
 
 
@@ -55,7 +67,7 @@ function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
 		$("<input/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + questionNumber + yesNoMaybe + "F" + facet,
 			type: "checkbox",
-			value: facets[facet]
+			value: facets[facet],
 		}).appendTo(element);
 	
 		//Label for Checkbox
@@ -231,85 +243,96 @@ function addQuestions(element, questions) {
 		question.addClass("cwQuestion");
 	
 		//Add "Yes" checkbox
-		var yesCheckbox = $("<input/>", {
+	/*	var yesCheckbox = $("<input/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "yesCheckbox",
 			type: "checkbox",
 		    value: "Yes"
 		}).appendTo(container);
-		
+	*/	
 		//Add label for "Yes" checkbox
-		var yesLabel = $("<span/>", { html: "Yes" }).appendTo(container);
+	//	var yesLabel = $("<span/>", { html: "Yes" }).appendTo(container);
 		
 		$("<br>").appendTo(container);
-		
+		$('body').css('width', '500px');
 		//Add response field for yes
 		var yesResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "YesResponse",
-			placeholder: "Why?"
+			placeholder: "Why?",
+			style: "display:inline"
 		}).appendTo(container);
 		
-		$("<br>").appendTo(container);
+	//	$("<br>").appendTo(container);
 		
-		//Add checkboxes for facets
-		addFacetCheckboxes(yesFacets, i, "Y");
-		yesFacets.appendTo(container);
+		
 		
 		//Add "No" checkbox
-		var noCheckbox = $("<input/>", {
+/*		var noCheckbox = $("<input/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "noCheckbox",
 			type: "checkbox",
 		    value: "No"
 		}).appendTo(container);
-		
+*/		
 		//Add label for "No" checkbox
-		var noLabel = $("<span/>", { html: "No" }).appendTo(container);
+		//var noLabel = $("<span/>", { html: "No" }).appendTo(container);
 		
-		$("<br>").appendTo(container);
+		//$("<br>").appendTo(container);
 		
 		//Add response field for no
 		var noResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "NoResponse",
-			placeholder: "Why not?"
+			placeholder: "Why not?",
+			style: "display:inline"
 		}).appendTo(container);
 		
-		$("<br>").appendTo(container);
-		
-		//Add checkboxes for facets
-		addFacetCheckboxes(noFacets, i, "N");
-		noFacets.appendTo(container);
+		//$("<br>").appendTo(container);
 		
 		//Add "Maybe" checkbox
-		var noCheckbox = $("<input/>", {
+		/*var noCheckbox = $("<input/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeCheckbox",
 			type: "checkbox",
 		    value: "Maybe"
 		}).appendTo(container);
-		
+		*/
 		//Add label for "Maybe" checkbox
-		var noLabel = $("<span/>", { html: "Maybe" }).appendTo(container);
+		//var noLabel = $("<span/>", { html: "Maybe" }).appendTo(container);
 		
-		$("<br>").appendTo(container);
+		//$("<br>").appendTo(container);
 		
 		//Add response field for maybe
 		var noResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeResponse",
-			placeholder: "Why maybe?"
+			placeholder: "Why maybe?",
+			style: "display:inline"
 		}).appendTo(container);
 		
-		$("<br>").appendTo(container);
+	//	$("<br>").appendTo(container);
+		/*
+		//Add checkboxes for Yes facets
+		addFacetCheckboxes(yesFacets, i, "Y");
+		yesFacets.css('display', 'inline');
+		yesFacets.appendTo(container);
 		
-		//Add checkboxes for facets
+		//Add checkboxes for No facets
+		addFacetCheckboxes(noFacets, i, "N");
+		noFacets.css('display', 'inline')
+		noFacets.after(yesFacets);
+		
+		//Add checkboxes for Maybe facets
 		addFacetCheckboxes(maybeFacets, i, "M");
-		maybeFacets.appendTo(container);
-			
-		var screenShotButton = $("<button>", {
-			class: "screenShot",
-			html: "Click here, then show me the action"
-		}).appendTo(container)
+		maybeFacets.css('display', 'inline');
+		maybeFacets.after(noFacets);
+		*/
+	
 		
 		container.appendTo(element);
 	
 	}	
+	var screenShotButton = $("<button>", {
+			id: "screenShot",
+			html: "Click here, then show me the action"
+	}).appendTo(container)
+	
+	
 
 }
 
@@ -320,7 +343,7 @@ $(document).ready(function() {
 	if (prevHTML != null) {
 	
 		$("body").html(prevHTML);
-		
+		$("body").css('width',  '500px');
 		//Restore user input (state before they clicked away from popup)
 		$(document).each(function() {
 			allInput = ($(this).find(':input'));
@@ -364,7 +387,7 @@ $(document).ready(function() {
 	//Get team name
 	$("#submitTeam").click(function() {
 		var teamName = $("#teamInput").val();
-		$("#teamName").html(teamName);
+		$("#teamName").html("Team Name: "+ teamName);
 		
 		$("#getTeam").children().hide();
 		$("#getPersona").children().fadeTo(500, 1).attr("disabled",  false);
@@ -374,7 +397,7 @@ $(document).ready(function() {
 	//Get persona name
 	$("#submitPersona").click(function() {
 		personaName = $("#personaSelection").val();
-		$("#personaName").html(personaName + "<br>");
+		$("#personaName").html("Persona Name: " + personaName + "<br>");
 		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
@@ -399,7 +422,7 @@ $(document).ready(function() {
 	//Get task name
 	$('#submitTask').click(function() {
 		var taskName = $("#taskInput").val();
-		$("#taskName").html(taskName);
+		$("#taskName").html("Task Name: " + taskName);
 		
 		$("#getTask").children().remove();
 		$("#getTask").remove();
@@ -420,7 +443,7 @@ $(document).ready(function() {
 		
 		//Label for this subtask
 		var label = $("<h3/>", { id: "S" + numSubtasks + "Name",
-			html: $("#subtaskInput").val() });
+			html: "Subgoal: " + $("#subtaskInput").val() });
 		label.appendTo("#subtasks");
 		
 		//Container for this subtask
@@ -449,12 +472,11 @@ $(document).ready(function() {
 		//Reset subtask form
 		$("#subtaskInput").val("");
 		$("#subtaskPrompt").html("");
-		$("#submitSubtask").val("Add New Subtask");
-		
-		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
-		$(".screenShot").click(function() {
+		$("#submitSubtask").val("Add New Subgoal");
+		$("#screenShot").click(function() {
 			callOverlay();
 		});
+		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
 	});
 	
 	//Show persona details
@@ -516,6 +538,10 @@ $(document).ready(function() {
 	
 	});
 	
+	$("#screenShot").click(function() {
+			callOverlay();
+	});
+	
 	$("#saveAndExit").click(function() {
 		$(document).each(function() {
 			allInput = ($(this).find(':input'));
@@ -565,4 +591,5 @@ $(window).unload(function () {
     localStorage.setItem("numSubtasks", numSubtasks);
     localStorage.setItem("numActions", numActions);
     //localStorage.setItem("personaShown", personaShown);
+	
 });
