@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener(
     if (request.greeting == "takeScreenShot"){
       	takeScreenShot();
 		console.log("useraction ", request.userAction);
+		$("#subtaskInput").attr("placeholder", "Clicked " + request.userAction + " button")
 		sendResponse({farewell: "Screenshot taken"})
 	}
 	
@@ -316,12 +317,15 @@ function addQuestions(element, questions) {
 		addFacetCheckboxes(noFacets, i, "N");
 		noFacets.css('display', 'inline')
 		noFacets.after(yesFacets);
-		
+		*/
+		var question = $("<span/>", { html: "What facets did you use to answer this question?" }).appendTo(container);
+		question.addClass("cwQuestion");
 		//Add checkboxes for Maybe facets
 		addFacetCheckboxes(maybeFacets, i, "M");
-		maybeFacets.css('display', 'inline');
-		maybeFacets.after(noFacets);
-		*/
+		//maybeFacets.css('display', 'inline');
+		//maybeFacets.css('border', 'solid blue 2px')
+		maybeFacets.appendTo(container);
+	
 	
 		
 		container.appendTo(element);

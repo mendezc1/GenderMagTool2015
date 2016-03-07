@@ -15,6 +15,7 @@ chrome.runtime.onMessage.addListener(
 		console.log("requrest ", request)
 		var elementClicked = overlayScreen();
 		sendResponse({farewell: "takeScreenShot", userAction: elementClicked});
+		
 	}
   });
 
@@ -255,7 +256,7 @@ function overlayScreen(){
 		canvas.style.height = canvasContainer.scrollHeight+"px";
 		canvas.id = "genderMagCanvas";
 		canvas.position = "fixed";
-		canvas.style.cssText = "z-index:100; background:red; width:100%; height:100%;";
+		canvas.style.cssText = "z-index:100; background:blue; width:100%; height:100%;";
 		canvas.style.opacity = .50;
 		canvas.width=canvasContainer.scrollWidth;
 		canvas.height=canvasContainer.scrollHeight;
@@ -308,6 +309,7 @@ function overlayScreen(){
 			}
 			chrome.runtime.sendMessage({greeting: "takeScreenShot", userAction: elm.innerText}, function(response) {
 				console.log(response);
+				document.getElementById("highlightClick").remove();
 			});
 			console.log("sending message");
 //			return elm
