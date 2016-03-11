@@ -543,7 +543,13 @@ $(document).ready(function() {
 		var questions = [question1, question3];
 			
 		//Add questions and response fields to ideal action
-		addQuestions(actionQuestions, questions, numActions + 1);	
+		addQuestions(actionQuestions, questions, numActions + 1);
+		
+		var removeAction = $("<button>", {
+			class: "removeAction",
+			id: "Remove" + actionId,
+			html: "Remove This Action"
+		}).appendTo(action);	
 		
 		//Reset form and move to the bottom of the panel
 		$(this).attr("placeholder", "");
@@ -559,6 +565,21 @@ $(document).ready(function() {
 		$("#S" + subtaskNumber + "Name").remove();
 		
 		numSubtasks--;
+		$(".accordion").accordion("refresh");
+	});
+	
+	$("body").on("click", "button.removeAction", function() {
+		var id = event.target.id;
+		var subtaskNumber = id[7];
+		var actionNumber = id[9];
+				
+		$("#S" + subtaskNumber + "A" + actionNumber).remove();
+		
+		//Reduce the action count for the subgoal
+		prevNumActions = $("#S" + subtaskNumber).attr("numactions");
+		curNumActions = parseInt(prevNumActions) - 1;
+		$("#S" + subtaskNumber).attr("numactions", curNumActions);
+		
 		$(".accordion").accordion("refresh");
 	});
 	
