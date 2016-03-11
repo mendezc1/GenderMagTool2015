@@ -3,9 +3,6 @@ var pronoun = "";
 var possessive = "";
 
 var numSubtasks = 0;
-var numActions = 0; //reset for each subtask
-
-var numAccordionPanels = 0;
 
 var personaShown = 0; //toggle when user clicks view/hide persona button
 
@@ -67,7 +64,7 @@ function takeScreenShot() {
 
 //Adds a checkbox for each of the five facets to element
 //Takes question number as input
-function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
+function addFacetCheckboxes(element, questionNumber, actionNum, yesNoMaybe) {
 	var questionNumber = questionNumber + 1;
 	
 	var facets = ["Motivation", "Information Processing Style", "Computer Self-Efficacies",
@@ -76,7 +73,7 @@ function addFacetCheckboxes(element, questionNumber, yesNoMaybe) {
 	for (var facet = 0; facet < facets.length; facet++) {
 		//Checkbox
 		$("<input/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + questionNumber + yesNoMaybe + "F" + facet,
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + questionNumber + yesNoMaybe + "F" + facet,
 			type: "checkbox",
 			value: facets[facet],
 		}).appendTo(element);
@@ -242,13 +239,13 @@ function downloadCSV(csvContent) {
 
 //Adds a series of questions (array of strings) to element
 //Under each question, adds checkboxes for yes/no response and fields for explanation
-function addQuestions(element, questions) {
+function addQuestions(element, questions, actionNum) {
 
 	for (var i = 0; i < questions.length; i++) {
-		var container = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) });
-		var yesFacets = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "yesFacets" });
-		var noFacets = $("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "noFacets" });
-		var maybeFacets =$("<div/>", { id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeFacets" });
+		var container = $("<div/>", { id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) });
+		var yesFacets = $("<div/>", { id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "yesFacets" });
+		var noFacets = $("<div/>", { id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "noFacets" });
+		var maybeFacets =$("<div/>", { id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "maybeFacets" });
 		
 		//Add question text
 		var question = $("<span/>", { html: questions[i] }).appendTo(container);
@@ -256,7 +253,7 @@ function addQuestions(element, questions) {
 	
 		//Add "Yes" checkbox
 	/*	var yesCheckbox = $("<input/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "yesCheckbox",
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "yesCheckbox",
 			type: "checkbox",
 		    value: "Yes"
 		}).appendTo(container);
@@ -268,7 +265,7 @@ function addQuestions(element, questions) {
 		$('body').css('width', '500px');
 		//Add response field for yes
 		var yesResponse = $("<textArea/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "YesResponse",
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "YesResponse",
 			placeholder: "Why?",
 			style: "display:inline"
 		}).appendTo(container);
@@ -279,7 +276,7 @@ function addQuestions(element, questions) {
 		
 		//Add "No" checkbox
 /*		var noCheckbox = $("<input/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "noCheckbox",
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "noCheckbox",
 			type: "checkbox",
 		    value: "No"
 		}).appendTo(container);
@@ -291,7 +288,7 @@ function addQuestions(element, questions) {
 		
 		//Add response field for no
 		var noResponse = $("<textArea/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "NoResponse",
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "NoResponse",
 			placeholder: "Why not?",
 			style: "display:inline"
 		}).appendTo(container);
@@ -300,7 +297,7 @@ function addQuestions(element, questions) {
 		
 		//Add "Maybe" checkbox
 		/*var noCheckbox = $("<input/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeCheckbox",
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "maybeCheckbox",
 			type: "checkbox",
 		    value: "Maybe"
 		}).appendTo(container);
@@ -312,7 +309,7 @@ function addQuestions(element, questions) {
 		
 		//Add response field for maybe
 		var noResponse = $("<textArea/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Q" + (i + 1) + "maybeResponse",
+			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "maybeResponse",
 			placeholder: "Why maybe?",
 			style: "display:inline"
 		}).appendTo(container);
@@ -320,26 +317,23 @@ function addQuestions(element, questions) {
 	//	$("<br>").appendTo(container);
 		/*
 		//Add checkboxes for Yes facets
-		addFacetCheckboxes(yesFacets, i, "Y");
+		addFacetCheckboxes(yesFacets, i, actionNum, "Y");
 		yesFacets.css('display', 'inline');
 		yesFacets.appendTo(container);
 		
 		//Add checkboxes for No facets
-		addFacetCheckboxes(noFacets, i, "N");
+		addFacetCheckboxes(noFacets, i, actionNum, "N");
 		noFacets.css('display', 'inline')
 		noFacets.after(yesFacets);
 		*/
 		var question = $("<span/>", { html: "What facets did you use to answer this question?" }).appendTo(container);
 		question.addClass("cwQuestion");
 		//Add checkboxes for Maybe facets
-		addFacetCheckboxes(maybeFacets, i, "M");
+		addFacetCheckboxes(maybeFacets, i, actionNum, "M");
 		//maybeFacets.css('display', 'inline');
 		//maybeFacets.css('border', 'solid blue 2px')
 		maybeFacets.appendTo(container);
-			
-	
-
-		
+					
 		container.appendTo(element);
 	}
 	var screenShotButton = $("<button>", {
@@ -385,13 +379,11 @@ $(document).ready(function() {
     	pronoun = localStorage.getItem("pronoun");
     	possessive = localStorage.getItem("possessive");
     	numSubtasks = localStorage.getItem("numSubtasks");
-    	numActions = localStorage.getItem("numActions");
     	//personaShown = localStorage.getItem("personaShown");
     	
 	} else {
 		
 		$("#viewPersona").hide();
-		$("#getAction").children().hide();
 		$("#getPersona").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
@@ -454,8 +446,6 @@ $(document).ready(function() {
 	//Get Subtask
 	$("#submitSubtask").click(function() {
 		numSubtasks++;
-		numAccordionPanels++;
-		numActions = 0; //reset
 			
 		//Clear the hint in the field for subtask name/description
 		$("#subtaskInput").attr("placeholder", "");
@@ -466,7 +456,7 @@ $(document).ready(function() {
 		label.appendTo("#subtasks");
 		
 		//Container for this subtask
-		var subtask = $("<div/>", { id: "S" + numSubtasks });
+		var subtask = $("<div/>", { id: "S" + numSubtasks, numactions: 0 });
 
 		//Container for subtask questions
 		var questionContainer = $("<div/>", { id: "S" + numSubtasks + "Questions" });
@@ -475,10 +465,24 @@ $(document).ready(function() {
 		var question = ["Will " + personaName + " have formed this subgoal as a step to " +
 		                possessive + " overall goal?<br>"];
 		
-		addQuestions(questionContainer, question);
+		addQuestions(questionContainer, question, 0);
+				
+		var removeSubtask = $("<button>", {
+			class: "removeSubtask",
+			id: "Remove" + numSubtasks,
+			html: "Remove This Subgoal"
+		}).appendTo(subtask);
 
 		//Container to hold ideal actions (questions and responses) for sthis ubtask
 		var idealActions = $("<div/>", { id: "S" + numSubtasks + "Actions" });
+		
+		var addAction = $("<div/>", { class: "getAction", type: "text" });
+		var actionInput = $("<input/>", { class: "actionInput", type: "text", placeholder: "Type 'Sue in Search Field" });
+		var submitAction = $("<input/>", { class: "submitAction", type: "submit", value: "Add Ideal Action" });
+		
+		actionInput.appendTo(addAction);
+		submitAction.appendTo(addAction);
+		addAction.appendTo(idealActions);
 		idealActions.appendTo(subtask);
 		
 		//Add subtask to container for all subtasks
@@ -486,7 +490,7 @@ $(document).ready(function() {
 		
 		//Open accordion menu to this subtask
     	$(".accordion").accordion("refresh");
-    	$(".accordion").accordion({ active: numAccordionPanels - 1}); //Zero-based index of panel
+    	$(".accordion").accordion({ active: numSubtasks - 1}); //Zero-based index of panel
 		
 		//Reset subtask form
 		$("#subtaskInput").val("");
@@ -498,7 +502,6 @@ $(document).ready(function() {
 	//	});
 		
 		
-		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
 	});
 	
 	//Show persona details
@@ -520,32 +523,34 @@ $(document).ready(function() {
 	});
 	
 	//Add ideal action
-	$("#submitAction").click(function() {
-		numActions++;
+	$("body").on("click", "input.submitAction", function() {
+		//Current subgoal
+		var actions = $(this).parent().parent();
+		var subgoal = actions.parent();
 		
-		//Clear the hint in the field for subtask name/description
-		$("#actionInput").attr("placeholder", "");
+		var numActions = parseInt(subgoal.attr("numactions"));
+		subgoal.attr("numactions", numActions + 1);
 		
-		var actionName = $("#actionInput").val();
-		
-		//Actions for current subgoal
-		var actions = $("#S" + numSubtasks + "Actions");
+		var actionName = $(this).prev().val();
+		var actionId = subgoal.attr("id") + "A" + subgoal.attr("numactions");
 		
 		//Add this action
 		var action = $("<div/>", {
-			id: "S" + numSubtasks + "A" + numActions
+			id: actionId
 		}).appendTo(actions);
 		
-		//Add action name to container
+		//Add action name to action
 		$("<span/>", { html: actionName + "<br>",
-			id: "S" + numSubtasks + "A" + numActions + "Name"
+			id: actionId + "Name"
 		}).appendTo(action);
 		
+		//Add questions for action
 		var actionQuestions = $("<div/>", {
-			id: "S" + numSubtasks + "A" + numActions + "Questions"
+			id: actionId + "Questions"
 		}).appendTo(action);
 			
 		var question1 = "Will " + personaName + " know what to do at this step?<br>";
+
 		var question3 = "If  " + 
 		                personaName + " does the right thing, will " + 
 		                possessive + " know that " +
@@ -554,11 +559,18 @@ $(document).ready(function() {
 		var questions = [question1, question3];
 			
 		//Add questions and response fields to ideal action
-		addQuestions(actionQuestions, questions);	
+		addQuestions(actionQuestions, questions, numActions + 1);
 		
-		//Reset form
-		$("#actionInput").val("");
-	
+		var removeAction = $("<button>", {
+			class: "removeAction",
+			id: "Remove" + actionId,
+			html: "Remove This Action"
+		}).appendTo(action);	
+		
+		//Reset form and move to the bottom of the panel
+		$(this).attr("placeholder", "");
+		$(this).prev().val("");
+		$(this).parent().appendTo(actions);
 	});
 	
 	$("body").on("click", "button.removeSubtask", function() {
@@ -568,7 +580,22 @@ $(document).ready(function() {
 		$("#S" + subtaskNumber).remove();
 		$("#S" + subtaskNumber + "Name").remove();
 		
-		numAccordionPanels--;
+		numSubtasks--;
+		$(".accordion").accordion("refresh");
+	});
+	
+	$("body").on("click", "button.removeAction", function() {
+		var id = event.target.id;
+		var subtaskNumber = id[7];
+		var actionNumber = id[9];
+				
+		$("#S" + subtaskNumber + "A" + actionNumber).remove();
+		
+		//Reduce the action count for the subgoal
+		//prevNumActions = $("#S" + subtaskNumber).attr("numactions");
+		//curNumActions = parseInt(prevNumActions) - 1;
+		//$("#S" + subtaskNumber).attr("numactions", curNumActions);
+		
 		$(".accordion").accordion("refresh");
 	});
 	$("body").on("click", "button.screenShot", function(){
@@ -622,7 +649,6 @@ $(window).unload(function () {
     localStorage.setItem("pronoun", pronoun);
     localStorage.setItem("possessive", possessive);
     localStorage.setItem("numSubtasks", numSubtasks);
-    localStorage.setItem("numActions", numActions);
     //localStorage.setItem("personaShown", personaShown);
 	
 });
