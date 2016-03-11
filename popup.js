@@ -14,8 +14,9 @@ chrome.runtime.onMessage.addListener(
     if (request.greeting == "takeScreenShot"){
       	takeScreenShot();
 		console.log("useraction ", request.userAction);
-		$("#subtaskInput").attr("placeholder", "Clicked " + request.userAction + " button")
-		sendResponse({farewell: "Screenshot taken"})
+		//$("#subtaskInput").val("Clicked button"); 
+
+		sendResponse({farewell: "Screenshot taken"});
 	}
 	
 });
@@ -39,12 +40,13 @@ function callOverlay(){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen", closeSidebar: personaShown, selection: personaName}, function(response) {
 			chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
-			if(response.farewell == "takeScreenShot"){
-			//	takeScreenShot();
+			if(response.farewell == "removeScreenShotButton"){
+				chrome.extension.getBackgroundPage().console.log("renaming screenshot button");
+				$("#screenShot" + numSubtasks + "-" + numActions).html("Retake Screenshot");
+				
 			}
 		});
 	});
-	$("#screenShot").remove();
 	
 }
 
@@ -53,8 +55,14 @@ function takeScreenShot() {
 	chrome.windows.getCurrent(function (win) {    
     	chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
             chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   
-    	});    
-	}); 
+			var screenShotLink = $("<a>", {
+				id: "screenShotLink" + numSubtasks + "-" + numActions,
+				html: "Click here, then show me the action"
+			});
+			$("#screenShot" + numSubtasks + "-" + numActions).append(screenShotLink);
+		});    
+	});
+
 };
 
 //Adds a checkbox for each of the five facets to element
@@ -329,20 +337,21 @@ function addQuestions(element, questions) {
 		//maybeFacets.css('border', 'solid blue 2px')
 		maybeFacets.appendTo(container);
 			
-		var screenShotButton = $("<button>", {
-			class: "screenShot",
-			html: "Click here, then show me the action"
-		}).appendTo(container);
-		
-		var removeSubtask = $("<button>", {
-			class: "removeSubtask",
-			id: "Remove" + numSubtasks,
-			html: "Remove This Subgoal"
-		}).appendTo(container);
+	
 
 		
 		container.appendTo(element);
-	}	
+	}
+	var screenShotButton = $("<button>", {
+			id: "screenShot" + numSubtasks + "-" + numActions,
+			class: "screenShot",
+			html: "Click here, then show me the action"
+	}).appendTo(container);
+	var removeSubtask = $("<button>", {
+		class: "removeSubtask",
+		id: "Remove" + numSubtasks,
+		html: "Remove This Subgoal"
+	}).appendTo(container);
 }
 
 $(document).ready(function() {
@@ -484,9 +493,10 @@ $(document).ready(function() {
 		$("#subtaskPrompt").html("");
 		$("#submitSubtask").val("Add New Subgoal");
 				
-		$(".screenShot").click(function() {
-			callOverlay();
-		});
+	//	$(".screenShot").click(function(){
+	//		callOverlay();
+	//	});
+		
 		
 		$("#getAction").children().fadeTo(500, 1).attr("disabled",  false);
 	});
@@ -535,10 +545,11 @@ $(document).ready(function() {
 			id: "S" + numSubtasks + "A" + numActions + "Questions"
 		}).appendTo(action);
 			
-		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
-		var question3 = "If the correct action is performed will " + 
-		                personaName + " see that progress is being made toward a solution to " + 
-		                possessive + " subgoal?<br>";
+		var question1 = "Will " + personaName + " know what to do at this step?<br>";
+		var question3 = "If  " + 
+		                personaName + " does the right thing, will " + 
+		                possessive + " know that " +
+						possessive + " did the right thing and is making progress toward their goal?<br>";
 
 		var questions = [question1, question3];
 			
@@ -559,6 +570,9 @@ $(document).ready(function() {
 		
 		numAccordionPanels--;
 		$(".accordion").accordion("refresh");
+	});
+	$("body").on("click", "button.screenShot", function(){
+		callOverlay();
 	});
 	
 	$("#saveAndExit").click(function() {

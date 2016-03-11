@@ -11,8 +11,19 @@
 .personaPhoto{
 	height: 100px;
 	width: 100px;
+	float: left;
+	z-index: 10002;
 }
 
+#abbyHeader{
+}
+#closeButton{
+	display:inline;
+	position:relative;
+	left: 70%;
+	bottom: 30px;
+	
+}
 .personaPhotoContainer{
 }
 #mySidebar{
@@ -54,43 +65,66 @@
 	text-align: right;
 }
 
+.personaLink{
+	overflow:hidden;
+	position:relative;
+	left:10%;
+	padding-bottom: 5px;
+}
 ul.graph
 {
-	margin: 0;
-	padding: 0;
+	margin: 1px;
 	list-style-type: none;
+		
 }
 	
 ul.graph li
 {
-	margin-bottom: .5em;
-	padding: .2em;
-	background: #600;
-	color: #fff;
+
 }
 ul.graph li.facetMotivationAbby
-{
-	background: -webkit-linear-gradient(left, blue, blue 20%, orange 40%, orange);
+{	
+	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
+	position: relative;
+	left: 50%;
+	top: 50%;
+	width: 50%;
 }
 	
 ul.graph li.facetProcessingAbby
 {
-	background: -webkit-linear-gradient(left, blue, blue 80%, orange 40%, orange);
+	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
+	position: relative;
+	top: 50%;
+	left: 50%;
+	width:50%;
 }
 
 ul.graph li.facetSelfEffAbby
 {
-	background: -webkit-linear-gradient(left, blue, blue 30%, orange 40%, orange);
+	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
+	position: relative;
+	top: 50%;
+	left: 50%;
+	width:50%;
 }
 
 ul.graph li.facetRiskAbby
 {
-	background: -webkit-linear-gradient(left, blue, blue 60%, orange 40%, orange);
+	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
+	position: relative;
+	top: 50%;
+	left: 50%;
+	width:50%;
 }
 
 ul.graph li.facetTinkerAbby
 {
-	background: -webkit-linear-gradient(left, blue, blue 60%, orange 40%, orange);
+	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
+	position: relative;
+	top: 50%;
+	left: 50%;
+	width:50%;
 }
 
 .personaParagraph{

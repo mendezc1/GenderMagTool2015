@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(
 		}
 		console.log("requrest ", request)
 		var elementClicked = overlayScreen();
-		sendResponse({farewell: "takeScreenShot", userAction: elementClicked});
+		sendResponse({farewell: "removeScreenShotButton", userAction: elementClicked});
 		
 	}
   });
@@ -100,32 +100,58 @@ function selectAbby(){
 			var abbyPhoto = document.createElement('img');
 			abbyPhoto.src = chrome.extension.getURL("images/Abby-lowres.jpg"); 
 			abbyPhoto.className = "personaPhoto"
+			abbyPhoto.id = "abbyPhoto";
 			
 			var graphContainer = document.createElement('span');
 			graphContainer.id = "graphContainer";
 			var graphsAbby = "<ul class=\"graph\">\
-								<a href=\"#abbyMotivations\">Motivation</a>\
+								<a href=\"#abbyMotivations\" class=\"personaLink\">Motivation</a>\
 								<li class=\"facetMotivationAbby\">When Needed </li>\
 								\
-								<a href=\"#abbyMotivations\">Information Processing Styles</a>\
+								<a href=\"#abbyMotivations\" class=\"personaLink\">Information Processing Styles</a>\
 								<li class=\"facetProcessingAbby\">Selective </li>\
 								\
-								<a href=\"#abbyTechnology\">Computer Self-Efficacies</a>\
+								<a href=\"#abbyTechnology\" class=\"personaLink\">Computer Self-Efficacies</a>\
 								<li class=\"facetSelfEffAbby\">Low Self-Efficacy \
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \
-								High Self-Efficacy</li>\
+								</li>\
 								\
-								<a href=\"#abbyTechnology\">Attitudes towards Risk</a>\
+								<a href=\"#abbyTechnology\" class=\"personaLink\">Attitudes towards Risk</a>\
 								<li class=\"facetRiskAbby\">Risk-Averse \
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \
 								Risk-Taking</li>\
 								\
-								<a href=\"#abbyTechnology\">Willingness to Tinker</a>\
+								<a href=\"#abbyTechnology\" class=\"personaLink\">Willingness to Tinker</a>\
 								<li class=\"facetTinkerAbby\">Low Willingness \
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp \
+								&nbsp&nbsp&nbsp&nbsp&nbsp \
 								High Willingness</li>\
-							</ul>"
-			//sidebar.innerHTML = ;			
+							</ul>";
+			//sidebar.innerHTML = ;		
+			var abbyFacetList;
+			var abbyFacetMotivation = document.createElement('li');
+			abbyFacetMotivation.href = "#abbyMotivations";
+			abbyFacetMotivation.innerText = "Motivation: When needed"
+			abbyFacetMotivation.className = "personaLink"
+			
+			var abbyFacetInformation = document.createElement('li');
+			abbyFacetInformation.href = "#abbyMotivations";
+			abbyFacetInformation.innerText = "Information Processing Styles: Selective";
+			abbyFacetInformation.className = "personaLink"
+	
+			var abbyFacetSelfEff = document.createElement('li');
+			abbyFacetSelfEff.href = "#abbyTechnology";
+			abbyFacetSelfEff.innerText = "Computer Self-Efficacies: Low"
+			abbyFacetSelfEff.className = "personaLink"
+			
+			var abbyFacetRisk = document.createElement('li');
+			abbyFacetRisk.href = "#abbyTechnology";
+			abbyFacetRisk.innerText = "Attitudes towards Risk: Risk-Averse";
+			abbyFacetRisk.className = "personaLink"
+			
+			var abbyFacetTinker = document.createElement('li');
+			abbyFacetTinker.href = "#abbyTechnology";
+			abbyFacetTinker.innerText = "Willingness to Tinker: Low Willingness";
+			abbyFacetTinker.className = "personaLink"
+			
 			var abbyBackgroundLink = document.createElement('a');
 			abbyBackgroundLink.href = "#abbyBackground"
 			abbyBackgroundLink.className = "facetLink";
@@ -145,6 +171,7 @@ function selectAbby(){
 			persona.id = "abbyPersona";
 			var abbyHeader = document.createElement('h1');
 			abbyHeader.id = "abbyHeader"
+		
 			var abbyBackgroundH = document.createElement('h2');
 			var abbyMotivationsH = document.createElement('h2');
 			var abbyTechnologyH = document.createElement('h2');
@@ -175,21 +202,32 @@ function selectAbby(){
 			var abbyTechnologyP4 = document.createElement('li');
 			
 			var abbyGraphs = document.createElement('div');
+			var mybr = document.createElement('br');
 			
-				
+			var closeButton = document.createElement('button');
+			closeButton.innerText = "Hide Abby";
+			closeButton.id = "closeButton"
 				document.getElementById('mySidebar').appendChild(persona);
 				
 				
 				//document.getElementById('abbyPersona').appendChild(abbyBackgroundLink);
 				
-				document.getElementById('abbyPersona').appendChild(abbyHeader);
-				document.getElementById('abbyPersona').appendChild(abbyPhoto);
-				document.getElementById('abbyPersona').appendChild(graphContainer);
-				document.getElementById('graphContainer').appendChild(abbyGraphs);
 				
-				document.getElementById('abbyPersona').appendChild(abbyBackgroundJump);
-				document.getElementById('abbyPersona').appendChild(abbyBackgroundH);
-				document.getElementById('abbyPersona').appendChild(abbyBackground)
+				document.getElementById('abbyPersona').appendChild(abbyHeader);
+				document.getElementById('abbyPersona').appendChild(closeButton);
+				document.getElementById('abbyPersona').appendChild(mybr)
+				document.getElementById('abbyPersona').appendChild(abbyPhoto);
+				//document.getElementById('abbyPersona').appendChild(abbyGraphs);
+				//document.getElementById('graphContainer').appendChild(abbyGraphs);
+				document.getElementById('abbyPersona').appendChild(abbyFacetMotivation);
+				document.getElementById('abbyPersona').appendChild(abbyFacetInformation);
+				document.getElementById('abbyPersona').appendChild(abbyFacetSelfEff);
+				document.getElementById('abbyPersona').appendChild(abbyFacetRisk);
+				document.getElementById('abbyPersona').appendChild(abbyFacetTinker);
+
+				document.getElementById('abbyPhoto').appendChild(abbyBackgroundJump);
+				document.getElementById('abbyPhoto').appendChild(abbyBackgroundH);
+				document.getElementById('abbyPhoto').appendChild(abbyBackground)
 				document.getElementById('abbyBackground').appendChild(abbyBackgroundP1);
 				document.getElementById('abbyBackground').appendChild(abbyBackgroundP2);
 				document.getElementById('abbyBackground').appendChild(abbyBackgroundP3);
@@ -209,6 +247,7 @@ function selectAbby(){
 				document.getElementById('abbyTechnology').appendChild(abbyTechnologyP4);
 								
 				
+				document.getElementById('closeButton').addEventListener("click", function (){toggleSidebar()});
 				abbyGraphs.innerHTML = graphsAbby;
 				abbyHeader.innerHTML = "Abby";
 				
@@ -226,7 +265,6 @@ function selectAbby(){
 				abbyTechnologyP2.innerHTML = "Computer Self-Efficacy  : Abby has low computer self-efficacy, meaning that she has low self-confidence in performing computing tasks other than the ones she is familiar with. This has a variety of impacts on how she uses software. For example, she is not confident that she can learn to use new features and, as self-efficacy theory explains, she often gives up if she runs into challenges. Software with usability problems poses more challenges to her than it does to more confident users, and she often blames herself for problems that she encounters. "
 				abbyTechnologyP3.innerHTML = "Attitude toward Risk  : Abby is risk averse when she uses computers to perform tasks. When confronted with new software features, Abby worries that she will spend time on them and not get any benefits from doing so. She tries to perform tasks the safe (ie, familiar) way, even if the less familiar features might promise a more direct solution. "
 				abbyTechnologyP4.innerHTML = "Willingness to Explore and Tinker  : Abby doesn't particularly like tinkering with software (ie, just trying out new features or commands to see what they do) when she uses software in her work tasks. Instead, she prefers following step-by-step tutorials and wizards. (However, when she does tinker, it has positive effects on her understanding of the software.) When software features/commands cause problems for her, she tends to blame herself and, if she can, she then just avoids those troublesome features/commands. She then uses work-arounds that involve using only features/commands she is familiar with already.";
-			
 			
 
 }
@@ -309,10 +347,11 @@ function overlayScreen(){
 			}
 			chrome.runtime.sendMessage({greeting: "takeScreenShot", userAction: elm.innerText}, function(response) {
 				console.log(response);
-				document.getElementById("highlightClick").remove();
 			});
 			console.log("sending message");
-//			return elm
+			setTimeout(function(){
+				document.getElementById("highlightClick").remove();
+			}, 2000);
 		}
 		function mouseMove(e) {
 			if (drag) {
