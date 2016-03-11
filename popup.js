@@ -576,9 +576,9 @@ $(document).ready(function() {
 		$("#S" + subtaskNumber + "A" + actionNumber).remove();
 		
 		//Reduce the action count for the subgoal
-		prevNumActions = $("#S" + subtaskNumber).attr("numactions");
-		curNumActions = parseInt(prevNumActions) - 1;
-		$("#S" + subtaskNumber).attr("numactions", curNumActions);
+		//prevNumActions = $("#S" + subtaskNumber).attr("numactions");
+		//curNumActions = parseInt(prevNumActions) - 1;
+		//$("#S" + subtaskNumber).attr("numactions", curNumActions);
 		
 		$(".accordion").accordion("refresh");
 	});
