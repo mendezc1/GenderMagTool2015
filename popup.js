@@ -1,7 +1,7 @@
 var personaName = "";
 var pronoun = "";
 var possessive = "";
-
+var numScreenShots = 0;
 var numSubtasks = 0;
 
 var personaShown = 0; //toggle when user clicks view/hide persona button
@@ -10,8 +10,8 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.greeting == "takeScreenShot"){
       	takeScreenShot();
-		console.log("useraction ", request.userAction);
-		//$("#subtaskInput").val("Clicked button"); 
+		console.log("useraction ", request.userAction); //TAYLOR! This is the action the user took
+		//$("#subtaskInput").val("Clicked button");  // TAYLOR! This is what I've tried so far to get the text box filled 
 
 		sendResponse({farewell: "Screenshot taken"});
 	}
@@ -39,8 +39,8 @@ function callOverlay(){
 			chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
 			if(response.farewell == "removeScreenShotButton"){
 				chrome.extension.getBackgroundPage().console.log("renaming screenshot button");
-				$("#screenShot" + numSubtasks + "-" + numActions).html("Retake Screenshot");
-				
+				$("#screenShot" + numSubtasks + "-" + numScreenShots).html("Retake Screenshot");
+				numScreenShots++;
 			}
 		});
 	});
@@ -51,15 +51,16 @@ function callOverlay(){
 function takeScreenShot() {
 	chrome.windows.getCurrent(function (win) {    
     	chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
-            chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   
+            chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   //TAYLOR! This code is what I've tried so far to put a link to the screenshot near the retake screenshot button.
 			var screenShotLink = $("<a>", {
-				id: "screenShotLink" + numSubtasks + "-" + numActions,
-				html: "Click here, then show me the action"
+				id: "screenShotLink" + numSubtasks + "-" + numScreenShots,
+				html: "Click here, then show me the action",
+				href: imgUrl
 			});
-			$("#screenShot" + numSubtasks + "-" + numActions).append(screenShotLink);
+			$("#screenShot" + numSubtasks + "-" + numScreenShots).append(screenShotLink);
 		});    
 	});
-
+	numScreenShots++;
 };
 
 //Adds a checkbox for each of the five facets to element
@@ -337,15 +338,15 @@ function addQuestions(element, questions, actionNum) {
 		container.appendTo(element);
 	}
 	var screenShotButton = $("<button>", {
-			id: "screenShot" + numSubtasks + "-" + numActions,
+			id: "screenShot" + numSubtasks + "-" + numScreenShots,
 			class: "screenShot",
 			html: "Click here, then show me the action"
 	}).appendTo(container);
-	var removeSubtask = $("<button>", {
-		class: "removeSubtask",
-		id: "Remove" + numSubtasks,
-		html: "Remove This Subgoal"
-	}).appendTo(container);
+//	var removeSubtask = $("<button>", {
+//		class: "removeSubtask",
+//		id: "Remove" + numSubtasks,
+//		html: "Remove This Subgoal"
+//	}).appendTo(container);
 }
 
 $(document).ready(function() {
