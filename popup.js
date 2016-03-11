@@ -535,10 +535,10 @@ $(document).ready(function() {
 			id: actionId + "Questions"
 		}).appendTo(action);
 			
-		var question1 = "Will " + personaName + " even notice that the correct action is available?<br>";
-		var question3 = "If the correct action is performed will " + 
-		                personaName + " see that progress is being made toward a solution to " + 
-		                possessive + " subgoal?<br>";
+		var question1 = "Will " + personaName + " know what to do at this step?<br>";
+		var question3 = "If " + personaName + " does the right thing, will " + pronoun +
+		                " know that " + pronoun + " did the right thing and is making progress toward " +
+		                possessive + " goal?<br>";
 
 		var questions = [question1, question3];
 			
