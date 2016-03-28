@@ -253,13 +253,27 @@ function addQuestions(element, questions, actionNum) {
 		question.addClass("cwQuestion");
 	
 		//Add "Yes" checkbox
-	/*	var yesCheckbox = $("<input/>", {
-			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "yesCheckbox",
-			type: "checkbox",
-		    value: "Yes"
-		}).appendTo(container);
-	*/	
-		//Add label for "Yes" checkbox
+	var yesCheckbox = $("<div>", {
+			 html: "Yes",
+	}).appendTo(container);
+//	yesCheckbox.css("font-size", "16px");
+	yesCheckbox.css("padding-left", "3em");
+	yesCheckbox.css("display", "inline");
+	
+	var noCheckbox = $("<div>", {
+			 html: "No",
+	}).appendTo(container);
+//	noCheckbox.css("font-size", "16px");
+	noCheckbox.css("padding-left", "10em");
+	noCheckbox.css("display", "inline");
+	
+	var maybeCheckbox = $("<div>", {
+			 html: "Maybe",
+	}).appendTo(container);
+//	maybeCheckbox.css("font-size", "16px");
+	maybeCheckbox.css("padding-left", "10em");
+	maybeCheckbox.css("display", "inline");	
+	//Add label for "Yes" checkbox
 	//	var yesLabel = $("<span/>", { html: "Yes" }).appendTo(container);
 		
 		$("<br>").appendTo(container);
@@ -327,7 +341,7 @@ function addQuestions(element, questions, actionNum) {
 		noFacets.css('display', 'inline')
 		noFacets.after(yesFacets);
 		*/
-		var question = $("<span/>", { html: "What facets did you use to answer this question?" }).appendTo(container);
+		var question = $("<span/>", { html: "Which of the persona's facets did you use to answer the above question?" }).appendTo(container);
 		question.addClass("cwQuestion");
 		//Add checkboxes for Maybe facets
 		addFacetCheckboxes(maybeFacets, i, actionNum, "M");
@@ -337,11 +351,6 @@ function addQuestions(element, questions, actionNum) {
 					
 		container.appendTo(element);
 	}
-	var screenShotButton = $("<button>", {
-			id: "screenShot" + numSubtasks + "-" + numScreenShots,
-			class: "screenShot",
-			html: "Click here, then show me the action"
-	}).appendTo(container);
 //	var removeSubtask = $("<button>", {
 //		class: "removeSubtask",
 //		id: "Remove" + numSubtasks,
@@ -423,8 +432,8 @@ $(document).ready(function() {
 		
 		//Show task
 		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
-		$("#taskPrompt").html("Enter a task for " + personaName + " to perform");
-		
+		$("#taskPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+		$("#taskPrompt").css("font-size", "16px");
 		//Show button to view persona
 		$("#viewPersona").show().html("Show " + personaName);
 		personaShown = true;
@@ -433,7 +442,7 @@ $(document).ready(function() {
 	//Get task name
 	$('#submitTask').click(function() {
 		var taskName = $("#taskInput").val();
-		$("#taskName").html("Task Name: " + taskName);
+		$("#taskName").html("Scenario Description: " + taskName);
 		
 		$("#getTask").children().remove();
 		$("#getTask").remove();
@@ -441,7 +450,7 @@ $(document).ready(function() {
 		//Show subtask
 		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
 		$("#subtaskPrompt").html("Enter a subgoal for " + personaName + " to perform");
-		
+		$("#subtaskPrompt").css("font-size", "16px");
 	});
 	
 	//Get Subtask
@@ -455,7 +464,12 @@ $(document).ready(function() {
 		var label = $("<h3/>", { id: "S" + numSubtasks + "Name",
 			html: "Subgoal: " + $("#subtaskInput").val() });
 		label.appendTo("#subtasks");
-		
+		var removeSubtask = $("<button>", {
+			class: "removeSubtask",
+			id: "Remove" + numSubtasks,
+			html: "Remove This Subgoal",
+		}).appendTo(label);
+		removeSubtask.css("margin-left", "5em");
 		//Container for this subtask
 		var subtask = $("<div/>", { id: "S" + numSubtasks, numactions: 0 });
 
@@ -467,14 +481,10 @@ $(document).ready(function() {
 		                possessive + " overall goal?<br>"];
 		
 		addQuestions(questionContainer, question, 0);
-				
-		var removeSubtask = $("<button>", {
-			class: "removeSubtask",
-			id: "Remove" + numSubtasks,
-			html: "Remove This Subgoal"
-		}).appendTo(subtask);
+			
+		
 
-		//Container to hold ideal actions (questions and responses) for sthis ubtask
+		//Container to hold ideal actions (questions and responses) for this subtask
 		var idealActions = $("<div/>", { id: "S" + numSubtasks + "Actions" });
 		
 		var addAction = $("<div/>", { class: "getAction", type: "text" });
@@ -485,6 +495,7 @@ $(document).ready(function() {
 		submitAction.appendTo(addAction);
 		addAction.appendTo(idealActions);
 		idealActions.appendTo(subtask);
+		//subtask.css("font-size", "16px");
 		
 		//Add subtask to container for all subtasks
 		subtask.appendTo("#subtasks");
@@ -495,7 +506,7 @@ $(document).ready(function() {
 		
 		//Reset subtask form
 		$("#subtaskInput").val("");
-		$("#subtaskPrompt").html("");
+		$("#subtaskPrompt").html("Are there any more subgoals?");
 		$("#submitSubtask").val("Add New Subgoal");
 				
 	//	$(".screenShot").click(function(){
@@ -541,21 +552,39 @@ $(document).ready(function() {
 		}).appendTo(actions);
 		
 		//Add action name to action
-		$("<span/>", { html: actionName + "<br>",
+		$("<span/>", { 
+			html: "Ideal Action: "+ actionName + "<br>",
 			id: actionId + "Name"
 		}).appendTo(action);
+		$("#"+actionId+"Name").css("font-size", "16px");
+
+		var buttonPrompt = $("<div/>", {
+			html: "Now that you specified the action click this button to show it and capture your screen",
+		}).appendTo(action);
+		buttonPrompt.css("font-weight", "bold");
 		
-		//Add questions for action
+		var screenShotButton = $("<button>", {
+			id: "screenShot" + numSubtasks + "-" + numScreenShots,
+			class: "screenShot",
+			html: "Click here to show me the action"
+		}).appendTo(action);
+		
+		//screenShotButton.after("<br/>");
+		$("body").on("click", "button.screenShot", function(){
+			callOverlay();
+		});	
+	//Add questions for action
 		var actionQuestions = $("<div/>", {
 			id: actionId + "Questions"
 		}).appendTo(action);
 			
-		var question1 = "Will " + personaName + " know what to do at this step?<br>";
+		var question1 = "<br> Will " + personaName + " know what to do at this step?<br>";
 
 		var question3 = "If  " + 
 		                personaName + " does the right thing, will " + 
-		                possessive + " know that " +
-						possessive + " did the right thing and is making progress toward their goal?<br>";
+		                pronoun + " know that " +
+						pronoun + " did the right thing and is making progress toward " +
+						possessive + " goal?<br>";
 
 		var questions = [question1, question3];
 			
