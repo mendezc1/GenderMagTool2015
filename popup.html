@@ -10,9 +10,12 @@
 	</head>
 
 	<body>
-		<label id="welcomeText">Welcome to the GenderMag Tool</label>
+		<span id="welcomeText">Welcome to the GenderMag Tool</span>
+		
+		<hr>
+		
 		<p id="beginSetup">Before you get started with the GenderMag walkthrough,
-		please record some information that will help identify this session.<p>
+		please record some information that will help identify this session.</p>
 		
 		<div id="getTeam">
 			<label id="teamPrompt">What is the name of your team?</label><br>
@@ -20,7 +23,7 @@
 			<input type="submit" id="submitTeam"><br>
 		</div>
 		
-		<h2 id="teamName"></h2>
+		<span class="setup" id="teamName"></span><br>
 		
 		<div id="getPersona">
 			<label id="personaPrompt">Select a Persona</label>
@@ -36,8 +39,8 @@
 		
 		<button id="viewPersona" personaShown="false"></button><br>		
 		
-		<h2 id="personaName"></h2>
-		<h2 id="taskName"></h2>
+		<span class="setup" id="personaName"></span>
+		<span class="setup" id="taskName"></span>
 		
 		<div id="getTask">
 			<label id="taskPrompt"></label><br>
@@ -56,6 +59,6 @@
 		</div>
 		
 		<button id="saveAndExit">Save and Exit</button>
-		
+
 	</body>
 </html>

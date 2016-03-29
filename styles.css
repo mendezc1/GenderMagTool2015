@@ -1,5 +1,18 @@
 body {
 	width: 500px;
+	background-color: #ffffff;
+}
+
+#content {
+	margin-top: 20px;
+}
+
+hr {
+	border-top: 2px solid #4099FF;
+}
+
+input[type="text"] {
+	width: 55%;
 }
 
 #highlightClick {
@@ -13,12 +26,30 @@ body {
 }
 
 #welcomeText {
-	font-weight: bold;
 	font-size: 16px;
+}
+
+.idealActionLabel {
+	font-size: 14px;
+	color: #0071F3;
 }
 
 .cwQuestion {
 	font-weight: bold;
+}
+
+.removeSubtask {
+	float: right;
+}
+
+.responseBox {
+	display: inline-block;
+}
+
+.responseBoxLabel {
+	display: inline-block;
+	padding-right: 60px;
+	padding-left: 60px;
 }
 
 /* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */

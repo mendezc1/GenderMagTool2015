@@ -254,15 +254,18 @@ function addQuestions(element, questions, actionNum) {
 	
 		//Add "Yes" checkbox
 	var yesCheckbox = $("<div>", {
-			 html: "Yes",
+		html: "Yes",
+		class: "responseBoxLabel"
 	}).appendTo(container);
 	
 	var noCheckbox = $("<div>", {
-			 html: "No",
+		html: "No",
+		class: "responseBoxLabel"
 	}).appendTo(container);
 	
 	var maybeCheckbox = $("<div>", {
-			 html: "Maybe",
+		html: "Maybe",
+		class: "responseBoxLabel"
 	}).appendTo(container);
 		
 	//Add label for "Yes" checkbox
@@ -272,8 +275,8 @@ function addQuestions(element, questions, actionNum) {
 		//Add response field for yes
 		var yesResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "YesResponse",
+			class: "responseBox",
 			placeholder: "Why?",
-			style: "display:inline"
 		}).appendTo(container);
 		
 	//	$("<br>").appendTo(container);
@@ -296,7 +299,7 @@ function addQuestions(element, questions, actionNum) {
 		var noResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "NoResponse",
 			placeholder: "Why not?",
-			style: "display:inline"
+			class: "responseBox"
 		}).appendTo(container);
 		
 		//$("<br>").appendTo(container);
@@ -317,7 +320,7 @@ function addQuestions(element, questions, actionNum) {
 		var noResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "maybeResponse",
 			placeholder: "Why maybe?",
-			style: "display:inline"
+			class: "responseBox"
 		}).appendTo(container);
 		
 	//	$("<br>").appendTo(container);
@@ -434,7 +437,7 @@ $(document).ready(function() {
 		
 		//Show subtask
 		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
-		$("#beginSetup").html("");
+		$("#beginSetup").remove();
 		$("#subtaskPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
 	});
 	
@@ -537,7 +540,8 @@ $(document).ready(function() {
 		//Add action name to action
 		$("<span/>", { 
 			html: "Ideal Action: "+ actionName + "<br>",
-			id: actionId + "Name"
+			id: actionId + "Name",
+			class: "idealActionLabel"
 		}).appendTo(action);
 
 		var buttonPrompt = $("<div/>", {

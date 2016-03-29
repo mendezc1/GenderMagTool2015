@@ -180,10 +180,12 @@
 	margin: 2px 0 0 0;
 	padding: .5em .5em .5em .7em;
 	min-height: 0; /* support: IE7 */
-	font-size: 100%;
+	font-size: 14px;
 }
 .ui-accordion .ui-accordion-icons {
 	padding-left: 2.2em;
+	padding-top: .8em;
+	padding-bottom: .8em;
 }
 .ui-accordion .ui-accordion-icons .ui-accordion-icons {
 	padding-left: 2.2em;
@@ -841,7 +843,7 @@ body .ui-tooltip {
 .ui-widget textarea,
 .ui-widget button {
 	font-family: Arial,Helvetica,sans-serif;
-	font-size: 1em;
+	font-size: 12px;
 }
 .ui-widget-content {
 	border: 1px solid #dddddd;
@@ -902,8 +904,8 @@ body .ui-tooltip {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #003eff;
-	background: #007fff;
+	border: 1px solid #0071F3;
+	background: #4099FF;
 	font-weight: normal;
 	color: #ffffff;
 }
