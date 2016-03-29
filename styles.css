@@ -1,4 +1,8 @@
-#highlightClick{
+body {
+	width: 500px;
+}
+
+#highlightClick {
     position: absolute;
     left: 30px;
     border: 3px solid orange;
@@ -8,25 +12,28 @@
 	width: 100px;
 }
 
-.personaPhoto{
-	height: 100px;
-	width: 100px;
-	float: left;
-	z-index: 10002;
+#welcomeText {
+	font-weight: bold;
+	font-size: 16px;
 }
 
-#abbyHeader{
+.cwQuestion {
+	font-weight: bold;
 }
-#closeButton{
+
+/* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */
+
+#closeButton {
 	display:inline;
 	position:relative;
 	left: 70%;
 	bottom: 30px;
-	
 }
-.personaPhotoContainer{
+
+.personaPhotoContainer {
 }
-#mySidebar{
+
+#mySidebar {
 	top: 0px;
 	bottom: 0px;
 	left: 0px;
@@ -47,16 +54,11 @@
 	z-index: 10001;
 }
 
-.cwQuestion {
-	font-weight: bold;
-}
-
-.h2 {
-	text-align: center
-}
-
-.h3 {
-	text-align: center
+.personaPhoto{
+	height: 100px;
+	width: 100px;
+	float: left;
+	z-index: 10002;
 }
 
 .rightAtribute{
@@ -65,25 +67,19 @@
 	text-align: right;
 }
 
-.personaLink{
+.personaLink {
 	overflow:hidden;
 	position:relative;
 	left:10%;
 	padding-bottom: 5px;
 }
-ul.graph
-{
+
+ul.graph {
 	margin: 1px;
-	list-style-type: none;
-		
+	list-style-type: none;		
 }
 	
-ul.graph li
-{
-
-}
-ul.graph li.facetMotivationAbby
-{	
+ul.graph li.facetMotivationAbby {	
 	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
 	position: relative;
 	left: 50%;
@@ -91,8 +87,7 @@ ul.graph li.facetMotivationAbby
 	width: 50%;
 }
 	
-ul.graph li.facetProcessingAbby
-{
+ul.graph li.facetProcessingAbby {
 	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
 	position: relative;
 	top: 50%;
@@ -100,8 +95,7 @@ ul.graph li.facetProcessingAbby
 	width:50%;
 }
 
-ul.graph li.facetSelfEffAbby
-{
+ul.graph li.facetSelfEffAbby {
 	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
 	position: relative;
 	top: 50%;
@@ -109,8 +103,7 @@ ul.graph li.facetSelfEffAbby
 	width:50%;
 }
 
-ul.graph li.facetRiskAbby
-{
+ul.graph li.facetRiskAbby {
 	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
 	position: relative;
 	top: 50%;
@@ -118,8 +111,7 @@ ul.graph li.facetRiskAbby
 	width:50%;
 }
 
-ul.graph li.facetTinkerAbby
-{
+ul.graph li.facetTinkerAbby {
 	/*background: -webkit-linear-gradient(left, blue 25%, orange 25%, orange);*/
 	position: relative;
 	top: 50%;
@@ -127,7 +119,7 @@ ul.graph li.facetTinkerAbby
 	width:50%;
 }
 
-.personaParagraph{
+.personaParagraph {
 	border-color: orange;
 	border-style: solid;
     border-width: 3px;	

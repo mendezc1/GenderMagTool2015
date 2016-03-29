@@ -9,11 +9,13 @@
 		<title>GenderMag</title>
 	</head>
 
-	<body style = "width: 300px"> <!--Changing the width value effects the browser popup width, and if left empty will default to autosizing-->
-
+	<body>
+		<label id="welcomeText">Welcome to the GenderMag Tool</label>
+		<p id="beginSetup">Before you get started with the GenderMag walkthrough,
+		please record some information that will help identify this session.<p>
 		
 		<div id="getTeam">
-			<label id="teamPrompt" style="font-size: 16px">Welcome to the GenderMag Tool. What is the name of your team?</label><br>
+			<label id="teamPrompt">What is the name of your team?</label><br>
 			<input id="teamInput" type="text" placeholder="eg Mobile Group">
 			<input type="submit" id="submitTeam"><br>
 		</div>
@@ -31,10 +33,12 @@
 		
 			<button id="submitPersona">Submit</button><br>
 		</div>
+		
 		<button id="viewPersona" personaShown="false"></button><br>		
 		
-		<h2 id="taskName"></div><h2>
-		<h2 id="personaName"> </h2>
+		<h2 id="personaName"></h2>
+		<h2 id="taskName"></h2>
+		
 		<div id="getTask">
 			<label id="taskPrompt"></label><br>
 			<input id="taskInput" type="text" placeholder="eg Needs to fire Sue">

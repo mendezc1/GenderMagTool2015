@@ -256,28 +256,19 @@ function addQuestions(element, questions, actionNum) {
 	var yesCheckbox = $("<div>", {
 			 html: "Yes",
 	}).appendTo(container);
-//	yesCheckbox.css("font-size", "16px");
-	yesCheckbox.css("padding-left", "3em");
-	yesCheckbox.css("display", "inline");
 	
 	var noCheckbox = $("<div>", {
 			 html: "No",
 	}).appendTo(container);
-//	noCheckbox.css("font-size", "16px");
-	noCheckbox.css("padding-left", "10em");
-	noCheckbox.css("display", "inline");
 	
 	var maybeCheckbox = $("<div>", {
 			 html: "Maybe",
 	}).appendTo(container);
-//	maybeCheckbox.css("font-size", "16px");
-	maybeCheckbox.css("padding-left", "10em");
-	maybeCheckbox.css("display", "inline");	
+		
 	//Add label for "Yes" checkbox
 	//	var yesLabel = $("<span/>", { html: "Yes" }).appendTo(container);
 		
 		$("<br>").appendTo(container);
-		$('body').css('width', '500px');
 		//Add response field for yes
 		var yesResponse = $("<textArea/>", {
 			id: "S" + numSubtasks + "A" + actionNum + "Q" + (i + 1) + "YesResponse",
@@ -333,20 +324,16 @@ function addQuestions(element, questions, actionNum) {
 		/*
 		//Add checkboxes for Yes facets
 		addFacetCheckboxes(yesFacets, i, actionNum, "Y");
-		yesFacets.css('display', 'inline');
 		yesFacets.appendTo(container);
 		
 		//Add checkboxes for No facets
 		addFacetCheckboxes(noFacets, i, actionNum, "N");
-		noFacets.css('display', 'inline')
 		noFacets.after(yesFacets);
 		*/
 		var question = $("<span/>", { html: "Which of the persona's facets did you use to answer the above question?" }).appendTo(container);
 		question.addClass("cwQuestion");
 		//Add checkboxes for Maybe facets
 		addFacetCheckboxes(maybeFacets, i, actionNum, "M");
-		//maybeFacets.css('display', 'inline');
-		//maybeFacets.css('border', 'solid blue 2px')
 		maybeFacets.appendTo(container);
 					
 		container.appendTo(element);
@@ -365,7 +352,6 @@ $(document).ready(function() {
 	if (prevHTML != null) {
 	
 		$("body").html(prevHTML);
-		$("body").css('width',  '500px');
 		//Restore user input (state before they clicked away from popup)
 		$(document).each(function() {
 			allInput = ($(this).find(':input'));
@@ -433,7 +419,6 @@ $(document).ready(function() {
 		//Show task
 		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
 		$("#taskPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
-		$("#taskPrompt").css("font-size", "16px");
 		//Show button to view persona
 		$("#viewPersona").show().html("Show " + personaName);
 		personaShown = true;
@@ -449,8 +434,8 @@ $(document).ready(function() {
 		
 		//Show subtask
 		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
-		$("#subtaskPrompt").html("Enter a subgoal for " + personaName + " to perform");
-		$("#subtaskPrompt").css("font-size", "16px");
+		$("#beginSetup").html("");
+		$("#subtaskPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
 	});
 	
 	//Get Subtask
@@ -469,7 +454,6 @@ $(document).ready(function() {
 			id: "Remove" + numSubtasks,
 			html: "Remove This Subgoal",
 		}).appendTo(label);
-		removeSubtask.css("margin-left", "5em");
 		//Container for this subtask
 		var subtask = $("<div/>", { id: "S" + numSubtasks, numactions: 0 });
 
@@ -495,7 +479,6 @@ $(document).ready(function() {
 		submitAction.appendTo(addAction);
 		addAction.appendTo(idealActions);
 		idealActions.appendTo(subtask);
-		//subtask.css("font-size", "16px");
 		
 		//Add subtask to container for all subtasks
 		subtask.appendTo("#subtasks");
@@ -556,12 +539,10 @@ $(document).ready(function() {
 			html: "Ideal Action: "+ actionName + "<br>",
 			id: actionId + "Name"
 		}).appendTo(action);
-		$("#"+actionId+"Name").css("font-size", "16px");
 
 		var buttonPrompt = $("<div/>", {
 			html: "Now that you specified the action click this button to show it and capture your screen",
 		}).appendTo(action);
-		buttonPrompt.css("font-weight", "bold");
 		
 		var screenShotButton = $("<button>", {
 			id: "screenShot" + numSubtasks + "-" + numScreenShots,
