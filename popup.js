@@ -3,19 +3,14 @@ var pronoun = "";
 var possessive = "";
 var numScreenShots = 0;
 var numSubtasks = 0;
-
 var personaShown = 0; //toggle when user clicks view/hide persona button
-
+var screenShotURL;
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.greeting == "takeScreenShot"){
-      	takeScreenShot();
-		console.log("useraction ", request.userAction); //TAYLOR! This is the action the user took
-		//$("#subtaskInput").val("Clicked button");  // TAYLOR! This is what I've tried so far to get the text box filled 
-
-		sendResponse({farewell: "Screenshot taken"});
-	}
-	
+		takeScreenShot();
+		//chrome.extension.getBackgroundPage().console.log("message url ",screenShotURL);
+		sendResponse({farewell: screenShotURL});}
 });
 
 function today() {
@@ -34,6 +29,9 @@ function now() {
 
 
 function callOverlay(){
+	if(numScreenShots > 0){
+		takeScreenShot();
+	}
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen", closeSidebar: personaShown, selection: personaName}, function(response) {
 			chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
@@ -44,24 +42,37 @@ function callOverlay(){
 			}
 		});
 	});
-	
 }
 
 
 function takeScreenShot() {
+	
+	var c = document.getElementById("imgCanvas");
+	var ctx = c.getContext("2d");
+	var img = document.getElementById("testIMG");
+	ctx.drawImage(img,10,10);
+	chrome.extension.getBackgroundPage().console.log("After image");
+	
 	chrome.windows.getCurrent(function (win) {    
-    	chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
-            chrome.extension.getBackgroundPage().console.log("The image url", imgUrl);   //TAYLOR! This code is what I've tried so far to put a link to the screenshot near the retake screenshot button.
-			var screenShotLink = $("<a>", {
-				id: "screenShotLink" + numSubtasks + "-" + numScreenShots,
-				html: "Click here, then show me the action",
-				href: imgUrl
-			});
-			$("#screenShot" + numSubtasks + "-" + numScreenShots).append(screenShotLink);
+    chrome.tabs.captureVisibleTab(win.id,{"format": "png"}, function(imgUrl) {
+          screenShotURL = imgUrl
+		  
 		});    
 	});
-	numScreenShots++;
-};
+		//numScreenShots++;
+	
+		 
+	//var screenShotPreview = $("<img>", {
+		//		id: "screenShot" + numSubtasks + "-" + numScreenShots,
+			//	src: screenShotURL
+	//});
+	
+	//chrome.extension.getBackgroundPage().console.log("plz not undefined ", screenShotURL);
+	
+	
+}
+
+
 
 //Adds a checkbox for each of the five facets to element
 //Takes question number as input
@@ -378,6 +389,7 @@ $(document).ready(function() {
     	pronoun = localStorage.getItem("pronoun");
     	possessive = localStorage.getItem("possessive");
     	numSubtasks = localStorage.getItem("numSubtasks");
+		numScreenShots = localStorage.getItem("numScreenShots");
     	//personaShown = localStorage.getItem("personaShown");
     	
 	} else {
@@ -475,9 +487,11 @@ $(document).ready(function() {
 		var idealActions = $("<div/>", { id: "S" + numSubtasks + "Actions" });
 		
 		var addAction = $("<div/>", { class: "getAction", type: "text" });
+		var actionPrompt = $("<div/>", {id: "actionPrompt", type: "text", html: "Are there any more actions in this subgoal?"});
 		var actionInput = $("<input/>", { class: "actionInput", type: "text", placeholder: "Type 'Sue in Search Field" });
 		var submitAction = $("<input/>", { class: "submitAction", type: "submit", value: "Add Ideal Action" });
 		
+		actionPrompt.appendTo(addAction);
 		actionInput.appendTo(addAction);
 		submitAction.appendTo(addAction);
 		addAction.appendTo(idealActions);
@@ -492,7 +506,7 @@ $(document).ready(function() {
 		
 		//Reset subtask form
 		$("#subtaskInput").val("");
-		$("#subtaskPrompt").html("Are there any more subgoals?");
+		$("#subtaskPrompt").html("Are there any more subgoals in this scenario?");
 		$("#submitSubtask").val("Add New Subgoal");
 				
 	//	$(".screenShot").click(function(){
@@ -664,6 +678,7 @@ $(window).unload(function () {
     localStorage.setItem("pronoun", pronoun);
     localStorage.setItem("possessive", possessive);
     localStorage.setItem("numSubtasks", numSubtasks);
+	localStorage.setItem("numScreenShots", numScreenShots);
     //localStorage.setItem("personaShown", personaShown);
 	
 });

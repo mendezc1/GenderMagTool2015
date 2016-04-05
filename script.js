@@ -345,9 +345,9 @@ function overlayScreen(){
 					element.style.display = "default";
 				}
 			}
-			chrome.runtime.sendMessage({greeting: "takeScreenShot", userAction: elm.innerText}, function(response) {
-				console.log(response);
-			});
+		chrome.runtime.sendMessage({greeting: "takeScreenShot", userAction: elm.innerText}, function(response) {
+				
+		});
 			console.log("sending message");
 			setTimeout(function(){
 				document.getElementById("highlightClick").remove();
@@ -366,3 +366,4 @@ function overlayScreen(){
 		}
 		init();
 }
+

@@ -1,4 +1,4 @@
-body {
+#popupBody {
 	width: 500px;
 	background-color: #ffffff;
 }
@@ -26,9 +26,11 @@ input[type="text"] {
 }
 
 #welcomeText {
+	font-size: 18px;
+}
+.setup{
 	font-size: 16px;
 }
-
 .idealActionLabel {
 	font-size: 14px;
 	color: #0071F3;
@@ -51,6 +53,12 @@ input[type="text"] {
 	padding-right: 60px;
 	padding-left: 60px;
 }
+.previewImage{
+	width:200px;
+	height:200px;
+	
+}
+
 
 /* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */
 
