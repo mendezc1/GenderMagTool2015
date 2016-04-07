@@ -889,6 +889,7 @@ body .ui-tooltip {
 	background: #ededed;
 	font-weight: normal;
 	color: #2b2b2b;
+	outline: none !important;
 }
 .ui-state-hover a,
 .ui-state-hover a:hover,
@@ -904,10 +905,10 @@ body .ui-tooltip {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-	border: 1px solid #0071F3;
-	background: #4099FF;
+	background: #3fb0ac;
 	font-weight: normal;
 	color: #ffffff;
+	outline: none !important;
 }
 .ui-state-active a,
 .ui-state-active a:link,
