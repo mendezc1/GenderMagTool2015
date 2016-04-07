@@ -28,9 +28,21 @@ input[type="text"] {
 #welcomeText {
 	font-size: 18px;
 }
+
+#beginSetup, #subtaskPrompt {
+	font-size: 13px;
+	border: 3px solid orange;
+	padding: 10px;
+}
+
 .setup{
 	font-size: 16px;
+	background-color: #d8eaff;
+	text-align: center;
+	padding: 5px;
+	margin-bottom: 10px;
 }
+
 .idealActionLabel {
 	font-size: 14px;
 	color: #0071F3;

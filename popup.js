@@ -394,10 +394,14 @@ $(document).ready(function() {
     	
 	} else {
 		
+		$(".setup").hide();
 		$("#viewPersona").hide();
+		
 		$("#getPersona").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
+		
+		$("#subtaskPrompt").hide();
 	}
 	
 	//According menu
@@ -408,7 +412,9 @@ $(document).ready(function() {
 	//Get team name
 	$("#submitTeam").click(function() {
 		var teamName = $("#teamInput").val();
-		$("#teamName").html("Team Name: "+ teamName);
+		
+		$("#teamName").fadeIn(800);
+		$("#teamName").html("Team: "+ teamName);
 		
 		$("#getTeam").children().hide();
 		$("#getPersona").children().fadeTo(500, 1).attr("disabled",  false);
@@ -418,7 +424,9 @@ $(document).ready(function() {
 	//Get persona name
 	$("#submitPersona").click(function() {
 		personaName = $("#personaSelection").val();
-		$("#personaName").html("Persona Name: " + personaName + "<br>");
+		
+		$("#personaName").fadeIn(800);
+		$("#personaName").html("Persona: " + personaName + "<br>");
 		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
@@ -434,6 +442,7 @@ $(document).ready(function() {
 		//Show task
 		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
 		$("#taskPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+		
 		//Show button to view persona
 		$("#viewPersona").show().html("Show " + personaName);
 		personaShown = true;
@@ -442,14 +451,18 @@ $(document).ready(function() {
 	//Get task name
 	$('#submitTask').click(function() {
 		var taskName = $("#taskInput").val();
-		$("#taskName").html("Scenario Description: " + taskName);
+		
+		$("#taskName").fadeIn(800);
+		$("#taskName").html("Scenario: " + taskName);
 		
 		$("#getTask").children().remove();
 		$("#getTask").remove();
 		
+		$("#beginSetup").fadeOut(800, function () { $(this).remove(); });
+
 		//Show subtask
-		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);
-		$("#beginSetup").remove();
+		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);		
+		$("#subtaskPrompt").show()
 		$("#subtaskPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
 	});
 	
