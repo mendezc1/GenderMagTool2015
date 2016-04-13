@@ -1,5 +1,5 @@
 #popupBody {
-	width: 500px;
+	width: 550px;
 	background-color: #ffffff;
 }
 
@@ -11,9 +11,27 @@ hr {
 	border-top: 2px solid #3fb0ac;
 }
 
-input[type="text"] {
-	width: 55%;
-	margin: 5px;
+input[type=text], textarea {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #DDDDDD;
+}
+
+input[type=text] {
+	height: 15px;
+	width: 200px;
+}
+ 
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px #3fb0ac;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #3fb0ac;
 }
 
 #highlightClick {
@@ -28,6 +46,25 @@ input[type="text"] {
 
 #welcomeText {
 	font-size: 18px;
+}
+
+
+#icons {
+	text-align: center;
+	font-size: 13px;
+}
+
+.icon {
+	padding: 5px;
+	color: #3fb0ac;
+}
+
+#team {
+	float: left;
+}
+
+#scenario {
+	float: right;
 }
 
 #beginSetup, #subtaskPrompt {
@@ -73,28 +110,12 @@ input[type="text"] {
 	
 }
 
-input[type="text"]:focus {
-	outline: none;
-	border: 2px solid #fae596;
-	box-shadow: 0 0 5px #fae596;
-}
-
 button {
 	margin: 5px;
 }
 
-button:focus, input[type="submit"]:focus {
-	outline: none;
-	box-shadow: 0 0 5px #fae596;
-}
-
-button:focus, input[type="submit"]:focus {
-	outline: none;
-	box-shadow: 0 0 5px #fae596;
-}
-
-button:active, input[type="submit"]:active {
-	background-color: #fae596;
+label {
+	color: black;
 }
 
 

@@ -53,6 +53,7 @@ $(document).ready(function() {
 		$(".setup").hide();
 		$("#viewPersona").hide();
 		
+		$("#icons").children().fadeTo(0, 0.3)
 		$("#getPersona").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
 		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
@@ -60,7 +61,7 @@ $(document).ready(function() {
 		$("#subtaskPrompt").hide();
 	}
 	
-	//Accordion menu
+	//Initialize the subgoal accordion menu
     $(function() {
     	$(".accordion").accordion({ heightStyle: "content", collapsible: true });
   	});
@@ -69,8 +70,8 @@ $(document).ready(function() {
 	$("#submitTeam").click(function() {
 		var teamName = $("#teamInput").val();
 		
-		$("#teamName").fadeIn(800);
-		$("#teamName").html("Team: "+ teamName);
+		$("#team").fadeTo(800, 1)
+		$("#teamName").html(teamName);
 		
 		$("#getTeam").children().hide();
 		$("#getPersona").children().fadeTo(500, 1).attr("disabled",  false);
@@ -81,8 +82,8 @@ $(document).ready(function() {
 	$("#submitPersona").click(function() {
 		personaName = $("#personaSelection").val();
 		
-		$("#personaName").fadeIn(800);
-		$("#personaName").html("Persona: " + personaName + "<br>");
+		$("#persona").fadeTo(800, 1)
+		$("#personaName").html(personaName);
 		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
@@ -108,8 +109,8 @@ $(document).ready(function() {
 	$('#submitTask').click(function() {
 		var taskName = $("#taskInput").val();
 		
-		$("#taskName").fadeIn(800);
-		$("#taskName").html("Scenario: " + taskName);
+		$("#scenario").fadeTo(800, 1)
+		$("#scenarioName").html(taskName);
 		
 		$("#getTask").children().remove();
 		$("#getTask").remove();
@@ -125,6 +126,7 @@ $(document).ready(function() {
 	//Get Subtask
 	$("#submitSubtask").click(function() {
 		numSubtasks++;
+		numActions = 0;
 			
 		//Clear the hint in the field for subtask name/description
 		$("#subtaskInput").attr("placeholder", "");
@@ -132,6 +134,8 @@ $(document).ready(function() {
 		//Add subgoal
 		$.get("templates/subgoal.html", function(html) {
 			$("#subtasks").append(html);
+			
+			//Initialize the ideal action accordion menu imbedded in the subgoal
 			$(".accordion").accordion({ heightStyle: "content", collapsible: true });
 			$(".accordion").accordion("refresh");
 		});			    	
@@ -145,11 +149,12 @@ $(document).ready(function() {
 	
 	//Add ideal action
 	$("body").on("click", "input.addAction", function() {
-		//the ideal action container of the current subgoal
+		numActions++;
+		
+		//The ideal action container of the current subgoal
 		var idealActions = $(this).parent().children("#idealActions");
 		
 		$.get("templates/action.html", function(html) {
-			console.log("Here");
 			idealActions.append(html);
 			$(".accordion").accordion("refresh");
 		});
