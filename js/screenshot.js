@@ -1,22 +1,13 @@
 function callOverlay(){
-	if(numScreenShots > 0){
-		takeScreenShot();
-	}
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {greeting: "overlayScreen", closeSidebar: personaShown, selection: personaName}, function(response) {
 			chrome.extension.getBackgroundPage().console.log("response from script.js ", response);
-			if(response.farewell == "removeScreenShotButton"){
-				chrome.extension.getBackgroundPage().console.log("renaming screenshot button");
-				$("#screenShot" + numSubtasks + "-" + numScreenShots).html("Retake Screenshot");
-				numScreenShots++;
-			}
 		});
 	});
 }
 
 
-function takeScreenShot() {
-	
+function takeScreenShot() {	
 	var c = document.getElementById("imgCanvas");
 	var ctx = c.getContext("2d");
 	var img = document.getElementById("testIMG");

@@ -1,9 +1,16 @@
+<!--For now, there's a lot of jQuery that depends on the structure of this html.
+If you add levels or create nested elements, you might have to go back and refactor some of the code... -->
+
 <!DOCTYPE html>
 <html> 
 	<h3>Action</h3>
 	
 	<div id="Content">
 		<input id="remove" type="submit" class="removeAction" value="X"><br>
+		
+		<p class="instruction">Before moving on,
+		<input class="overlayTrigger" type="submit" value="Click Here">
+		trigger the blue overlay that will capture your action, then perform the action.</p>
 		
 		<span class="cwQuestion">Will Abby know what to do at this step?<br></span>
 	
@@ -17,13 +24,11 @@
 	
 		<span class="cwQuestion">Which of the persona's facets did you use to answer the above question?</span><br>
 		
-		<div>
-			<input id="Q1motiv" type="checkbox" value="Motivation"><span>Motivation</span><br>
-			<input id="Q1info" type="checkbox" value="Information Processing Style"><span>Information Processing Style</span><br>
-			<input id="Q1self" type="checkbox" value="Computer Self-Efficacies"><span>Computer Self-Efficacies</span><br>
-			<input id="Q1risk" type="checkbox" value="Attitude Towards Risk"><span>Attitude Towards Risk</span><br>
-			<input id="Q1tinker" type="checkbox" value="Willingness to Tinker"><span>Willingness to Tinker</span><br><br>
-		</div>
+		<input id="Q1motiv" type="checkbox" value="Motivation"><span>Motivation</span><br>
+		<input id="Q1info" type="checkbox" value="Information Processing Style"><span>Information Processing Style</span><br>
+		<input id="Q1self" type="checkbox" value="Computer Self-Efficacies"><span>Computer Self-Efficacies</span><br>
+		<input id="Q1risk" type="checkbox" value="Attitude Towards Risk"><span>Attitude Towards Risk</span><br>
+		<input id="Q1tinker" type="checkbox" value="Willingness to Tinker"><span>Willingness to Tinker</span><br><br>
 		
 		<span class="cwQuestion">If Abby does the right thing, will she know that she did the right thing and is making progress toward her goal?<br></span>
 	
@@ -37,13 +42,11 @@
 	
 		<span class="cwQuestion">Which of the persona's facets did you use to answer the above question?</span>
 		
-		<div>
-			<input id="Q2motiv" type="checkbox" value="Motivation"><span>Motivation</span><br>
-			<input id="Q2info" type="checkbox" value="Information Processing Style"><span>Information Processing Style</span><br>
-			<input id="Q2self" type="checkbox" value="Computer Self-Efficacies"><span>Computer Self-Efficacies</span><br>
-			<input id="Q2risk" type="checkbox" value="Attitude Towards Risk"><span>Attitude Towards Risk</span><br>
-			<input id="Q2tinker" type="checkbox" value="Willingness to Tinker"><span>Willingness to Tinker</span><br><br>
-		</div>
+		<input id="Q2motiv" type="checkbox" value="Motivation"><span>Motivation</span><br>
+		<input id="Q2info" type="checkbox" value="Information Processing Style"><span>Information Processing Style</span><br>
+		<input id="Q2self" type="checkbox" value="Computer Self-Efficacies"><span>Computer Self-Efficacies</span><br>
+		<input id="Q2risk" type="checkbox" value="Attitude Towards Risk"><span>Attitude Towards Risk</span><br>
+		<input id="Q2tinker" type="checkbox" value="Willingness to Tinker"><span>Willingness to Tinker</span><br><br>
 		
 	</div>
 </html>

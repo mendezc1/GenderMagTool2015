@@ -117,7 +117,7 @@ $(document).ready(function() {
 		$("#getScenario").remove();
 		
 		//remove instructions
-		$("#beginSetup").fadeOut(800, function () { $(this).remove(); });
+		$("#setup").fadeOut(800, function () { $(this).remove(); });
 
 		//show subgoal prompt
 		$("#getSubgoal").children().fadeTo(500, 1).attr("disabled",  false);		
@@ -205,6 +205,8 @@ $(document).ready(function() {
 					$(this).attr("id", subgoalId + "A" + numActions + id);
 				}	
 			})
+			
+			$(content).children().attr("disabled", true);
 		});
 		
 		//reset form
@@ -237,6 +239,12 @@ $(document).ready(function() {
 	});
 	
 	
+	$("body").on("click", "input.overlayTrigger", function(){
+		$(this).parent().parent().children().removeAttr("disabled");
+		$(this).parent().remove();
+	});
+	
+	
 	//Show persona details
 	$("#viewPersona").click(function() {
 		if (personaShown == true) {
@@ -253,10 +261,6 @@ $(document).ready(function() {
 				chrome.extension.getBackgroundPage().console.log("resp ", response);
 			});
 		});
-	});
-	
-	$("body").on("click", "button.screenShot", function(){
-		callOverlay();
 	});
 	
 	
@@ -286,7 +290,7 @@ chrome.runtime.onMessage.addListener(
 		sendResponse({farewell: screenShotURL});}
 });
 
-// When user clicks off of tool or closes tool
+//when user clicks off of tool
 $(window).unload(function () {
 	
 	var popup = chrome.extension.getViews({ type: 'popup' })[0];
@@ -302,7 +306,7 @@ $(window).unload(function () {
 		var checked = allInput[i]["checked"]
 		var value = allInput[i]["value"]
 		
-		//Save the values of checkboxes and text areas (all input besides buttons)
+		//save the values of checkboxes and text areas (all input besides buttons)
 		if (type == "checkbox") {
 			localStorage.setItem(id, checked);
 		} else if (type != "button") {
@@ -310,13 +314,12 @@ $(window).unload(function () {
 		}
 	}
 	
-	//Save the current state (html) unless user is done (clicked done button)      
+	//save the current state (html) unless user is done (clicked done button)      
     localStorage.setItem("popupHTML", popupHTML);
     localStorage.setItem("personaName", personaName);
     localStorage.setItem("pronoun", pronoun);
     localStorage.setItem("possessive", possessive);
     localStorage.setItem("numSubgoals", numSubgoals);
 	localStorage.setItem("numScreenShots", numScreenShots);
-    //localStorage.setItem("personaShown", personaShown);
 	
 });

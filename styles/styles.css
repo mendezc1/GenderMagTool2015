@@ -1,6 +1,5 @@
 #popupBody {
 	width: 550px;
-	background-color: #ffffff;
 }
 
 #content {
@@ -8,11 +7,12 @@
 }
 
 #welcomeText {
-	font-size: 18px;
+	font-size: 20px;
+	font-family: 'Poppins', sans-serif;
 }
 
 hr {
-	border-top: 2px solid #EEF66C;
+	border-top: 2px solid #0288D1;
 }
 
 #icons {
@@ -20,10 +20,11 @@ hr {
 	font-size: 13px;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
+	margin-top: 15px;
 }
 
 .icon {
-	color: #62C2CC;
+	color: #03a9f4 ;
 }
 
 #team {
@@ -34,19 +35,22 @@ hr {
 	float: right;
 }
 
-#beginSetup {
+.instruction {
 	font-size: 13px;
-	border: 4px solid #EEF66C;
+	border: 2px solid #FFC107;
 	padding: 10px;
 }
 
-.setup {
-	width: 80%;
-	font-size: 14px;
-	background-color: #cccccc;
-	text-align: center;
-	padding: 5px;
-	margin-bottom: 10px;
+button, input[type=submit] {
+    background-color: #0288D1;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
 }
 
 input[type=text], textarea {
@@ -66,31 +70,23 @@ input[type=text] {
 }
  
 input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px #EEF66C;
+  box-shadow: 0 0 5px #FFC107;
   padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px;
-  border: 1px solid #EEF66C;
+  border: 1px solid #FFC107;
 }
 
-#highlightClick {
-    position: absolute;
-    left: 30px;
-    border: 3px solid orange;
-	z-index:1000;
-	opacity: 0.5;
-	height: 50px;
-	width: 100px;
+.removeSubgoal, .removeAction {
+	float: right;
+	margin: 1px !important;
+	padding: 2px !important;
+	background-color: #ffffff !important;
+	color: #FFC107 !important;
 }
 
 select {
 	width: 200px;
 	height: 15px;
-}
-
-
-.idealActionLabel {
-	font-size: 14px;
-	color: #0071F3;
 }
 
 .cwQuestion {
@@ -99,28 +95,14 @@ select {
 
 .responseBox {
 	display: inline-block;
+	height: 40px;
 }
 
 .responseBoxLabel {
 	display: inline-block;
 	padding-right: 60px;
 	padding-left: 60px;
-}
-.previewImage{
-	width:200px;
-	height:200px;
-}
-
-button, input[type=submit] {
-    background-color: #62C2CC;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
+	margin-top: 5px;
 }
 
 label {
@@ -130,14 +112,6 @@ label {
 .accordion {
 	margin-bottom: 10px;
 }
-
-.removeSubgoal, .removeAction {
-	float: right;
-	margin: 1px !important;
-	padding: 2px !important;
-	background-color: lightgrey !important;
-}
-
 
 /* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */
 
