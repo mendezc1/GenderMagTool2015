@@ -1,86 +1,85 @@
 var personaName = "";
 var pronoun = "";
 var possessive = "";
-var numScreenShots = 0;
-var numSubtasks = 0;
-var personaShown = 0; //toggle when user clicks view/hide persona button
-var screenShotURL;
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.greeting == "takeScreenShot"){
-		takeScreenShot();
-		//chrome.extension.getBackgroundPage().console.log("message url ",screenShotURL);
-		sendResponse({farewell: screenShotURL});}
-});
+var numScreenShots = 0;
+var numSubgoals = 0;
+
+var personaShown = false; //toggle when the user clicks the Show/Hide Persona button
+var screenShotURL;
 
 $(document).ready(function() {
 	
-	//Reload previous html
-	var prevHTML = localStorage.getItem("popupHTML");	
-	if (prevHTML != null) {
-	
-		//Reset html
+	//if the user has opened the tool, reload previous html...
+	var prevHTML = localStorage.getItem("popupHTML");
+		
+	if (prevHTML) {
+		//reload previous html
 		$("body").html(prevHTML);
 	
-		//Restore user input (state before they clicked away from popup)
-		/*$(document).each(function() {
-			allInput = ($(this).find(':input'));
-		});
-	
-		for (var i = 0; i < allInput.length; i++) {
-			var id = allInput[i]["id"];
-			var type = allInput[i]["type"]
-		
-			var value = localStorage.getItem(id);
+		//restore input fields
+		$(document).each(function() {
+			var input = ($(this).find(':input'));
 			
-			if (type == "checkbox") {
-				$("#" + id).attr("checked", $.parseJSON(value)); //convert string to bool
-			} else if (type != "submit") {
-				$("#" + id).val(value);
+			for (var i = 0; i < input.length; i++) {
+				var id = input[i]["id"];
+				var type = input[i]["type"]
+				var value = localStorage.getItem(id);
+			
+				if (type == "checkbox") {
+					value = $.parseJSON(value); //convert string to bool
+					$("#" + id).attr("checked", value);
+				} else if (type != "submit") {
+					$("#" + id).val(value);
+				}
 			}
-		}*/
+		});
+		
     	
-    	//Restore global variables
+    	//restore global variables
     	personaName = localStorage.getItem("personaName");
     	pronoun = localStorage.getItem("pronoun");
     	possessive = localStorage.getItem("possessive");
-    	numSubtasks = localStorage.getItem("numSubtasks");
+    	numSubgoals = localStorage.getItem("numSubgoals");
 		numScreenShots = localStorage.getItem("numScreenShots");
     	
 	} else {
 		
+		//initial state
 		$(".setup").hide();
 		$("#viewPersona").hide();
 		
 		$("#icons").children().fadeTo(0, 0.3)
 		$("#getPersona").children().fadeTo(0, 0.6).attr("disabled",  true);
-		$("#getTask").children().fadeTo(0, 0.6).attr("disabled",  true);
-		$("#getSubtask").children().fadeTo(0, 0.6).attr("disabled",  true);
+		$("#getScenario").children().fadeTo(0, 0.6).attr("disabled",  true);
+		$("#getSubgoal").children().fadeTo(0, 0.6).attr("disabled",  true);
 		
-		$("#subtaskPrompt").hide();
+		$("#subgoalPrompt").hide();
 	}
 	
-	//Initialize the subgoal accordion menu
+	//initialize the subgoal accordion menu
     $(function() {
     	$(".accordion").accordion({ heightStyle: "content", collapsible: true });
   	});
 	
-	//Get team name
+	
+	//set team name
 	$("#submitTeam").click(function() {
 		var teamName = $("#teamInput").val();
 		
 		$("#team").fadeTo(800, 1)
 		$("#teamName").html(teamName);
 		
+		//Show persona selector
 		$("#getTeam").children().hide();
 		$("#getPersona").children().fadeTo(500, 1).attr("disabled",  false);
 		
 	});
 	
-	//Get persona name
+	
+	//set persona name
 	$("#submitPersona").click(function() {
-		personaName = $("#personaSelection").val();
+		var personaName = $("#personaSelection").val();
 		
 		$("#persona").fadeTo(800, 1)
 		$("#personaName").html(personaName);
@@ -93,72 +92,150 @@ $(document).ready(function() {
 			possessive = "her";
 		}
 		
+		//remove persona selector
 		$("#getPersona").children().remove();
 		$("#getPersona").remove();
 		
-		//Scenario prompt
-		$("#getTask").children().fadeTo(500, 1).attr("disabled", false);
-		$("#taskPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+		//show scenario prompt
+		$("#getScenario").children().fadeTo(500, 1).attr("disabled", false);
+		$("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
 		
-		//Show button to view persona
+		//show button to view persona
 		$("#viewPersona").show().html("Show " + personaName);
-		personaShown = true;
+		personaShown = false;
 	});
 	
-	//Get task name
-	$('#submitTask').click(function() {
-		var taskName = $("#taskInput").val();
+	
+	//set scenario name
+	$('#submitScenario').click(function() {
+		var scenario = $("#scenarioInput").val();
 		
 		$("#scenario").fadeTo(800, 1)
-		$("#scenarioName").html(taskName);
+		$("#scenarioName").html(scenario);
 		
-		$("#getTask").children().remove();
-		$("#getTask").remove();
+		$("#getScenario").children().remove();
+		$("#getScenario").remove();
 		
+		//remove instructions
 		$("#beginSetup").fadeOut(800, function () { $(this).remove(); });
 
-		//Show subtask prompt
-		$("#getSubtask").children().fadeTo(500, 1).attr("disabled",  false);		
-		$("#subtaskPrompt").show()
-		$("#subtaskPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
+		//show subgoal prompt
+		$("#getSubgoal").children().fadeTo(500, 1).attr("disabled",  false);		
+		$("#subgoalPrompt").show()
+		$("#subgaolPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
 	});
 	
-	//Get Subtask
-	$("#submitSubtask").click(function() {
-		numSubtasks++;
-		numActions = 0;
+	
+	//add subgoal
+	$("#submitSubgoal").click(function() {
+		numSubgoals++;
 			
-		//Clear the hint in the field for subtask name/description
-		$("#subtaskInput").attr("placeholder", "");
+		var subgoalName = $("#subgoalInput").val();
 
 		//Add subgoal
 		$.get("templates/subgoal.html", function(html) {
-			$("#subtasks").append(html);
+			$("#subgoals").append(html);
 			
-			//Initialize the ideal action accordion menu imbedded in the subgoal
+			//each subtask in the menu has two elements, a header and a content div
+			
+			var subgoals = $("#subgoals").children();
+			var subgoalIndex = subgoals.length - 1
+			
+			//header and content of this subtask
+			var content = subgoals[subgoalIndex];
+			var header = subgoals[subgoalIndex - 1];
+			
+			$(content).attr("id", "S" + numSubgoals);
+			$(header).attr("id", "S" + numSubgoals + "Name");
+			$(header).html(subgoalName);
+
+			
+			//prepend subgoal number to id of content elements
+			$(content).children().each(function(index) {
+				var id = $(this).attr("id");
+				if (id) {
+					$(this).attr("id", "S" + numSubgoals + id);
+				}
+			})
+			
+			//initialize the ideal action accordion menu imbedded in the subgoal
 			$(".accordion").accordion({ heightStyle: "content", collapsible: true });
 			$(".accordion").accordion("refresh");
 		});			    	
 		
-		//Reset subtask form
-		$("#subtaskInput").val("");
-		$("#subtaskPrompt").html("Are there any more subgoals in this scenario?");
-		$("#submitSubtask").val("Add New Subgoal");
+		//reset subtask form
+		$("#subgoalInput").val("");
+		$("#subgoalPrompt").html("Are there any more subgoals in this scenario?");
+		$("#submitSubgoal").val("Add New Subgoal");
 		
 	});
 	
+	
 	//Add ideal action
 	$("body").on("click", "input.addAction", function() {
-		numActions++;
+		var subgoal = $(this).parent();
+		var subgoalId = subgoal.attr("id");
 		
-		//The ideal action container of the current subgoal
-		var idealActions = $(this).parent().children("#idealActions");
+		var actionName = subgoal.children(".actionName").val();
 		
 		$.get("templates/action.html", function(html) {
-			idealActions.append(html);
+			subgoal.children(".idealActions").append(html);
 			$(".accordion").accordion("refresh");
+			
+			//increment the number of actions associated with the current subgoal
+			var numActions = parseInt(subgoal.attr("data-numactions"));
+			numActions = numActions + 1;
+			subgoal.attr("data-numactions", numActions);
+							
+			var idealActions = subgoal.children(".idealActions").children();
+			var actionIndex = idealActions.length - 1;
+
+			//header and content of this action
+			var content = idealActions[actionIndex];
+			var header = idealActions[actionIndex - 1];
+			
+			$(content).attr("id", subgoalId + "A" + numActions);
+			$(header).attr("id", subgoalId + "A" + numActions + "Name");
+			$(header).html(actionName);
+			
+			//prepend subgoal number and action number to id of content elements
+			$(content).children().each(function(index) {
+				var id = $(this).attr("id");
+				if (id) {
+					$(this).attr("id", subgoalId + "A" + numActions + id);
+				}	
+			})
 		});
+		
+		//reset form
+		$(".actionName").val("");
+		
 	});
+	
+	$("body").on("click", "input.removeSubgoal", function() {
+		var id = event.target.id;
+		console.log(id);
+		var subgoalNumber = id[1];
+				
+		$("#S" + subgoalNumber).remove();
+		$("#S" + subgoalNumber + "Name").remove();
+		
+		$(".accordion").accordion("refresh");
+	});
+	
+	
+	$("body").on("click", "input.removeAction", function() {
+		var id = event.target.id;
+		console.log(id);
+		var subgoalNumber = id[1];
+		var actionNumber = id[3];
+				
+		$("#S" + subgoalNumber + "A" + actionNumber).remove();
+		$("#S" + subgoalNumber + "A" + actionNumber + "Name").remove();
+
+		$(".accordion").accordion("refresh");
+	});
+	
 	
 	//Show persona details
 	$("#viewPersona").click(function() {
@@ -178,50 +255,35 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("body").on("click", "button.removeSubtask", function() {
-		var id = event.target.id;
-		var subtaskNumber = id[id.length - 1];
-				
-		$("#S" + subtaskNumber).remove();
-		$("#S" + subtaskNumber + "Name").remove();
-		
-		numSubtasks--;
-		$(".accordion").accordion("refresh");
-	});
-	
-	$("body").on("click", "button.removeAction", function() {
-		var id = event.target.id;
-		var subtaskNumber = id[7];
-		var actionNumber = id[9];
-				
-		$("#S" + subtaskNumber + "A" + actionNumber).remove();
-		
-		//Reduce the action count for the subgoal
-		//prevNumActions = $("#S" + subtaskNumber).attr("numactions");
-		//curNumActions = parseInt(prevNumActions) - 1;
-		//$("#S" + subtaskNumber).attr("numactions", curNumActions);
-		
-		$(".accordion").accordion("refresh");
-	});
 	$("body").on("click", "button.screenShot", function(){
 		callOverlay();
 	});
 	
+	
 	$("#saveAndExit").click(function() {
 		$(document).each(function() {
-			allInput = ($(this).find(':input'));
-		});
+			var input = ($(this).find(':input'));
+			
+			csv = createCSV(parseUserInput(input));
+			downloadCSV(csv);
 		
-		csv = createCSV(parseUserInput(allInput));
-		downloadCSV(csv);
+			//after save, don't store html on unload
+			$(window).unbind("unload");
 		
-		//After save, don't store html on unload
-		$(window).unbind("unload");
-		
-		//Remove input and global variables
-		localStorage.clear();		
+			//remove input and global variables
+			localStorage.clear();
+		});		
 	});
 	
+	
+});
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.greeting == "takeScreenShot"){
+		takeScreenShot();
+		//chrome.extension.getBackgroundPage().console.log("message url ",screenShotURL);
+		sendResponse({farewell: screenShotURL});}
 });
 
 // When user clicks off of tool or closes tool
@@ -253,7 +315,7 @@ $(window).unload(function () {
     localStorage.setItem("personaName", personaName);
     localStorage.setItem("pronoun", pronoun);
     localStorage.setItem("possessive", possessive);
-    localStorage.setItem("numSubtasks", numSubtasks);
+    localStorage.setItem("numSubgoals", numSubgoals);
 	localStorage.setItem("numScreenShots", numScreenShots);
     //localStorage.setItem("personaShown", personaShown);
 	

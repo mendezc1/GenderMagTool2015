@@ -7,8 +7,46 @@
 	margin-top: 20px;
 }
 
+#welcomeText {
+	font-size: 18px;
+}
+
 hr {
-	border-top: 2px solid #3fb0ac;
+	border-top: 2px solid #EEF66C;
+}
+
+#icons {
+	text-align: center;
+	font-size: 13px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.icon {
+	color: #62C2CC;
+}
+
+#team {
+	float: left;
+}
+
+#scenario {
+	float: right;
+}
+
+#beginSetup {
+	font-size: 13px;
+	border: 4px solid #EEF66C;
+	padding: 10px;
+}
+
+.setup {
+	width: 80%;
+	font-size: 14px;
+	background-color: #cccccc;
+	text-align: center;
+	padding: 5px;
+	margin-bottom: 10px;
 }
 
 input[type=text], textarea {
@@ -28,10 +66,10 @@ input[type=text] {
 }
  
 input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px #3fb0ac;
+  box-shadow: 0 0 5px #EEF66C;
   padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px;
-  border: 1px solid #3fb0ac;
+  border: 1px solid #EEF66C;
 }
 
 #highlightClick {
@@ -44,43 +82,11 @@ input[type=text]:focus, textarea:focus {
 	width: 100px;
 }
 
-#welcomeText {
-	font-size: 18px;
+select {
+	width: 200px;
+	height: 15px;
 }
 
-
-#icons {
-	text-align: center;
-	font-size: 13px;
-}
-
-.icon {
-	padding: 5px;
-	color: #3fb0ac;
-}
-
-#team {
-	float: left;
-}
-
-#scenario {
-	float: right;
-}
-
-#beginSetup, #subtaskPrompt {
-	font-size: 13px;
-	border: 4px solid #fae596;
-	padding: 10px;
-}
-
-.setup {
-	width: 80%;
-	font-size: 14px;
-	background-color: #cccccc;
-	text-align: center;
-	padding: 5px;
-	margin-bottom: 10px;
-}
 
 .idealActionLabel {
 	font-size: 14px;
@@ -89,10 +95,6 @@ input[type=text]:focus, textarea:focus {
 
 .cwQuestion {
 	font-weight: bold;
-}
-
-.removeSubtask {
-	float: right;
 }
 
 .responseBox {
@@ -107,15 +109,33 @@ input[type=text]:focus, textarea:focus {
 .previewImage{
 	width:200px;
 	height:200px;
-	
 }
 
-button {
-	margin: 5px;
+button, input[type=submit] {
+    background-color: #62C2CC;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
 }
 
 label {
 	color: black;
+}
+
+.accordion {
+	margin-bottom: 10px;
+}
+
+.removeSubgoal, .removeAction {
+	float: right;
+	margin: 1px !important;
+	padding: 2px !important;
+	background-color: lightgrey !important;
 }
 
 

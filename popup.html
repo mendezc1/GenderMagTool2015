@@ -7,6 +7,11 @@
 		
 		<script src="jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
 		<script src="jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+		
+		<script src="js/helper.js"></script>
+		<script src="js/output.js"></script>
+		<script src="js/screenshot.js"></script>
+		
 		<script src="popup.js"></script>
 		
 		<title>GenderMag</title>
@@ -44,7 +49,7 @@
 		</div>
 		
 		<div id="getPersona">
-			<label id="personaPrompt">Select a Persona</label>
+			<label id="personaPrompt">Now select a Persona</label><br>
 			<select id="personaSelection" name="persona">
 				<option value="Abby">Abby</option>
 				<option value="Tim">Tim</option>
@@ -55,21 +60,21 @@
 			<button id="submitPersona">Submit</button><br>
 		</div>
 		
-		<button id="viewPersona" personaShown="false"></button>
+		<!--<button id="viewPersona" personaShown="false"></button>-->
 		
-		<div id="getTask">
-			<label id="taskPrompt"></label><br>
-			<input id="taskInput" type="text" placeholder="eg Needs to fire Sue">
-			<input type="submit" id="submitTask" value="Create Scenario"><br>
+		<div id="getScenario">
+			<label id="scenarioPrompt"></label><br>
+			<input id="scenarioInput" type="text" placeholder="ex Edit Sue's contact information">
+			<input type="submit" id="submitScenario"><br>
 		</div>
 			
-		<div class="accordion" id="subtasks">
+		<div class="accordion" id="subgoals">
 		</div>
 			
-		<div id="getSubtask">
-			<div id="subtaskPrompt"></div>
-			<input id="subtaskInput" type="text" placeholder="eg Search for 'Sue'">
-			<input type="submit" id="submitSubtask" value="Add Subgoal">
+		<div id="getSubgoal">
+			<label id="subgoalPrompt"></label><br>
+			<input id="subgoalInput" type="text" placeholder="ex Search for 'Sue' in the DB">
+			<input type="submit" id="submitSubgoal" value="Add Subgoal">
 		</div>
 
 		<button id="saveAndExit">Save and Exit</button>
