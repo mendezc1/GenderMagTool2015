@@ -1,117 +1,81 @@
-function parseUserInput(allInput) {
-	var taskName = $("#taskName").html();
-	var teamName = $("#teamName").html();
+function parseUserInput(userInput) {
+	var scenario = $("#scenarioName").html();
+	var team = $("#teamName").html();
+	var persona = $("#personaName").html();
 	
-	//Three possible responses for each question (yes, no, or maybe)
-	//Checkbox, text area, and 5 facets under each response (7 total inputs per response)
-	var numInputsPerResponse = 21;
+	//for each question, three possible responses (yes, no, or maybe)
+	//plus one checkbox for each of the five facets
+	var inputsPerResponse = 3 + 5;
 
-	var entry = [];
+	var entry = []; //corresponds to a single row in the csv
 	var entries = [];
 		
 	lastSubgoal = null;
 	lastQuestion = null;
 	
-	for (var i = 0; i < allInput.length; i++) { 
-		if ((allInput[i]["checked"] == true) || (allInput[i]["type"] == "textarea")) {
+	for (var i = 0; i < userInput.length; i++) { 
+		if ((userInput[i]["checked"] == true) || (userInput[i]["type"] == "textarea")) {
 			    
-			var responseId = allInput[i]['id'];
-			var input = allInput[i]['value'];
+			var responseId = userInput[i]['id'];
+			var input = userInput[i]['value'];
 				
+			//every input field is identified by a string in the format:
+			//S<subgoal#>A<action#>Q<question#><variable_length_string>
 			var subgoalNumber = responseId[1];
 			var actionNumber = responseId[3];
 			var questionNumber = responseId[5];
 				
-			//If on the same question for the same subgoal, update current entry
-			//Otherwise, add current entry to list of entries and create a new entry
+			//if on the same question for the same subgoal, update current entry
+			//if new question, add entry to list of entries and start on a new entry
 			if ((questionNumber != lastQuestion) || (subgoalNumber != lastSubgoal)) {
 				if (entry.length != 0) {
 					entries.push(entry);
 				}
 					
-				var subgoalName = $("#S" + subgoalNumber + "Name").html();
+				var subgoalName = $("#S" + subgoalNumber + "Name").text();
 				var actionName = $("#S" + subgoalNumber + "A" + actionNumber + "Name").html();
+				
 				var date = today();
 				var time = now();
 				
-				entry = [date, time, teamName, personaName, taskName, subgoalName, actionName, questionNumber];
-				//Allows for adding more columns to beginning of the entry (array above)
-				//without altering the ridiculous switch statement below
-				prefix = entry.length;
+				entry = [date, time, team, persona, scenario, subgoalName, actionName, questionNumber];
+				prefix = entry.length - 1;
 					
-				//Init with default value
-				for (var j = 0; j < numInputsPerResponse; j++) {
+				//init fields containing user input with default value
+				for (var j = 0; j < inputsPerResponse; j++) {
 					entry.push("0");
 				}
 					
+				//update
 				lastSubgoal = subgoalNumber;
 				lastQuestion = questionNumber;
 			}
 
-			var inputId = responseId.substring(6);
+			var inputId = responseId.substring(6); //the variable length string at the end of the id
 			switch(inputId) {
-				case 'yesCheckbox':
-					entry[prefix + 1] = "1";
+				case 'whyYes':
+					entry[prefix + 1] = input;
 					break;
-				case 'YesResponse':
+				case 'whyNo':
 					entry[prefix + 2] = input;
 					break;
-				case 'YF0':
-					entry[prefix + 3] = "1";
+				case 'whyMaybe':
+					entry[prefix + 3] = input;
 					break;
-				case 'YF1':
+				case 'motiv':
 					entry[prefix + 4] = "1";
 					break;
-				case 'YF2':
+				case 'info':
 					entry[prefix + 5] = "1";
 					break;
-				case 'YF3':
+				case 'self':
 					entry[prefix + 6] = "1";
 					break;
-				case 'YF4':
+				case 'risk':
 					entry[prefix + 7] = "1";
 					break;
-				case 'noCheckbox':
+				case 'tinker':
 					entry[prefix + 8] = "1";
-					break;
-				case 'NoResponse':
-					entry[prefix + 9] = input;
-					break;
-				case 'NF0':
-					entry[prefix + 10] = "1";
-					break;
-				case 'NF1':
-					entry[prefix + 11] = "1";
-					break;
-				case 'NF2':
-					entry[prefix + 12] = "1";
-					break;
-				case 'NF3':
-					entry[prefix + 13] = "1";
-					break;
-				case 'NF4':
-					entry[prefix + 14] = "1";
-					break;
-				case 'maybeCheckbox':
-					entry[prefix + 15] = "1";
-					break;
-				case 'maybeResponse':
-					entry[prefix + 16] = input;
-					break;
-				case 'MF0':
-					entry[prefix + 17] = "1";
-					break;
-				case 'MF1':
-					entry[prefix + 18] = "1";
-					break;
-				case 'MF2':
-					entry[prefix + 19] = "1";
-					break;
-				case 'MF3':
-					entry[prefix + 20] = "1";
-					break;
-				case 'MF4':
-					entry[prefix + 21] = "1";
 					break;
 				default:
 					entry[0] = "ERROR IN THIS ENTRY"
@@ -119,7 +83,7 @@ function parseUserInput(allInput) {
 		}
 	}
 
-	//Add the last entry
+	//add the last entry
 	entries.push(entry);
 	
 	return entries;
@@ -127,10 +91,9 @@ function parseUserInput(allInput) {
 
 function createCSV(entries) {
 	var csvContent = "data:text/csv;charset=utf-8,";
-	var header = ["Persona", "Task", "Subgoal", "Action", "Question",
-		"Yes", "Why", "Motiv", "Risk", "Tinker", "SE", "Info",
-		"No", "Why", "Motiv", "Risk", "Tinker", "SE", "Info",
-		"Maybe", "Why", "Motiv", "Risk", "Tinker", "SE", "Info"]
+	
+	var header = ["Date", "Time", "Team", "Persona", "Scenario", "Subgoal", "Action", "Question",
+		"Yes", "No", "Maybe", "Motivation", "Info Processing", "Self-Efficacy", "Risk", "Tinker"]
 		
 	csvContent += header.join(",") + "\n";
 		

@@ -11,6 +11,10 @@
 	font-family: 'Poppins', sans-serif;
 }
 
+#viewPersona {
+	float: right;
+}
+
 hr {
 	border-top: 2px solid #0288D1;
 }
@@ -37,6 +41,7 @@ hr {
 
 .instruction {
 	font-size: 13px;
+	text-align: center;
 	border: 2px solid #FFC107;
 	padding: 10px;
 }
@@ -67,6 +72,7 @@ input[type=text], textarea {
 input[type=text] {
 	height: 15px;
 	width: 200px;
+	border: 1px solid grey;
 }
  
 input[type=text]:focus, textarea:focus {
@@ -96,6 +102,7 @@ select {
 .responseBox {
 	display: inline-block;
 	height: 40px;
+	border: 1px solid grey;
 }
 
 .responseBoxLabel {
@@ -103,6 +110,12 @@ select {
 	padding-right: 60px;
 	padding-left: 60px;
 	margin-top: 5px;
+}
+
+.overlayTrigger {
+	color: #0288D1;
+	text-decoration: underline;
+	cursor: default;
 }
 
 label {

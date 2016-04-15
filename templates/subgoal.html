@@ -1,5 +1,6 @@
-<!--For now, there's a lot of jQuery that depends on the structure of this html.
-If you add levels or create nested elements, you might have to go back and refactor some of the code... -->
+<!--For now, there's a lot of jQuery that depends on the structure of this html. Especially event listeners.
+If you add levels or create nested elements, you might have to go back and refactor some of the code...
+Also, if you change the name of an input element, update parseUserInput in output.js -->
 
 <!DOCTYPE html>
 <html> 
@@ -10,21 +11,21 @@ If you add levels or create nested elements, you might have to go back and refac
 		
 		<span class="cwQuestion">Will Abby have formed this subgoal as a step to her overall goal?<br></span>
 		
-		<div id="Q0yes" class="responseBoxLabel">Yes</div>
-		<div id="Q0no"class="responseBoxLabel">No</div>
-		<div id="Q0maybe" class="responseBoxLabel">Maybe</div><br>
+		<div id="A0Q0yes" class="responseBoxLabel">Yes</div>
+		<div id="A0Q0no"class="responseBoxLabel">No</div>
+		<div id="A0Q0maybe" class="responseBoxLabel">Maybe</div><br>
 	
-		<textarea id="Q0whyYes" class="responseBox" placeholder="Why?"></textarea>
-		<textarea id="Q0whyNo" class="responseBox" placeholder="Why not?"></textarea>
-		<textarea id="Q0whyMaybe" class="responseBox" placeholder="Why maybe?"></textarea><br>
+		<textarea id="A0Q0whyYes" class="responseBox" placeholder="Why?"></textarea>
+		<textarea id="A0Q0whyNo" class="responseBox" placeholder="Why not?"></textarea>
+		<textarea id="A0Q0whyMaybe" class="responseBox" placeholder="Why maybe?"></textarea><br>
 	
 		<span class="cwQuestion">Which of the persona's facets did you use to answer the above question?</span><br>
 		
-		<input id="Q0motiv" type="checkbox" value="Motivation"><span>Motivation</span><br>
-		<input id="Q0info" type="checkbox" value="Information Processing Style"><span>Information Processing Style</span><br>
-		<input id="Q0self" type="checkbox" value="Computer Self-Efficacies"><span>Computer Self-Efficacies</span><br>
-		<input id="Q0risk" type="checkbox" value="Attitude Towards Risk"><span>Attitude Towards Risk</span><br>
-		<input id="Q0tinker" type="checkbox" value="Willingness to Tinker"><span>Willingness to Tinker</span><br><br>
+		<input id="A0Q0motiv" type="checkbox" value="Motivation"><span>Motivation</span><br>
+		<input id="A0Q0info" type="checkbox" value="Information Processing Style"><span>Information Processing Style</span><br>
+		<input id="A0Q0self" type="checkbox" value="Computer Self-Efficacies"><span>Computer Self-Efficacies</span><br>
+		<input id="A0Q0risk" type="checkbox" value="Attitude Towards Risk"><span>Attitude Towards Risk</span><br>
+		<input id="A0Q0tinker" type="checkbox" value="Willingness to Tinker"><span>Willingness to Tinker</span><br><br>
 		
 		<div class="accordion idealActions" id="idealActions">
 		</div>

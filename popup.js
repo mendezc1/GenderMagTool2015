@@ -1,7 +1,3 @@
-var personaName = "";
-var pronoun = "";
-var possessive = "";
-
 var numScreenShots = 0;
 var numSubgoals = 0;
 
@@ -108,6 +104,7 @@ $(document).ready(function() {
 	
 	//set scenario name
 	$('#submitScenario').click(function() {
+		var personaName = $("#personaName").html();
 		var scenario = $("#scenarioInput").val();
 		
 		$("#scenario").fadeTo(800, 1)
@@ -214,6 +211,8 @@ $(document).ready(function() {
 		
 	});
 	
+	
+	//remove subgoal
 	$("body").on("click", "input.removeSubgoal", function() {
 		var id = event.target.id;
 		console.log(id);
@@ -226,6 +225,7 @@ $(document).ready(function() {
 	});
 	
 	
+	//remove action
 	$("body").on("click", "input.removeAction", function() {
 		var id = event.target.id;
 		console.log(id);
@@ -239,28 +239,11 @@ $(document).ready(function() {
 	});
 	
 	
-	$("body").on("click", "input.overlayTrigger", function(){
+	
+	//overlay for capturing ideal action
+	$("body").on("click", "span.overlayTrigger", function(){
 		$(this).parent().parent().children().removeAttr("disabled");
 		$(this).parent().remove();
-	});
-	
-	
-	//Show persona details
-	$("#viewPersona").click(function() {
-		if (personaShown == true) {
-			personaShown = false;
-			$(this).html("Hide " + personaName);
-		} else {
-			personaShown = true;
-			$(this).html("Show " + personaName);
-		}
-		
-		//Open persona view
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar", selection: personaName}, function(response) {
-				chrome.extension.getBackgroundPage().console.log("resp ", response);
-			});
-		});
 	});
 	
 	
@@ -280,7 +263,26 @@ $(document).ready(function() {
 	});
 	
 	
+	//show and hide persona view
+	$("#viewPersona").click(function() {
+		var personaName = $("#personaName").html();
+		
+		if (personaShown == true) {
+			personaShown = false;
+			$(this).html("Hide " + personaName);
+		} else {
+			personaShown = true;
+			$(this).html("Show " + personaName);
+		}
+
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar", selection: personaName}, function(response) {
+				chrome.extension.getBackgroundPage().console.log("resp ", response);
+			});
+		});
+	});
 });
+
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
@@ -289,6 +291,7 @@ chrome.runtime.onMessage.addListener(
 		//chrome.extension.getBackgroundPage().console.log("message url ",screenShotURL);
 		sendResponse({farewell: screenShotURL});}
 });
+
 
 //when user clicks off of tool
 $(window).unload(function () {
