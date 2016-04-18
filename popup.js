@@ -113,13 +113,11 @@ $(document).ready(function() {
 		$("#getScenario").children().remove();
 		$("#getScenario").remove();
 		
-		//remove instructions
-		$("#setup").fadeOut(800, function () { $(this).remove(); });
+		$("#setup").html("Now that you've completed the initial setup, enter a Subgoal for " + personaName + " to perform");
 
 		//show subgoal prompt
-		$("#getSubgoal").children().fadeTo(500, 1).attr("disabled",  false);		
+		$("#getSubgoal").children().fadeTo(500, 1).attr("disabled",  false);
 		$("#subgoalPrompt").show()
-		$("#subgaolPrompt").html("Now that you've completed the initial setup, enter a subgoal for " + personaName + " to perform");
 	});
 	
 	
@@ -128,6 +126,9 @@ $(document).ready(function() {
 		numSubgoals++;
 			
 		var subgoalName = $("#subgoalInput").val();
+		
+		//remove setup instructions, change subgoal prompt
+		$("#setup").fadeOut(800, function () { $(this).remove(); });
 
 		//Add subgoal
 		$.get("templates/subgoal.html", function(html) {
@@ -204,6 +205,7 @@ $(document).ready(function() {
 			})
 			
 			$(content).children().attr("disabled", true);
+			$(content).find(".removeAction").attr("disabled", false);
 		});
 		
 		//reset form
@@ -215,7 +217,6 @@ $(document).ready(function() {
 	//remove subgoal
 	$("body").on("click", "input.removeSubgoal", function() {
 		var id = event.target.id;
-		console.log(id);
 		var subgoalNumber = id[1];
 				
 		$("#S" + subgoalNumber).remove();
@@ -228,7 +229,6 @@ $(document).ready(function() {
 	//remove action
 	$("body").on("click", "input.removeAction", function() {
 		var id = event.target.id;
-		console.log(id);
 		var subgoalNumber = id[1];
 		var actionNumber = id[3];
 				
@@ -241,9 +241,15 @@ $(document).ready(function() {
 	
 	
 	//overlay for capturing ideal action
-	$("body").on("click", "span.overlayTrigger", function(){
+	$("body").on("click", "button.overlayTrigger", function(){
+		//enable the input fields for the current subgoal
 		$(this).parent().parent().children().removeAttr("disabled");
-		$(this).parent().remove();
+		
+		$(this).html("Recapture This Action");
+		$(this).prev().html(
+			"Got it! Now you can move on to the next question. " +
+			"You can also redo your screen capture by clicking the button again."
+		);
 	});
 	
 	

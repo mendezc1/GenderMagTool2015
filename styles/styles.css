@@ -44,6 +44,7 @@ hr {
 	text-align: center;
 	border: 2px solid #FFC107;
 	padding: 10px;
+	margin: 10px;
 }
 
 button, input[type=submit] {
@@ -85,9 +86,10 @@ input[type=text]:focus, textarea:focus {
 .removeSubgoal, .removeAction {
 	float: right;
 	margin: 1px !important;
-	padding: 2px !important;
+	font-size: 12px;
 	background-color: #ffffff !important;
-	color: #FFC107 !important;
+	color: #ff4500 !important;
+	padding: 0px !important;
 }
 
 select {
@@ -110,12 +112,6 @@ select {
 	padding-right: 60px;
 	padding-left: 60px;
 	margin-top: 5px;
-}
-
-.overlayTrigger {
-	color: #0288D1;
-	text-decoration: underline;
-	cursor: default;
 }
 
 label {
