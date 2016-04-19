@@ -255,7 +255,7 @@ $(document).ready(function() {
 	
 	
 	//overlay for capturing ideal action
-	$("body").on("click", "button.overlayTrigger", function(){
+	$("body").on("click", "input.overlayTrigger", function(){
 		//enable the input fields for the current subgoal
 		$(this).parent().parent().children().removeAttr("disabled");
 		
