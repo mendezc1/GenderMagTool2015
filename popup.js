@@ -290,12 +290,8 @@ $(document).ready(function() {
 	
 	//show and hide persona view
 	$("#viewPersona").click(function() {
-<<<<<<< HEAD
-		var personaName = $("#personaName").html();
-=======
 		var personaName = $("#personaName").text();
 		
->>>>>>> 91c35c5f1e6cad56b70b75454c3bf6bbaa2fa68a
 		if (personaShown == true) {
 			personaShown = false;
 			$(this).text("Hide " + personaName);
