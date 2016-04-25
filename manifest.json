@@ -4,7 +4,7 @@
 	"description": "Inject a sidebar on the current tab when the page action is clicked",
 	"version": "0.2",
 	"background": {
-		"scripts": ["jquery-ui-1.11.4.custom/external/jquery/jquery.js", "jquery-ui-1.11.4.custom/jquery-ui.min.js", "popup.js"]
+		"scripts": ["jquery-ui-1.11.4.custom/external/jquery/jquery.js", "jquery-ui-1.11.4.custom/jquery-ui.min.js", "popup.js", "js/screenshot.js"]
 	},
 	"browser_action": {
 		"default_popup": "popup.html",
