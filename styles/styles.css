@@ -43,8 +43,9 @@ hr {
 	font-size: 13px;
 	text-align: center;
 	border: 2px solid #FFC107;
-	padding: 10px;
 	margin: 10px;
+	cursor: default;
+	padding: 5px;
 }
 
 button, input[type=submit] {
@@ -56,7 +57,7 @@ button, input[type=submit] {
     text-decoration: none;
     display: inline-block;
     font-size: 14px;
-    margin: 4px 2px;
+    margin: 5px;
 }
 
 input[type=text], textarea {
@@ -120,6 +121,14 @@ label {
 
 .accordion {
 	margin-bottom: 10px;
+}
+
+.complete {
+	display: none;
+}
+
+.moreOrLess {
+	text-decoration: underline;
 }
 
 /* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */

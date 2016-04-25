@@ -53,9 +53,10 @@ $(document).ready(function() {
 		$("#subgoalPrompt").hide();
 	}
 	
-	//initialize the subgoal accordion menu
+	//initialize the subgoal accordion menu and tooltips
     $(function() {
     	$(".accordion").accordion({ heightStyle: "content", collapsible: true });
+    	$("#setup").tooltip({ track: true });
   	});
 	
 	
@@ -64,7 +65,7 @@ $(document).ready(function() {
 		var teamName = $("#teamInput").val();
 		
 		$("#team").fadeTo(800, 1)
-		$("#teamName").html(teamName);
+		$("#teamName").text(teamName);
 		
 		//Show persona selector
 		$("#getTeam").children().hide();
@@ -78,7 +79,7 @@ $(document).ready(function() {
 		var personaName = $("#personaSelection").val();
 		
 		$("#persona").fadeTo(800, 1)
-		$("#personaName").html(personaName);
+		$("#personaName").text(personaName);
 		
 		if ((personaName == "Tim") || (personaName == "Patrick")) {
 			pronoun = "he";
@@ -94,26 +95,26 @@ $(document).ready(function() {
 		
 		//show scenario prompt
 		$("#getScenario").children().fadeTo(500, 1).attr("disabled", false);
-		$("#scenarioPrompt").html("Take a moment to describe the scenario " + personaName + " will be performing");
+		$("#scenarioPrompt").text("Take a moment to describe the scenario " + personaName + " will be performing");
 		
 		//show button to view persona
-		$("#viewPersona").show().html("Show " + personaName);
+		$("#viewPersona").show().text("Show " + personaName);
 		personaShown = false;
 	});
 	
 	
 	//set scenario name
 	$('#submitScenario').click(function() {
-		var personaName = $("#personaName").html();
+		var personaName = $("#personaName").text();
 		var scenario = $("#scenarioInput").val();
 		
 		$("#scenario").fadeTo(800, 1)
-		$("#scenarioName").html(scenario);
+		$("#scenarioName").text(scenario);
 		
 		$("#getScenario").children().remove();
 		$("#getScenario").remove();
 		
-		$("#setup").html("Now that you've completed the initial setup, enter a Subgoal for " + personaName + " to perform");
+		$("#setup").text("Now that you've completed the initial setup, enter a Subgoal for " + personaName + " to perform");
 
 		//show subgoal prompt
 		$("#getSubgoal").children().fadeTo(500, 1).attr("disabled",  false);
@@ -145,7 +146,7 @@ $(document).ready(function() {
 			
 			$(content).attr("id", "S" + numSubgoals);
 			$(header).attr("id", "S" + numSubgoals + "Name");
-			$(header).html(subgoalName);
+			$(header).text(subgoalName);
 
 			
 			//prepend subgoal number to id of content elements
@@ -163,7 +164,7 @@ $(document).ready(function() {
 		
 		//reset subtask form
 		$("#subgoalInput").val("");
-		$("#subgoalPrompt").html("Are there any more subgoals in this scenario?");
+		$("#subgoalPrompt").text("Are there any more subgoals in this scenario?");
 		$("#submitSubgoal").val("Add New Subgoal");
 		
 	});
@@ -194,7 +195,7 @@ $(document).ready(function() {
 			
 			$(content).attr("id", subgoalId + "A" + numActions);
 			$(header).attr("id", subgoalId + "A" + numActions + "Name");
-			$(header).html(actionName);
+			$(header).text(actionName);
 			
 			//prepend subgoal number and action number to id of content elements
 			$(content).children().each(function(index) {
@@ -238,16 +239,31 @@ $(document).ready(function() {
 		$(".accordion").accordion("refresh");
 	});
 	
+	//show and hide instructions
+	$("body").on("click", "span.moreOrLess", function() {
+    	if ($(this).text() == "See More") {
+    		$(this).text("See Less");
+    		$(this).siblings(".preview").hide();
+    		$(this).siblings(".complete").show(); 
+    	} else {   
+    		$(this).text("See More");
+    		$(this).siblings(".preview").show();
+    		$(this).siblings(".complete").hide(); 
+    	} 
+	});
+	
 	
 	
 	//overlay for capturing ideal action
-	$("body").on("click", "button.overlayTrigger", function(){
-		
+
+	$("body").on("click", "input.overlayTrigger", function(){
 		//enable the input fields for the current subgoal
 		$(this).parent().parent().children().removeAttr("disabled");
 		
-		$(this).html("Recapture This Action");
-		$(this).prev().html(
+		$(this).val("Recapture This Action");
+		
+		$(this).siblings(".preview").text("Got it!");
+		$(this).siblings(".complete").text(
 			"Got it! Now you can move on to the next question. " +
 			"You can also redo your screen capture by clicking the button again."
 		);
@@ -274,13 +290,18 @@ $(document).ready(function() {
 	
 	//show and hide persona view
 	$("#viewPersona").click(function() {
+<<<<<<< HEAD
 		var personaName = $("#personaName").html();
+=======
+		var personaName = $("#personaName").text();
+		
+>>>>>>> 91c35c5f1e6cad56b70b75454c3bf6bbaa2fa68a
 		if (personaShown == true) {
 			personaShown = false;
-			$(this).html("Hide " + personaName);
+			$(this).text("Hide " + personaName);
 		} else {
 			personaShown = true;
-			$(this).html("Show " + personaName);
+			$(this).text("Show " + personaName);
 		}
 
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {

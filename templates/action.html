@@ -9,13 +9,16 @@ If you add levels or create nested elements, you might have to go back and refac
 		<input id="remove" type="submit" class="removeAction" value="Remove Action"><br>
 		
 		<div class="instruction">
-			<p> 
-				Before moving on, click the screen capture button below.
+			<span class="preview">Before moving on...</span>
+			
+			<span class="complete"> Before moving on, click the screen capture button below.
 				Then, perform this action on your screen.
 				The button triggers an overlay that prevents the action from actually occurring.
-				This way, the tool can capture your screen and highlight the element you clicked on.
-			</p>
-		<button class="overlayTrigger">Capture This Action</button>
+				This way, the tool can capture your screen and highlight the element you clicked on.<br></span>
+				
+			<span class="moreOrLess">See More</span><br>
+			
+			<input type="submit" class="overlayTrigger" value="Capture This Action">
 		</div>
 		<canvas id = "imgCanvas" >
 			
