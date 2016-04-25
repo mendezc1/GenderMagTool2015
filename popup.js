@@ -242,6 +242,7 @@ $(document).ready(function() {
 	
 	//overlay for capturing ideal action
 	$("body").on("click", "button.overlayTrigger", function(){
+		
 		//enable the input fields for the current subgoal
 		$(this).parent().parent().children().removeAttr("disabled");
 		
@@ -250,6 +251,8 @@ $(document).ready(function() {
 			"Got it! Now you can move on to the next question. " +
 			"You can also redo your screen capture by clicking the button again."
 		);
+		
+		callOverlay();
 	});
 	
 	
@@ -272,7 +275,6 @@ $(document).ready(function() {
 	//show and hide persona view
 	$("#viewPersona").click(function() {
 		var personaName = $("#personaName").html();
-		
 		if (personaShown == true) {
 			personaShown = false;
 			$(this).html("Hide " + personaName);
@@ -282,7 +284,7 @@ $(document).ready(function() {
 		}
 
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {greeting: "toggleSidebar", selection: personaName}, function(response) {
+			chrome.tabs.sendMessage(tabs[0].id, {greeting: "togglePersona", selection: personaName}, function(response) {
 				chrome.extension.getBackgroundPage().console.log("resp ", response);
 			});
 		});
@@ -290,13 +292,7 @@ $(document).ready(function() {
 });
 
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.greeting == "takeScreenShot"){
-		takeScreenShot();
-		//chrome.extension.getBackgroundPage().console.log("message url ",screenShotURL);
-		sendResponse({farewell: screenShotURL});}
-});
+
 
 
 //when user clicks off of tool

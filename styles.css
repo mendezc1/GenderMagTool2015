@@ -1,126 +1,76 @@
 #popupBody {
-	width: 550px;
+	width: 500px;
+	background-color: #ffffff;
 }
 
 #content {
 	margin-top: 20px;
 }
 
-#welcomeText {
-	font-size: 20px;
-	font-family: 'Poppins', sans-serif;
-}
-
-#viewPersona {
-	float: right;
-}
-
 hr {
-	border-top: 2px solid #0288D1;
+	border-top: 2px solid #4099FF;
 }
 
-#icons {
-	text-align: center;
+input[type="text"] {
+	width: 55%;
+}
+
+#highlightClick {
+    position: absolute;
+    left: 30px;
+    border: 3px solid orange;
+	z-index:1000;
+	opacity: 0.5;
+	height: 50px;
+	width: 100px;
+}
+
+#welcomeText {
+	font-size: 18px;
+}
+
+#beginSetup, #subtaskPrompt {
 	font-size: 13px;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-	margin-top: 15px;
-}
-
-.icon {
-	color: #03a9f4 ;
-}
-
-#team {
-	float: left;
-}
-
-#scenario {
-	float: right;
-}
-
-.instruction {
-	font-size: 13px;
-	text-align: center;
-	border: 2px solid #FFC107;
+	border: 3px solid orange;
 	padding: 10px;
-	margin: 10px;
 }
 
-button, input[type=submit] {
-    background-color: #0288D1;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
+.setup{
+	font-size: 16px;
+	background-color: #d8eaff;
+	text-align: center;
+	padding: 5px;
+	margin-bottom: 10px;
 }
 
-input[type=text], textarea {
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  outline: none;
-  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;
-  border: 1px solid #DDDDDD;
-}
-
-input[type=text] {
-	height: 15px;
-	width: 200px;
-	border: 1px solid grey;
-}
- 
-input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px #FFC107;
-  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;
-  border: 1px solid #FFC107;
-}
-
-.removeSubgoal, .removeAction {
-	float: right;
-	margin: 1px !important;
-	font-size: 12px;
-	background-color: #ffffff !important;
-	color: #ff4500 !important;
-	padding: 0px !important;
-}
-
-select {
-	width: 200px;
-	height: 15px;
+.idealActionLabel {
+	font-size: 14px;
+	color: #0071F3;
 }
 
 .cwQuestion {
 	font-weight: bold;
 }
 
+.removeSubtask {
+	float: right;
+}
+
 .responseBox {
 	display: inline-block;
-	height: 40px;
-	border: 1px solid grey;
 }
 
 .responseBoxLabel {
 	display: inline-block;
 	padding-right: 60px;
 	padding-left: 60px;
-	margin-top: 5px;
+}
+.previewImage{
+	width:200px;
+	height:200px;
+	
 }
 
-label {
-	color: black;
-}
-
-.accordion {
-	margin-bottom: 10px;
-}
 
 /* EVERYTHING FOR THE PERSONA VIEW BELOW THIS LINE. EVERYTHING ABOVE FOR POPUP */
 
@@ -133,11 +83,7 @@ label {
 
 .personaPhotoContainer {
 }
-#imgCanvas{
-	width: 200px;
-	height: 200px;
-	border: 2px ridge purple;
-}
+
 #mySidebar {
 	top: 0px;
 	bottom: 0px;
@@ -158,19 +104,13 @@ label {
 	background-color: white;
 	z-index: 10001;
 }
-.imgDiv{
-	overflow: hidden;
-}
+
 .personaPhoto{
-	max-height: 400px;
-	max-width: 400px;
 	height: 100px;
 	width: 100px;
 	float: left;
 	z-index: 10002;
 }
-.personaPhoto { transition: all .2s ease-in-out; }
-.personaPhoto:hover { transform: scale(10); }
 
 .rightAtribute{
 	margin: 0;
