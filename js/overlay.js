@@ -81,7 +81,7 @@ function overlayScreen(){
 		});
 		console.log("sending message");
 		setTimeout(function(){
-			//document.getElementById("highlightClick").remove();
+			document.getElementById("highlightClick").remove();
 		}, 2000);
 		}
 		function mouseMove(e) {

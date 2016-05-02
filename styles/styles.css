@@ -135,8 +135,7 @@ label {
 #highlightClick{
     position: absolute;
     left: 30px;
-    border: 3px solid orange;	
-	color: orange;
+    background-color: orange;	
 	opacity: 0.5;
 	height: 50px;
 	width: 100px;	
