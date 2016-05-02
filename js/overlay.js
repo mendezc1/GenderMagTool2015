@@ -59,12 +59,14 @@ function overlayScreen(){
 				elm.style.display = "none";
 				elm = document.elementFromPoint(rect.startX, rect.startY);
 			}
-			console.log("element" , elm.innerText, elm.textContent);
+			console.log("element" ,elm.offsetHeight, elm.offsetWidth, elm.offsetLeft, elm.offsetTop);
 			var highlightClick = document.createElement("div");
 			highlightClick.id = "highlightClick";
 			document.body.appendChild(highlightClick);
-			highlightClick.style.left = rect.startX-40 + "px";
-			highlightClick.style.top = rect.startY-20 + "px";
+			highlightClick.style.height = elm.offsetHeight + "px";
+			highlightClick.style.width = elm.offsetWidth + "px";
+			highlightClick.style.left = elm.offsetLeft + "px";
+			highlightClick.style.top = elm.offsetTop + "px";
 			console.log("Clicked ", highlightClick)
 			
 		
@@ -77,10 +79,10 @@ function overlayScreen(){
 		chrome.runtime.sendMessage({greeting: "takeScreenShot", userAction: elm.innerText}, function(response) {
 				
 		});
-			console.log("sending message");
-			setTimeout(function(){
-				document.getElementById("highlightClick").remove();
-			}, 2000);
+		console.log("sending message");
+		setTimeout(function(){
+			//document.getElementById("highlightClick").remove();
+		}, 2000);
 		}
 		function mouseMove(e) {
 			if (drag) {
