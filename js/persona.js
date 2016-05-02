@@ -31,6 +31,7 @@ chrome.runtime.onMessage.addListener(
 	}
 	else{
 	var sidebar = document.createElement('div');
+		console.log("opening sidebard");
 		sidebar.id = "mySidebar";
 			document.body.appendChild(sidebar);
 			sidebarOpen = true;
@@ -51,7 +52,7 @@ chrome.runtime.onMessage.addListener(
  }
  
  function loadAbby(){
-	console.log("in Toggle abby");
+	console.log("In loadAbby");
 	$.get(chrome.extension.getURL("templates/abbyPersona.html"), function(html) {$("#mySidebar").append(html)});
 }
 

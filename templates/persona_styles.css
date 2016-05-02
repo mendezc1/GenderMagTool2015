@@ -1,0 +1,58 @@
+.persona_pic {
+	width: 20%;
+	height: auto; 
+	float:left;
+}
+
+.knowledge_block, .motivation_block, .attitude_block {
+	border:1px solid red;
+	border-radius:25px;
+	margin:1em;
+	padding:1em;
+}
+
+.background {
+	display:inline-block;
+	/*border:1px solid red;
+	border-radius:25px;*/
+	margin:1em;
+	padding:1em;
+	margin-bottom:0em;
+}
+
+ul {
+	overflow:hidden;
+	list-style-type:square;
+}
+
+li {
+	margin-bottom:.5em;
+}
+
+.about_persona {
+	font-style:italic;
+	display:inline-block;
+	padding:1.5em;
+}
+
+.bullets {
+	font-size:1.25em;
+	font-weight:bold;
+}
+
+.before_info {
+	margin:1em;
+	margin-bottom:0em;
+	padding:1em;
+}
+
+#intro {
+	margin:1em;
+	padding:1em;
+	margin-bottom:0em;
+}
+
+#caption {
+	text-align:center;
+	font-weight:bold;
+}
