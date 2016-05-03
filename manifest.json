@@ -19,7 +19,7 @@
 		{
 			"matches": ["<all_urls>"],
 			"js": ["jquery-ui-1.11.4.custom/external/jquery/jquery.js", "jquery-ui-1.11.4.custom/jquery-ui.min.js", "js/persona.js", "js/overlay.js"],
-			"css": [ "styles/styles.css", "templates/persona_styles.css"]
+			"css": [ "styles/styles.css", "styles/persona_styles.css"]
 		}
 	],
 	"permissions": ["storage", "tabs", "<all_urls>"]
