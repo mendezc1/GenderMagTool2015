@@ -53,17 +53,13 @@ chrome.runtime.onMessage.addListener(
  
  function loadAbby(){
 	
-	
-//	$(target_id).html(img);
-	$.get(chrome.extension.getURL("templates/abbyPersona.html"), function(html) {$("#mySidebar").append(html)});
-		//abbyPhoto.src = chrome.extension.getURL("images/Abby-lowres.jpg");
-	var abbySRC=chrome.extension.getURL("images/Abby-lowres.jpg");
-	var abbyPhoto=$("<img />",{
-		"id" : "AbbyPhoto",
-		"src":abbySRC
+	$.get(chrome.extension.getURL("templates/abbyPersona.html"), function(html) {
+		$("#mySidebar").append(html);
+		var abbySRC=chrome.extension.getURL("images/Abby-lowres.jpg");
+		var abbyIMG= "<img id='AbbyPhoto' src='" + abbySRC + "' alt='Abby Jones' class='sidebarImg'/>";
+		$('#picGoesHere').prepend(abbyIMG);
 	});
-	$("#background").append(abbyPhoto);
-	console.log("In loadAbby", abbyPhoto);
+	
 }
 
  
