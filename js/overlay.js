@@ -58,7 +58,7 @@ function overlayScreen(){
 			highlightClick.style.width = elm.offsetWidth + "px";
 			highlightClick.style.left = elm.offsetLeft + "px";
 			highlightClick.style.top = elm.offsetTop + "px";
-			console.log("Clicked ", highlightClick)
+			console.log("Clicked ", highlightClick);
 			
 		
 			console.log(elements);
