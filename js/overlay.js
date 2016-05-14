@@ -1,36 +1,27 @@
 function overlayScreen(){
 	if(!document.getElementById('genderMagCanvasContainer')){
 		console.log("In overlayScreen");
+		// Add the div into the document
 		var canvasContainer = document.createElement('div');
-			// Add the div into the document
+		canvasContainer.id = "genderMagCanvasContainer";
+		document.body.appendChild(canvasContainer);	
 	}
 	else{
-		var canvasContainer = document.getElementById('genderMagCanvas');	
-	}
-	
+		console.log("in else");
+		document.getElementById('genderMagCanvasContainer').remove();	
+		var canvasContainer = document.createElement('div');
 		canvasContainer.id = "genderMagCanvasContainer";
-		canvasContainer.style.position="fixed";
-		// Set to 100% so that it will have the dimensions of the document
-		canvasContainer.style.left="0px";
-		canvasContainer.style.top="0px";
-		canvasContainer.style.width="100%";
-		canvasContainer.style.height="100%";
-		canvasContainer.style.zIndex="1000";
-		document.body.appendChild(canvasContainer);
-		
+		document.body.appendChild(canvasContainer);	
+	}
+	if(!document.getElementById("genderMagCanvas")){
 		var canvas = document.createElement('canvas');
+		canvas.id = "genderMagCanvas";
 		canvas.style.width = canvasContainer.scrollWidth+"px";
 		canvas.style.height = canvasContainer.scrollHeight+"px";
-		canvas.id = "genderMagCanvas";
-		canvas.position = "fixed";
-		canvas.style.cssText = "z-index:100; background:blue; width:100%; height:100%;";
-		canvas.style.opacity = .50;
 		canvas.width=canvasContainer.scrollWidth;
 		canvas.height=canvasContainer.scrollHeight;
-		canvas.style.overflow = 'visible';
-		canvas.style.position = 'fixed';
 		canvasContainer.appendChild(canvas);
-
+	}
 
 		var genderMagCanvas = document.getElementById('genderMagCanvas'),
 			ctx = genderMagCanvas.getContext('2d'),
@@ -67,7 +58,7 @@ function overlayScreen(){
 			highlightClick.style.width = elm.offsetWidth + "px";
 			highlightClick.style.left = elm.offsetLeft + "px";
 			highlightClick.style.top = elm.offsetTop + "px";
-			console.log("Clicked ", highlightClick)
+			console.log("Clicked ", highlightClick);
 			
 		
 			console.log(elements);

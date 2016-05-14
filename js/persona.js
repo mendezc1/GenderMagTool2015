@@ -3,7 +3,7 @@ var sidebarOpen = false;
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.greeting == "togglePersona"){
-		console.log("normal log", request);
+	//	console.log("Request ", request);
 		personaSelection = request.selection;
 		selectPersona(personaSelection);
 		sendResponse({farewell: "Sidebar toggled"});
@@ -11,7 +11,8 @@ chrome.runtime.onMessage.addListener(
 	else if(request.greeting == "overlayScreen"){
 
 		selectPersona("close");
-		console.log("request ", request)
+
+		//console.log("request ", request)
 		var elementClicked = overlayScreen();
 		sendResponse({farewell: "removeScreenShotButton", userAction: elementClicked});
 		
@@ -52,8 +53,14 @@ chrome.runtime.onMessage.addListener(
  }
  
  function loadAbby(){
-	console.log("In loadAbby");
-	$.get(chrome.extension.getURL("templates/abbyPersona.html"), function(html) {$("#mySidebar").append(html)});
+	
+	$.get(chrome.extension.getURL("templates/abbyPersona.html"), function(html) {
+		$("#mySidebar").append(html);
+		var abbySRC=chrome.extension.getURL("images/Abby-lowres.jpg");
+		var abbyIMG= "<img id='AbbyPhoto' src='" + abbySRC + "' alt='Abby Jones' class='sidebarImg'/>";
+		$('#picGoesHere').prepend(abbyIMG);
+	});
+	
 }
 
  
