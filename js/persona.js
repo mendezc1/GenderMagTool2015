@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(
 	else if(request.greeting == "overlayScreen"){
 
 		selectPersona("close");
-		console.log("requrest ", request)
+		console.log("request ", request)
 		var elementClicked = overlayScreen();
 		sendResponse({farewell: "removeScreenShotButton", userAction: elementClicked});
 		
